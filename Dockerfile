@@ -1,0 +1,1 @@
+FROM archlinux:multilib-devel
