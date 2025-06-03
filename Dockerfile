@@ -28,3 +28,6 @@ RUN yay -S asdf fastfetch nix --noconfirm
 
 # restart shell
 RUN exec bash
+
+# create volume
+VOLUME [ "/cpplings" ]
