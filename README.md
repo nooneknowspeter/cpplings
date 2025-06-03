@@ -33,27 +33,6 @@ This is a deliberate choice to test Zig’s practical usefulness in real-world C
 This project uses a [`Makefile`](./Makefile) to simplify common development tasks.
 You will need `make` installed on your system.
 
-### Makefile Commands
-
-```make
-build:
-	zig build
-
-run:
-	zig build run
-
-nix:
-	nix-shell
-
-asdf:
-	asdf install zig
-
-docker-build:
-	docker buildx build -t cpplings .
-
-docker-run:
-	docker run -itd -v .:/cpplings --name cpplings cpplings
-```
 
 | Command | Description |
 | -------------- | --------------- |
@@ -66,6 +45,7 @@ docker-run:
 
 
 ### Local Setup with asdf (recommended)
+
 We recommend using asdf to manage tool versions in a clean and portable way.
 This project includes a `.tool-versions` file to lock the required Zig version.
 
@@ -80,6 +60,7 @@ make run
 This ensures a consistent development environment across machines.
 
 ### Nix Shell
+
 If you're using Nix, a nix-shell environment is provided with all required dependencies,
 such as Zig, asdf, and more.
 
@@ -93,6 +74,7 @@ This gives you a fully configured development shell without installing the depen
 You just need to have Nix installed.
 
 ### Docker
+
 A Dockerfile is provided for containerized development.
 
 You can build and run the container locally using:
@@ -114,7 +96,10 @@ A pre-built image is also available via GitHub Container Registry by running:
 make docker-run
 ```
 
+---
+
 ## Resources
+
 [learncpp](https://www.learncpp.com/) — Comprehensive and beginner-friendly C++ guide.
 
 [cppreference](https://en.cppreference.com/w/) — The canonical C++ reference.
