@@ -25,3 +25,6 @@ RUN git clone https://aur.archlinux.org/yay.git \
 
 # install packages using AUR helper
 RUN yay -S asdf fastfetch nix --noconfirm
+
+# restart shell
+RUN exec bash
