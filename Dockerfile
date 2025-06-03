@@ -22,3 +22,6 @@ RUN git clone https://aur.archlinux.org/yay.git \
   && cd \
   # Clean up
   && rm -rf .cache yay
+
+# install packages using AUR helper
+RUN yay -S asdf fastfetch nix --noconfirm
