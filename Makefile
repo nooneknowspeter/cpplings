@@ -8,3 +8,6 @@ asdf:
 	asdf install zig
 docker-build:
 	docker buildx build -t cpplings .
+docker-run:
+	docker run -itd -v .:/cpplings --name cpplings cpplings
+	
