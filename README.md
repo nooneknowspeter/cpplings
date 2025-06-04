@@ -133,5 +133,7 @@ Have fun.
 
 [ziglings](https://codeberg.org/ziglings/exercises/) — Zig version of Rustlings, worth checking out if you're curious about Zig.
 
-[article on benefits in using zig's build system in production](https://kristoff.it/blog/maintain-it-with-zig/) - A well written article by Loris Cro,
+[Maintain It With Zig](https://kristoff.it/blog/maintain-it-with-zig/) - A well written article by Loris Cro,
 explaining the benefits of Zig's build system in the world of C/C++
+
+[Why Zig When There is Already C++, D, and Rust?](https://ziglang.org/learn/why_zig_rust_d_cpp/) - Another article on the benefits of Zig
