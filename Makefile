@@ -1,3 +1,5 @@
+OCI_IMAGE := ghcr.io/nooneknowspeter/cpplings:main
+
 build:
 	zig build
 run:
@@ -7,7 +9,7 @@ nix:
 asdf:
 	asdf install zig
 docker-build:
-	docker buildx build -t cpplings .
+	docker buildx build -t ${OCI_IMAGE} .
 docker-run:
-	docker run -itd -v .:/cpplings --name cpplings cpplings
+	docker run -itd -v .:/cpplings --name cpplings ${OCI_IMAGE}
 	
