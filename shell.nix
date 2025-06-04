@@ -1,6 +1,6 @@
 let
   nixpkgs = fetchTarball "https://github.com/NixOS/nixpkgs/tarball/nixos-25.05";
-  pkgs = import nixpkgs { config = {}; overlays = []; };
+  pkgs = import nixpkgs { config = { }; overlays = [ ]; };
 in
 
 pkgs.mkShellNoCC {
@@ -9,9 +9,10 @@ pkgs.mkShellNoCC {
     fastfetch
     gnumake
     zig
+    clangtools
   ];
 
   shellHook = ''
-      fastfetch
+    fastfetch
   '';
 }
