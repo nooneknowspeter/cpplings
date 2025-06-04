@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "ziglang.vscode-zig",
+    "llvm-vs-code-extensions.vscode-clangd",
+    "xaver.clang-format",
+    "bbenoist.Nix",
+    "llvm-vs-code-extensions.lldb-dap",
+  ]
+}
