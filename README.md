@@ -1,7 +1,7 @@
 # cpplings
 
 **cpplings**, inspired by [Rustlings](https://github.com/rust-lang/rustlings),
-is a set of hands-on exercises to help you get comfortable with reading
+is a set of hands-on exercises to help you get comfortable reading
 and writing modern **C++**.
 
 These exercises reference the excellent [learncpp](https://www.learncpp.com/)
@@ -115,6 +115,14 @@ docker run -itd -v .:/cpplings --name cpplings ${CPPLINGS_OCI_IMAGE_URL}
 This will launch the shell of container instantly, use it in your VS Code terminal, or a split pane if you're using TMUX
 or any terminal multiplexer.
 
+
+### Development Environment
+
+For VS Code users, an [`extensions.json`](./.vscode/extensions.json) file is included.
+It has the recommended extensions for writing and debugging C++, and the other tools in this project.
+
+You can use whichever tools you prefer and may want to try.
+
 Have fun.
 
 ---
@@ -129,11 +137,11 @@ Have fun.
 
 [learnxinyminutes: C++](https://learnxinyminutes.com/docs/c++) — Fast overview for experienced programmers.
 
-[zig's build system](https://ziglang.org/learn/build-system/) - Documentation on Zig's build system
+[zig's build system](https://ziglang.org/learn/build-system/) — Documentation on Zig's build system
 
 [ziglings](https://codeberg.org/ziglings/exercises/) — Zig version of Rustlings, worth checking out if you're curious about Zig.
 
-[Maintain It With Zig](https://kristoff.it/blog/maintain-it-with-zig/) - A well written article by Loris Cro,
+[Maintain It With Zig](https://kristoff.it/blog/maintain-it-with-zig/) — A well written article by Loris Cro,
 explaining the benefits of Zig's build system in the world of C/C++
 
-[Why Zig When There is Already C++, D, and Rust?](https://ziglang.org/learn/why_zig_rust_d_cpp/) - Another article on the benefits of Zig
+[Why Zig When There is Already C++, D, and Rust?](https://ziglang.org/learn/why_zig_rust_d_cpp/) — Another article on the benefits of Zig
