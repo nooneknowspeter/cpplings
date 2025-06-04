@@ -11,6 +11,9 @@ pub fn build(b: *std.Build) void {
     exe.linkLibC();
     exe.linkLibCpp();
 
+    exe.addIncludePath(b.path("src"));
+    exe.addIncludePath(b.path("include"));
+
     b.installArtifact(exe);
 
     const run_exe = b.addRunArtifact(exe);
@@ -19,4 +22,3 @@ pub fn build(b: *std.Build) void {
 
     run_step.dependOn(&run_exe.step);
 }
-
