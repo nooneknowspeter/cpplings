@@ -1,6 +1,21 @@
 const std = @import("std");
 
-pub fn build(b: *std.Build) void {
+pub fn build(b: *std.Build) !void {
+    // const splash_screen =
+    //     \\                   _ _
+    //     \\                  | (_)
+    //     \\   ___ _ __  _ __ | |_ _ __   __ _ ___
+    //     \\  / __| '_ \| '_ \| | | '_ \ / _` / __|
+    //     \\ | (__| |_) | |_) | | | | | | (_| \__ \
+    //     \\  \___| .__/| .__/|_|_|_| |_|\__, |___/
+    //     \\      | |   | |               __/ |
+    //     \\      |_|   |_|              |___/
+    //     \\
+    //     \\               compiling...
+    // ;
+
+    // std.debug.print("{s}", .{splash_screen});
+
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
