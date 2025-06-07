@@ -33,14 +33,29 @@ pub fn build(b: *std.Build) !void {
     // add include path
     exe.addIncludePath(b.path("include"));
 
+    // add source files
+    // chapters
+    const chapter_dirs = try findSourceFiles(allocator, "exercises/", "", false);
+
+    // find exercises in each chapter folder
+    for (chapter_dirs) |chapter_dir| {
+        // std.debug.print("\n{s}\n-------------\n", .{chapter_dir});
+
+        const exercises = try findSourceFiles(allocator, chapter_dir, "cpp", true);
+
+        // add exercise source file
+        for (exercises) |exercise| {
+            // std.debug.print("{s}\n", .{exercise});
+            exe.addCSourceFile(.{ .file = b.path(exercise) });
+        }
+    }
+
     // linking
     b.installArtifact(exe);
 
     // run command
     const run_exe = b.addRunArtifact(exe);
-
     const run_step = b.step("run", "run cpplings");
-
     run_step.dependOn(&run_exe.step);
 }
 
