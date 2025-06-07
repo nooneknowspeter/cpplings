@@ -19,6 +19,8 @@ pub fn build(b: *std.Build) !void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
+    const allocator = std.heap.page_allocator;
+
     const exe = b.addExecutable(.{ .name = "cpplings", .target = target, .optimize = optimize, .link_libc = true });
 
     exe.addCSourceFile(.{ .file = b.path("src/main.cpp") });
