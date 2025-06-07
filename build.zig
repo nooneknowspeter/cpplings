@@ -23,16 +23,21 @@ pub fn build(b: *std.Build) !void {
 
     const exe = b.addExecutable(.{ .name = "cpplings", .target = target, .optimize = optimize, .link_libc = true });
 
+    // main.cpp
     exe.addCSourceFile(.{ .file = b.path("src/main.cpp") });
 
+    // link C/C++ std libraries
     exe.linkLibC();
     exe.linkLibCpp();
 
     exe.addIncludePath(b.path("src"));
+    // add include path
     exe.addIncludePath(b.path("include"));
 
+    // linking
     b.installArtifact(exe);
 
+    // run command
     const run_exe = b.addRunArtifact(exe);
 
     const run_step = b.step("run", "run cpplings");
