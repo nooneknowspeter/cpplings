@@ -30,7 +30,6 @@ pub fn build(b: *std.Build) !void {
     exe.linkLibC();
     exe.linkLibCpp();
 
-    exe.addIncludePath(b.path("src"));
     // add include path
     exe.addIncludePath(b.path("include"));
 
