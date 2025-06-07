@@ -109,6 +109,7 @@ git clone https://github.com/nooneknowspeter/cpplings.git ${CPPLINGS_DIR}
 cd ${CPPLINGS_DIR}
 # uncomment the line below if you're using VS Code
 # code . -r
+# or replace command with editor of choice
 docker run -itd -v .:/cpplings --name cpplings ${CPPLINGS_OCI_IMAGE_URL}
 ```
 
