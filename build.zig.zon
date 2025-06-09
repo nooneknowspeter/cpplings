@@ -40,6 +40,10 @@
             .url = "git+https://github.com/rockorager/libvaxis.git#a3b5b89aee547845226a4478efb493563b5fc187",
             .hash = "vaxis-0.1.0-BWNV_O8OCQBC4w-MnOGaKw9zFVFgTxf3XfcvgScUagEJ",
         },
+        .googletest = .{
+            .url = "git+https://github.com/allyourcodebase/googletest.git#4c5cf0207c4db459d7c950c629398244e13b44b2",
+            .hash = "googletest-1.15.2-AAAAAEIKAADmoKMnPn31hgOYPU_gO3GGHk1MYMRvGL5k",
+        },
     },
     .paths = .{
         "build.zig",
