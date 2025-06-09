@@ -50,6 +50,15 @@ pub fn build(b: *std.Build) !void {
         }
     }
 
+    // dependency injection
+    // configure and add gtest
+    const googletest_dep = b.dependency("googletest", .{
+        .target = target,
+        .optimize = optimize,
+    });
+
+    exe.linkLibrary(googletest_dep.artifact("gtest"));
+
     // linking
     b.installArtifact(exe);
 
