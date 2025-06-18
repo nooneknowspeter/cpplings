@@ -9,13 +9,15 @@ and are conceptually related to [cplings](https://github.com/rdjondo/cplings),
 which adopted this idea earlier.
 
 We recommend doing these exercises alongside reading [learncpp](https://www.learncpp.com/)
-and checking out the additional learning resources listed below.
+and checking out the additional learning resources listed below
+and in the comments of the source code.
 
 ---
 
 ## Why Zig?
 
-This project uses **[Zig](https://ziglang.org/)** as a toolchain instead of CMake.
+This project uses **[Zig](https://ziglang.org/)** as a toolchain instead of CMake
+or any other build system used for C++ development.
 This is a deliberate choice to test Zig’s practical usefulness in real-world C++ workflows.
 
 ### Benefits of Using Zig
@@ -100,26 +102,50 @@ make docker-run
 
 If you would like to set up an environment as quick as possible and haven't cloned this repository, you can use:
 
+#### Unix
+
 ```sh
-# change CPPLINGS_DIR to your liking
-# example: ~/projects/cpplings or ~/git/cpplings
-export CPPLINGS_DIR=~/cpplings
-export CPPLINGS_OCI_IMAGE_URL=ghcr.io/nooneknowspeter/cpplings:main
-git clone https://github.com/nooneknowspeter/cpplings.git ${CPPLINGS_DIR}
-cd ${CPPLINGS_DIR}
-# uncomment the line below if you're using VS Code
-# code . -r
-# or replace command with editor of choice
+# change CPPLINGS_DIR to your liking \
+# example: ~/projects/cpplings or ~/git/cpplings \
+export CPPLINGS_DIR=~/cpplings && \
+export CPPLINGS_OCI_IMAGE_URL=ghcr.io/nooneknowspeter/cpplings:main && \
+
+git clone https://github.com/nooneknowspeter/cpplings.git ${CPPLINGS_DIR} && \
+cd ${CPPLINGS_DIR} && \
+
+# uncomment the line below if you're using VS Code \
+# code . -r && \
+# or replace command with editor of choice \
+
 docker run -itd -v .:/cpplings --name cpplings ${CPPLINGS_OCI_IMAGE_URL}
 ```
+
+#### Windows
+
+```ps1
+# change CPPLINGS_DIR to your liking \
+# example: $HOME\projects\cpplings or $HOME\git\cpplings \
+$env:CPPLINGS_DIR = "$HOME\cpplings"; \
+$env:CPPLINGS_OCI_IMAGE_URL = "ghcr.io/nooneknowspeter/cpplings:main"; \
+
+git clone https://github.com/nooneknowspeter/cpplings.git $env:CPPLINGS_DIR; \
+cd $env:CPPLINGS_DIR; \
+
+# uncomment the line below if you're using VS Code \
+# code . -r; \
+# or replace command with editor of choice \
+
+docker run -itd -v .:/cpplings --name cpplings $env:CPPLINGS_OCI_IMAGE_URL;
+```
+
+Copy and paste, then edit to your liking.
 
 This will launch the shell of container instantly, use it in your VS Code terminal, or a split pane if you're using TMUX
 or any terminal multiplexer.
 
-
 ### Development Environment
 
-For VS Code users, an [`extensions.json`](./.vscode/extensions.json) file is included.
+For VS Code users who are unfirmiliar with C++, an [`extensions.json`](./.vscode/extensions.json) file is included.
 It has the recommended extensions for writing and debugging C++, and the other tools in this project.
 
 You can use whichever tools you prefer and may want to try.
