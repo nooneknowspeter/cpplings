@@ -25,6 +25,8 @@ RUN pacman -Syyu --needed --noconfirm git curl direnv
 #   # Clean up
 #   && rm -rf .cache yay
 
+# install nix
+RUN sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon --yes
 
 # restart shell
 RUN exec bash
