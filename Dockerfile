@@ -7,8 +7,8 @@ LABEL org.opencontainers.image.description="A terminal based learning experience
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.documentation="https://github.com/nooneknowspeter/cpplings/blob/main/README.md"
 
-# update system
-RUN pacman -Syyu --needed --noconfirm git
+# update system and install required packages
+RUN pacman -Syyu --needed --noconfirm git curl direnv
 
 # makepkg user and workdir
 ARG user=someone
