@@ -5,6 +5,7 @@ LABEL org.opencontainers.image.source="https://github.com/nooneknowspeter/cpplin
 LABEL org.opencontainers.image.title="cpplings"
 LABEL org.opencontainers.image.description="A terminal based learning experience for C++, inspired by Rustlings"
 LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.documentation="https://github.com/nooneknowspeter/cpplings/blob/main/README.md"
 
 # update system
 RUN pacman -Syyu --needed --noconfirm git
