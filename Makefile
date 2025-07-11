@@ -1,3 +1,5 @@
+.PHONY: all clean test build run nix docker-build docker-run docker-exec docker-stop docker-rm
+	
 OCI_IMAGE := ghcr.io/nooneknowspeter/cpplings:main
 
 build:
