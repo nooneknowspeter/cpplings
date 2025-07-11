@@ -35,3 +35,6 @@ RUN exec bash
 VOLUME [ "/cpplings" ]
 WORKDIR /cpplings
 
+# enable nix experimental features
+RUN echo -e "build-users-group = nixbld\nexperimental-features = nix-command flakes" > /etc/nix/nix.conf
+
