@@ -7,7 +7,7 @@ build:
 run:
 	zig build run
 nix:
-	nix-shell
+	nix --extra-experimental-features "nix-command flakes" develop
 docker-build:
 	docker buildx build -t ${OCI_IMAGE} .
 docker-run:
