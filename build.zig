@@ -18,13 +18,14 @@ pub fn build(b: *std.Build) !void {
 
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
+    const compiler_flags = [_][]const u8{ "-std=c++23", "-Wall", "-Werror", "-Wextra" };
 
     const allocator = std.heap.page_allocator;
 
     const exe = b.addExecutable(.{ .name = "cpplings", .target = target, .optimize = optimize, .link_libc = true });
 
     // main.cpp
-    exe.addCSourceFile(.{ .file = b.path("src/main.cpp") });
+    exe.addCSourceFile(.{ .file = b.path("src/main.cpp"), .flags = &compiler_flags });
 
     // link C/C++ std libraries
     exe.linkLibC();
@@ -46,7 +47,7 @@ pub fn build(b: *std.Build) !void {
         // add exercise source file
         for (exercises) |exercise| {
             // std.debug.print("{s}\n", .{exercise});
-            exe.addCSourceFile(.{ .file = b.path(exercise) });
+            exe.addCSourceFile(.{ .file = b.path(exercise), .flags = &compiler_flags });
         }
     }
 
