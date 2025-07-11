@@ -12,4 +12,10 @@ docker-build:
 	docker buildx build -t ${OCI_IMAGE} .
 docker-run:
 	docker run -itd -v .:/cpplings --name cpplings ${OCI_IMAGE}
+docker-exec:
+	docker exec -it -w "/cpplings" cpplings bash
+docker-stop:
+	docker container stop cpplings
+docker-rm:
+	docker rm -f cpplings
 	
