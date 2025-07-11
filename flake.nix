@@ -22,6 +22,23 @@
           '';
         };
 
+        editor = pkgs.mkShell {
+          packages = with pkgs; [
+            marksman
+            actionlint
+            bash-language-server
+            clang-tools
+            dockerfile-language-server-nodejs
+            nil
+            nixd
+            nixfmt
+            nodejs
+            python3
+            statix
+            yaml-language-server
+            zls
+          ];
+        };
       });
 
     };
