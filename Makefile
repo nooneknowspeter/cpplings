@@ -8,8 +8,6 @@ run:
 	zig build run
 nix:
 	nix-shell
-asdf:
-	asdf install zig
 docker-build:
 	docker buildx build -t ${OCI_IMAGE} .
 docker-run:
