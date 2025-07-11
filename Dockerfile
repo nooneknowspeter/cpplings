@@ -25,8 +25,6 @@ RUN pacman -Syyu --needed --noconfirm git curl direnv
 #   # Clean up
 #   && rm -rf .cache yay
 
-# install packages using AUR helper
-RUN yay -S asdf fastfetch nix clang --noconfirm
 
 # restart shell
 RUN exec bash
