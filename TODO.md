@@ -7,8 +7,14 @@
 - [x] drop asdf
   - [x] use only nix; compilers, runtimes
   - [x] LSPs, formatters, DAPs
-- [ ] fix ownership of directory in the container's shared volume
-- [ ] create splash screen (ASCII art) for intro
+- [x] fix ownership of directory in the container's shared volume
+- [x] create splash screen (ASCII art) for intro
+- [ ] add REPL feature
+  - [ ] execute per file in order of exercises and chapters; compile until exercise completes then on-to the next
+  - [ ] add hints
+  - [ ] show solution to exercise after completion
+  - [ ] add progress bar
+  - [ ] watch; continuously check and update
 - [ ] add exercises
   - [ ] variables
   - [ ] functions
