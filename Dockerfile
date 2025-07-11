@@ -33,3 +33,5 @@ RUN exec bash
 
 # create volume
 VOLUME [ "/cpplings" ]
+WORKDIR /cpplings
+
