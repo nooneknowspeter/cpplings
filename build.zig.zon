@@ -44,6 +44,10 @@
             .url = "git+https://github.com/allyourcodebase/googletest.git#4c5cf0207c4db459d7c950c629398244e13b44b2",
             .hash = "googletest-1.15.2-AAAAAEIKAADmoKMnPn31hgOYPU_gO3GGHk1MYMRvGL5k",
         },
+        .compile_commands = .{
+            .url = "https://github.com/the-argus/zig-compile-commands/archive/1a71188d1816cc0741785d4694f790a1106a150a.tar.gz",
+            .hash = "N-V-__8AABjOAAD9JOGy29zdkAQcgyQyd0NaOn0zP0KyC40W",
+        },
     },
     .paths = .{
         "build.zig",

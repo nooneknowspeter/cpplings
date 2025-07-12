@@ -1,4 +1,5 @@
 const std = @import("std");
+const zcc = @import("compile_commands");
 
 pub fn build(b: *std.Build) !void {
     // const splash_screen =
@@ -19,6 +20,7 @@ pub fn build(b: *std.Build) !void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
     const compiler_flags = [_][]const u8{ "-std=c++23", "-Wall", "-Werror", "-Wextra" };
+    var targets = std.ArrayList(*std.Build.Step.Compile).init(b.allocator);
 
     const allocator = std.heap.page_allocator;
 
@@ -62,6 +64,9 @@ pub fn build(b: *std.Build) !void {
 
     // linking
     b.installArtifact(exe);
+
+    targets.append(exe) catch @panic("OOM");
+    zcc.createStep(b, "compile-commands", targets.toOwnedSlice() catch @panic("OOM"));
 
     // run command
     const run_exe = b.addRunArtifact(exe);
