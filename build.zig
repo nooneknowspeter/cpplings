@@ -78,9 +78,9 @@ pub fn findSourceFiles(
     /// extension of file
     extension: anytype,
     /// toggle filtering by extension
-    toggle_filtering_files: bool,
+    is_toggle_filtering_files: bool,
 ) ![][]const u8 {
-    // _ = toggle_filtering_files;
+    // _ = is_toggle_filtering_files;
 
     var files = std.ArrayList([]const u8).init(allocator);
 
@@ -89,7 +89,7 @@ pub fn findSourceFiles(
     var iter = dir.iterate();
 
     while (try iter.next()) |entry| {
-        if (!toggle_filtering_files) {
+        if (!is_toggle_filtering_files) {
             try files.append(try std.mem.concat(allocator, u8, &[_][]const u8{ directory, entry.name, "/" }));
         } else {
             if (std.mem.containsAtLeast(u8, entry.name, 1, extension)) {
