@@ -15,21 +15,14 @@
 
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
-          packages = with pkgs; [ clang-tools fastfetch gnumake lldb zig ];
-
-          shellHook = ''
-            cat .ascii-art.txt | fastfetch --raw - --logo-width 15 --logo-height 7 --logo-padding-right 25 --logo-padding-top 10
-          '';
-        };
-
-        editor = pkgs.mkShell { packages = with pkgs; [ clang-tools zls ]; };
-
-        contribute = pkgs.mkShell {
           packages = with pkgs; [
             actionlint
             bash-language-server
             clang-tools
             dockerfile-language-server-nodejs
+            fastfetch
+            gnumake
+            lldb
             marksman
             nil
             nixd
@@ -41,8 +34,11 @@
             zig
             zls
           ];
+
+          shellHook = ''
+            cat .ascii-art.txt | fastfetch --raw - --logo-width 15 --logo-height 7 --logo-padding-right 25 --logo-padding-top 10
+          '';
         };
       });
-
     };
 }
