@@ -18,6 +18,7 @@
           packages = with pkgs; [
             actionlint
             bash-language-server
+            clang
             clang-tools
             dockerfile-language-server-nodejs
             fastfetch
