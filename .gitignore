@@ -1,3 +1,6 @@
 # zig artifacts
 .zig-cache
 zig-out
+
+# direnv
+.direnv
