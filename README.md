@@ -261,15 +261,11 @@ It has the recommended extensions for writing and debugging C++, and the other t
 #### Neovim
 
 For Neovim users using Nix as their package manager (NixCats, etc.),
-can use `nix develop .#editor` for a nix dev shell with all project related
+can use `nix develop` for a nix dev shell with all project related
 LSPs, DAPs, formatters and linters.
 
 If you're on NixOS and still use Mason as a package manager for Neovim LSPs and so on,
-you can still use this shell to install the required packages (clangd, zsl, ...).
-
-```
-nix develop .#editor
-```
+you can still use this shell to install the required packages (clangd, zsl, ...) through Mason.
 
 You can use whichever tools you prefer and may want to try.
 
