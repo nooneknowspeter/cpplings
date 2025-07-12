@@ -6,6 +6,8 @@ build:
 	zig build
 run:
 	zig build run
+compile-commands:
+	zig build compile-commands
 nix:
 	nix --extra-experimental-features "nix-command flakes" develop
 docker-build:
