@@ -22,13 +22,15 @@
           '';
         };
 
-        editor = pkgs.mkShell {
+        editor = pkgs.mkShell { packages = with pkgs; [ clang-tools zls ]; };
+
+        contribute = pkgs.mkShell {
           packages = with pkgs; [
-            marksman
             actionlint
             bash-language-server
             clang-tools
             dockerfile-language-server-nodejs
+            marksman
             nil
             nixd
             nixfmt
@@ -36,6 +38,7 @@
             python3
             statix
             yaml-language-server
+            zig
             zls
           ];
         };
