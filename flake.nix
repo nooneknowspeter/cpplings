@@ -21,6 +21,7 @@
             clang-tools
             dockerfile-language-server-nodejs
             fastfetch
+            gcc
             gnumake
             lldb
             marksman
