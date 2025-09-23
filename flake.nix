@@ -16,25 +16,33 @@
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
           packages = with pkgs; [
-            actionlint
-            bash-language-server
-            clang
-            clang-tools
-            dockerfile-language-server-nodejs
-            fastfetch
-            gcc
-            gnumake
-            lldb
-            marksman
-            nil
-            nixd
-            nixfmt
-            nodejs
-            python3
-            statix
-            yaml-language-server
-            zig
-            zls
+						actionlint
+						bash-language-server
+						beautysh
+						deadnix
+						dockerfile-language-server-nodejs
+						marksman
+						nil
+						nixd
+						nixfmt
+						prettier
+						shellcheck
+						statix-fix
+						taplo
+						yaml-language-server
+						zls
+
+						clang
+						clang-tools
+						gcc
+						lldb
+						nodejs
+						python3
+
+						fastfetch
+						gnumake
+						treefmt
+						zig
           ];
 
           shellHook = ''
