@@ -1,3 +1,6 @@
+# cpp artifacts
+compile_commands.json
+
 # zig artifacts
 .zig-cache
 zig-out
