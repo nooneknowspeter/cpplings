@@ -35,7 +35,7 @@
               nixfmt
               prettier
               shellcheck
-              statix-fix
+              statix
               taplo
               yaml-language-server
               zls
