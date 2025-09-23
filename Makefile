@@ -20,4 +20,7 @@ docker-stop:
 	docker container stop cpplings
 docker-rm:
 	docker rm -f cpplings
-	
+format:
+	treefmt
+lint:
+	treefmt --ci --config-file treefmt.lint.toml
