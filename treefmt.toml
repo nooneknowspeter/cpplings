@@ -1,0 +1,66 @@
+[formatter.beautysh]
+command = "beautysh"
+excludes = []
+includes = ["*.sh"]
+options = ["-i", "2"]
+
+[formatter.clang-format]
+command = "clang-format"
+excludes = []
+includes = [
+  "*.c",
+  "*.cc",
+  "*.cpp",
+  "*.h",
+  "*.hh",
+  "*.hpp",
+  "*.glsl",
+  "*.vert",
+  ".tesc",
+  ".tese",
+  ".geom",
+  ".frag",
+  ".comp",
+]
+options = ["-i"]
+
+[formatter.nixfmt-rfc-style]
+command = "nixfmt"
+excludes = []
+includes = ["*.nix"]
+options = []
+
+[formatter.prettier]
+command = "prettier"
+excludes = []
+includes = [
+  "*.cjs",
+  "*.css",
+  "*.html",
+  "*.js",
+  "*.json",
+  "*.json5",
+  "*.jsx",
+  "*.md",
+  "*.mdx",
+  "*.mjs",
+  "*.scss",
+  "*.ts",
+  "*.tsx",
+  "*.vue",
+  "*.yaml",
+  "*.yml",
+]
+options = ["--write"]
+
+[formatter.taplo]
+command = "taplo"
+excludes = []
+includes = ["*.toml"]
+options = ["format"]
+
+[formatter.zig]
+command = "zig"
+excludes = []
+includes = ["*.zig", "*.zon"]
+options = ["fmt"]
