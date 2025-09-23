@@ -1,0 +1,43 @@
+[formatter.actionlint]
+command = "actionlint"
+excludes = []
+includes = [".github/workflows/*.yml", ".github/workflows/*.yaml"]
+options = []
+
+[formatter.clang-format]
+command = "clang-format"
+excludes = []
+includes = [
+  "*.c",
+  "*.cc",
+  "*.cpp",
+  "*.h",
+  "*.hh",
+  "*.hpp",
+  "*.glsl",
+  "*.vert",
+  ".tesc",
+  ".tese",
+  ".geom",
+  ".frag",
+  ".comp",
+]
+options = ["--dry-run", "--Werror", "-i"]
+
+[formatter.shellcheck]
+command = "shellcheck"
+excludes = []
+includes = ["*.sh", "*.bash", "*.envrc.*"]
+options = []
+
+[formatter.statix]
+command = "statix"
+excludes = []
+includes = ["*.nix"]
+options = ["check"]
+
+[formatter.zig]
+command = "zig"
+excludes = []
+includes = ["*.zig", "*.zon"]
+options = ["fmt", "--check"]
