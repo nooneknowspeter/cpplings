@@ -61,6 +61,8 @@ or don't have it installed, you can use the commands specified in the [`Makefile
 | make docker-exec  | Executes and enters the bash shell of the container and `/cpplings` directory                         |
 | make docker-stop  | Stops the container                                                                                   |
 | make docker-rm    | Removed the container                                                                                 |
+| make format       | Format the entire codebase with [`treefmt`](https://github.com/numtide/treefmt)                       |
+| make lint         | Lint codebase with `treefmt`                                                                          |
 
 ### Native Package Manager
 
