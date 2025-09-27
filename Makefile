@@ -2,13 +2,11 @@
 	
 OCI_IMAGE := ghcr.io/nooneknowspeter/cpplings:main
 
-build:
-	zig build
 run:
-	zig build run
+	zig build cli
 compile-commands:
-	zig build compile-commands
-nix:
+	zig build compile-flags
+nix-shell:
 	nix --extra-experimental-features "nix-command flakes" develop
 docker-build:
 	docker buildx build -t ${OCI_IMAGE} .
@@ -24,3 +22,4 @@ format:
 	treefmt
 lint:
 	treefmt --ci --config-file treefmt.lint.toml
+
