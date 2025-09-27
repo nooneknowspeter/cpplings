@@ -295,3 +295,5 @@ explaining the benefits of Zig's build system in the world of C/C++
 [Why Zig When There is Already C++, D, and Rust?](https://ziglang.org/learn/why_zig_rust_d_cpp/) — Another article on the benefits of Zig
 
 [allyourcodebase](https://github.com/allyourcodebase) - C/C++ projects built with Zig
+
+[clangd compiler flags](https://simonhartcher.com/posts/2025-09-08-announcing-compile-flagz/) - Make Clangd work with C++ using Zig as a build system
