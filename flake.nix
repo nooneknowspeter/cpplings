@@ -24,9 +24,11 @@
         {
           default = pkgs.mkShell {
             packages = with pkgs; [
+              # formatters & linters
               actionlint
               bash-language-server
               beautysh
+              clang-tools
               deadnix
               dockerfile-language-server-nodejs
               marksman
@@ -40,22 +42,27 @@
               yaml-language-server
               zls
 
+              # compilers & runtimes
               clang
-              clang-tools
               gcc
-              lldb
               nodejs
               python3
-
-              fastfetch
-              gnumake
-              treefmt
+              stdenv.cc.cc
               zig
+
+              # dev tools
+              fastfetch
+              gdb
+              gnumake
+              lldb
+              treefmt
             ];
 
             shellHook = ''
-              cat .ascii-art.txt | fastfetch --raw - --logo-width 15 --logo-height 7 --logo-padding-right 25 --logo-padding-top 10
+              							export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH"
+                            cat .ascii-art.txt | fastfetch --raw - --logo-width 15 --logo-height 7 --logo-padding-right 25 --logo-padding-top 10
             '';
+
           };
         }
       );
