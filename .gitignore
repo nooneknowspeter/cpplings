@@ -1,10 +1,16 @@
 # cpp artifacts
 compile_commands.json
+compile_flags.txt
 
 # zig artifacts
 .zig-cache
 zig-out
 .cache
+init
 
 # direnv
 .direnv
+
+# build artifacts
+*.out
+
