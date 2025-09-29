@@ -1,0 +1,12 @@
+{
+  "configurations": [
+    {
+      "name": "cpplings cli",
+      "type": "codelldb",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/zig-out/bin/cpplings_cli",
+      "args": ["src/main.zig"]
+    }
+  ]
+}
