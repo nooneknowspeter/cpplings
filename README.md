@@ -51,19 +51,6 @@ You will need `make` installed on your system.
 If you do not want to install make (make is provided in the Nix shell environment)
 or don't have it installed, you can use the commands specified in the [`Makefile`](./Makefile).
 
-| Command           | Description                                                                                           |
-| ----------------- | ----------------------------------------------------------------------------------------------------- |
-| make build        | Builds the project using `zig build`, the executable can be found in `./zig-out/bin/cpplings`         |
-| make run          | Build the project like `zig build` then runs the executable                                           |
-| make nix          | Starts the Nix development environment                                                                |
-| make docker-build | Builds a local Docker image                                                                           |
-| make docker-run   | Starts a container using the `cpplings` image and mounts a volume to the path of the clone repository |
-| make docker-exec  | Executes and enters the bash shell of the container and `/cpplings` directory                         |
-| make docker-stop  | Stops the container                                                                                   |
-| make docker-rm    | Removed the container                                                                                 |
-| make format       | Format the entire codebase with [`treefmt`](https://github.com/numtide/treefmt)                       |
-| make lint         | Lint codebase with `treefmt`                                                                          |
-
 ### Native Package Manager
 
 If you would like to compile using your own package manager; `homebrew`, `pacman`, `apt`, etc.
@@ -193,7 +180,7 @@ make docker-run
 > docker exec -it -w "/cpplings" cpplings bash
 > ```
 >
-> #### Windows
+> #### Windows (Powershell)
 >
 > ```ps1
 > # change CPPLINGS_DIR to your liking \
