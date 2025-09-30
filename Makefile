@@ -1,4 +1,4 @@
-.PHONY: all clean test build run nix docker-build docker-run docker-exec docker-stop docker-rm
+.PHONY: all clean test build run nix docker-build docker-run docker-exec docker-stop docker-rm benchmark
 	
 OCI_IMAGE := ghcr.io/nooneknowspeter/cpplings:main
 
@@ -22,4 +22,6 @@ format:
 	treefmt
 lint:
 	treefmt --ci --config-file treefmt.lint.toml
+benchmark:
+	hyperfine -i "zig build cli"
 
