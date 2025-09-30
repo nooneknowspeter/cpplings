@@ -54,6 +54,7 @@
               fastfetch
               gdb
               gnumake
+              hyperfine
               lldb
               treefmt
             ];
