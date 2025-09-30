@@ -4,6 +4,12 @@ excludes = []
 includes = [".github/workflows/*.yml", ".github/workflows/*.yaml"]
 options = []
 
+[formatter.beautysh]
+command = "beautysh"
+excludes = []
+includes = ["*.sh"]
+options = ["-c", "-i", "2"]
+
 [formatter.clang-format]
 command = "clang-format"
 excludes = []
@@ -24,6 +30,35 @@ includes = [
 ]
 options = ["--dry-run", "--Werror", "-i"]
 
+[formatter.nixfmt-rfc-style]
+command = "nixfmt"
+excludes = []
+includes = ["*.nix"]
+options = ["--check"]
+
+[formatter.prettier]
+command = "prettier"
+excludes = []
+includes = [
+  "*.cjs",
+  "*.css",
+  "*.html",
+  "*.js",
+  "*.json",
+  "*.json5",
+  "*.jsx",
+  "*.md",
+  "*.mdx",
+  "*.mjs",
+  "*.scss",
+  "*.ts",
+  "*.tsx",
+  "*.vue",
+  "*.yaml",
+  "*.yml",
+]
+options = ["-c"]
+
 [formatter.shellcheck]
 command = "shellcheck"
 excludes = []
@@ -35,6 +70,12 @@ command = "statix"
 excludes = []
 includes = ["*.nix"]
 options = ["check"]
+
+[formatter.taplo]
+command = "taplo"
+excludes = []
+includes = ["*.toml"]
+options = ["lint"]
 
 [formatter.zig]
 command = "zig"
