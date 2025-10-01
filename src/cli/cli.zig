@@ -29,18 +29,6 @@ const CLI = struct {
     current_exercise_prev_mod_time: i128 = 0,
 };
 
-fn init(allocator: STD.mem.Allocator) !*CLI {
-    const CLI_INSTANCE = try allocator.create(CLI);
-
-    CLI_INSTANCE.* = .{ .allocator = allocator };
-
-    try iterateExerciseDirectory(CLI_INSTANCE);
-
-    try iterateExercises(CLI_INSTANCE);
-
-    return CLI_INSTANCE;
-}
-
 fn iterateExerciseDirectory(self: *CLI) !void {
     const EXERCISES_DIR_PATH = "exercises/";
 
@@ -243,7 +231,11 @@ fn clear(self: *CLI) !void {
 
 // TODO: multi threading
 pub fn run(allocator: STD.mem.Allocator) !void {
-    const self: *CLI = try init(allocator);
+    const self = try allocator.create(CLI);
+    defer allocator.destroy(self);
+    self.* = .{ .allocator = allocator };
+
+    try iterateExerciseDirectory(self);
 
     try clear(self);
 
