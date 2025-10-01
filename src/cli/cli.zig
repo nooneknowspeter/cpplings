@@ -95,14 +95,19 @@ fn iterateNextExercise(self: *CLI) !void {
     try compileCurrentExercise(self);
 }
 
-fn watchFileChanges(self: *CLI) !void {
+fn watchFileChanges(self: *CLI, polling_rate_ms: u64) !void {
     while (true) {
         const CURRENT_EXERCISE_METADATA = try STD.fs.cwd().statFile(self.current_exercise);
+        const CURRENT_EXERCISE_MODIFIED_TIME = CURRENT_EXERCISE_METADATA.mtime;
 
-        if (CURRENT_EXERCISE_METADATA.mtime != self.current_exercise_prev_mod_time) {
-            self.current_exercise_prev_mod_time = CURRENT_EXERCISE_METADATA.mtime;
+        if (CURRENT_EXERCISE_MODIFIED_TIME != self.current_exercise_prev_mod_time) {
+            self.current_exercise_prev_mod_time = CURRENT_EXERCISE_MODIFIED_TIME;
             try compileCurrentExercise(self);
+            try clear(self);
+            try draw(self);
         }
+
+        STD.Thread.sleep(@intCast(polling_rate_ms * 1_000_000));
     }
 }
 
