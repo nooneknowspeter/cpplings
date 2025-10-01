@@ -115,6 +115,11 @@ fn compileCurrentExercise(self: *CLI) !void {
     self.current_exercise_stdout.clearAndFree(self.allocator);
     self.current_exercise_stderr.clearAndFree(self.allocator);
 
+    try self.current_exercise_stdout.appendSlice(self.allocator, "Wait, compiling...");
+
+    try clear(self);
+    try draw(self);
+
     var process = STD.process.Child.init(
         &[_][]const u8{ "zig", "build", "exercises", "--", self.current_exercise },
         self.allocator,
@@ -131,6 +136,8 @@ fn compileCurrentExercise(self: *CLI) !void {
             });
             return;
         };
+
+    self.current_exercise_stdout.clearAndFree(self.allocator);
 
     try process.collectOutput(self.allocator, &self.current_exercise_stdout, &self.current_exercise_stderr, 4096);
     const PROCESS_STATUS = try process.wait();
