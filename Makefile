@@ -3,7 +3,9 @@
 OCI_IMAGE := ghcr.io/nooneknowspeter/cpplings:main
 
 run:
-	zig build cli
+	zig build run
+build:
+	zig build
 compile-commands:
 	zig build compile-flags
 nix-shell:
