@@ -1,40 +1,40 @@
-const std = @import("std");
-const compile_flagz = @import("compile_flagz");
-const config = @import("config");
-const builtin = @import("builtin");
+const STD = @import("std");
+const COMPILE_FLAGZ = @import("compile_flagz");
+const CONFIG = @import("config");
+const BUILTIN = @import("builtin");
 
-pub fn build(b: *std.Build) !void {
-    if (builtin.zig_version.minor < 15) {
+pub fn build(b: *STD.Build) !void {
+    if (BUILTIN.zig_version.minor < 15) {
         @compileError("Zig >= v0.15.1 is required...");
     }
 
-    const target = b.standardTargetOptions(.{});
-    const optimize = b.standardOptimizeOption(.{});
-    const compiler_flags = [_][]const u8{ "-std=c++23", "-Wall", "-Werror", "-Wextra" };
+    const TARGET = b.standardTargetOptions(.{});
+    const OPTIMIZE = b.standardOptimizeOption(.{});
+    const COMPILER_FLAGS = [_][]const u8{ "-std=c++23", "-Wall", "-Werror", "-Wextra" };
 
     // dependencies
-    const dep_gtest = b.dependency("googletest", .{});
+    const DEP_GTEST = b.dependency("googletest", .{});
 
     // cli
-    const cpplings_cli = b.addExecutable(.{ .name = "cpplings_cli", .root_module = b.createModule(.{
-        .target = target,
-        .optimize = optimize,
+    const CPPLINGS_CLI = b.addExecutable(.{ .name = "cpplings_cli", .root_module = b.createModule(.{
+        .target = TARGET,
+        .optimize = OPTIMIZE,
         .root_source_file = b.path("src/main.zig"),
     }) });
 
-    b.installArtifact(cpplings_cli);
+    b.installArtifact(CPPLINGS_CLI);
 
-    const cpplings_cli_step = b.step("run", "Run cpplings cli");
-    const cpplings_cli_cmd = b.addRunArtifact(cpplings_cli);
-    cpplings_cli_step.dependOn(&cpplings_cli_cmd.step);
-    cpplings_cli_cmd.step.dependOn(b.getInstallStep());
+    const CPPLINGS_CLI_STEP = b.step("run", "Run cpplings cli");
+    const CPPLINGS_CLI_CMD = b.addRunArtifact(CPPLINGS_CLI);
+    CPPLINGS_CLI_STEP.dependOn(&CPPLINGS_CLI_CMD.step);
+    CPPLINGS_CLI_CMD.step.dependOn(b.getInstallStep());
 
     // exercises
-    const cpplings = b.addExecutable(.{
-        .name = "cpplings",
+    const CPPLIGNS_EXERCISE = b.addExecutable(.{
+        .name = "CPPLIGNS_EXERCISE",
         .root_module = b.createModule(.{
-            .target = target,
-            .optimize = optimize,
+            .target = TARGET,
+            .optimize = OPTIMIZE,
             .link_libc = true,
             .link_libcpp = true,
         }),
@@ -42,34 +42,34 @@ pub fn build(b: *std.Build) !void {
 
     if (b.args) |args| {
         if (args.len > 0) {
-            const exercise_filenames = args;
+            const EXERCISE_FILENAMES = args;
 
-            cpplings.root_module.addCSourceFiles(.{ .flags = &compiler_flags, .files = exercise_filenames });
+            CPPLIGNS_EXERCISE.root_module.addCSourceFiles(.{ .flags = &COMPILER_FLAGS, .files = EXERCISE_FILENAMES });
 
-            cpplings.root_module.addIncludePath(b.path("include"));
-            cpplings.root_module.linkLibrary(dep_gtest.artifact("gtest"));
-            cpplings.root_module.linkLibrary(dep_gtest.artifact("gtest_main"));
+            CPPLIGNS_EXERCISE.root_module.addIncludePath(b.path("include"));
+            CPPLIGNS_EXERCISE.root_module.linkLibrary(DEP_GTEST.artifact("gtest"));
+            CPPLIGNS_EXERCISE.root_module.linkLibrary(DEP_GTEST.artifact("gtest_main"));
 
-            b.installArtifact(cpplings);
+            b.installArtifact(CPPLIGNS_EXERCISE);
         }
     }
 
-    const cpplings_run_exercise_step = b.step("exercises", "Build and run cpplings exercise");
-    const cpplings_run_exercise_cmd = b.addRunArtifact(cpplings);
-    cpplings_run_exercise_step.dependOn(&cpplings_run_exercise_cmd.step);
-    cpplings_run_exercise_cmd.step.dependOn(b.getInstallStep());
+    const CPPLINGS_RUN_EXERCISE_STEP = b.step("exercises", "Build and run cppligns_exercise exercise");
+    const CPPLINGS_RUN_EXERCISE_CMD = b.addRunArtifact(CPPLIGNS_EXERCISE);
+    CPPLINGS_RUN_EXERCISE_STEP.dependOn(&CPPLINGS_RUN_EXERCISE_CMD.step);
+    CPPLINGS_RUN_EXERCISE_CMD.step.dependOn(b.getInstallStep());
 
     if (b.args) |args| {
         if (args.len > 0) {
-            cpplings_run_exercise_cmd.addArgs(args);
+            CPPLINGS_RUN_EXERCISE_CMD.addArgs(args);
         }
     }
 
     // create compile flags generator
-    var cflags = compile_flagz.addCompileFlags(b);
+    var cflags = COMPILE_FLAGZ.addCompileFlags(b);
     cflags.addIncludePath(b.path("include"));
     cflags.addIncludePath(b.path("src"));
-    cflags.addIncludePath(dep_gtest.path("include"));
+    cflags.addIncludePath(DEP_GTEST.path("include"));
 
     // TODO: automate libcc path
     // $ clang++ -E -x c++ - -v < /dev/null
@@ -81,6 +81,6 @@ pub fn build(b: *std.Build) !void {
     cflags.addIncludePath(.{ .cwd_relative = "/nix/store/fbfcll570w9vimfbh41f9b4rrwnp33f3-clang-wrapper-19.1.7/resource-root/include" });
     cflags.addIncludePath(.{ .cwd_relative = "/nix/store/gf3wh0x0rzb1dkx0wx1jvmipydwfzzd5-glibc-2.40-66-dev/include" });
 
-    const cflags_step = b.step("compile-flags", "Generate compile_flags.txt for C/C++ IDE support");
-    cflags_step.dependOn(&cflags.step);
+    const CFLAGS_STEP = b.step("compile-flags", "Generate compile_flags.txt for C/C++ IDE support");
+    CFLAGS_STEP.dependOn(&cflags.step);
 }
