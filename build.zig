@@ -24,7 +24,7 @@ pub fn build(b: *std.Build) !void {
 
     b.installArtifact(cpplings_cli);
 
-    const cpplings_cli_step = b.step("cli", "Run cpplings cli");
+    const cpplings_cli_step = b.step("run", "Run cpplings cli");
     const cpplings_cli_cmd = b.addRunArtifact(cpplings_cli);
     cpplings_cli_step.dependOn(&cpplings_cli_cmd.step);
     cpplings_cli_cmd.step.dependOn(b.getInstallStep());
