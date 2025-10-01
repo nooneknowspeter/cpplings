@@ -2,7 +2,8 @@
 
 - [ ] add REPL feature
   - [ ] diff and patches; solutions and testing
-  - [ ] watch; continuously check and update fs
+  - [x] watch; continuously check and update fs
+  - [x] multi-threading
 - [ ] add exercises
   - [ ] variables
   - [ ] functions
