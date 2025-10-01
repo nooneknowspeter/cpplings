@@ -61,6 +61,8 @@ fn iterateExerciseDirectory(self: *CLI) !void {
 }
 
 fn iterateExercises(self: *CLI) !void {
+    self.completed_exercises.clearAndFree(self.allocator);
+
     for (self.list_of_exercises.items, 0..) |exercise, index| {
         self.current_exercise = exercise;
         self.current_exercise_index = @intCast(index);
