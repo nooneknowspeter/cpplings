@@ -244,7 +244,6 @@ fn clear(self: *CLI) !void {
     STD.debug.print("{s}", .{STYLES.ASCII_STYLES.clear_prompt});
 }
 
-// TODO: multi threading
 pub fn run(allocator: STD.mem.Allocator) !void {
     const self = try allocator.create(CLI);
     defer allocator.destroy(self);
@@ -253,11 +252,13 @@ pub fn run(allocator: STD.mem.Allocator) !void {
     try iterateExerciseDirectory(self);
 
     try clear(self);
-
-    var watch_thread = try STD.Thread.spawn(.{}, watchFileChanges, .{self});
-    watch_thread.detach();
-
     try draw(self);
+
+    try iterateExercises(self);
+
+    const watch_daemon_polling_rate: u64 = 500;
+    var watch_thread: STD.Thread = try STD.Thread.spawn(.{}, watchFileChanges, .{ self, watch_daemon_polling_rate });
+    watch_thread.detach();
 
     try userInput(self);
 }
