@@ -8,4 +8,3 @@ pub fn main() !void {
 
     try CLI.run(mem_allocator);
 }
-

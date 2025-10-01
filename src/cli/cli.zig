@@ -262,4 +262,3 @@ pub fn run(allocator: STD.mem.Allocator) !void {
 
     try userInput(self);
 }
-
