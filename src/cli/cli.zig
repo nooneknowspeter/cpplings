@@ -151,30 +151,31 @@ fn compileCurrentExercise(self: *CLI) !void {
 }
 
 fn progressBar(self: *CLI) !void {
-    var completed_exercises_status: STD.ArrayList(u8) = .empty;
-    var incomplete_exercises_status: STD.ArrayList(u8) = .empty;
+    var ascii_bar: STD.ArrayList(u8) = .empty;
 
     for (self.completed_exercises.items) |exercise| {
         _ = exercise;
-        try completed_exercises_status.append(self.allocator, '#');
+
+        try ascii_bar.append(self.allocator, '#');
     }
+
+    try ascii_bar.append(self.allocator, '>');
 
     for (self.list_of_exercises.items[self.completed_exercises.items.len..]) |exercise| {
         _ = exercise;
-        try incomplete_exercises_status.append(self.allocator, '-');
+
+        try ascii_bar.append(self.allocator, '-');
     }
 
-    STD.debug.print("\nProgress: [{s}>{s}] {d}/{d}\n", .{ completed_exercises_status.items, incomplete_exercises_status.items, self.current_exercise_index + 1, self.list_of_exercises.items.len });
+    STD.debug.print("\nProgress: [{s}] {d}/{d}\n", .{ ascii_bar.items, self.current_exercise_index + 1, self.list_of_exercises.items.len });
 
-    incomplete_exercises_status.clearAndFree(self.allocator);
-    completed_exercises_status.clearAndFree(self.allocator);
+    ascii_bar.clearAndFree(self.allocator);
 }
 
 fn draw(self: *CLI) !void {
     STD.debug.print("{s}\n", .{ASCII_ART});
 
     STD.debug.print("{s}", .{self.current_exercise_stdout.items});
-
     if (!(self.did_current_exercise_compile)) {
         STD.debug.print("\n{s}", .{self.current_exercise_stderr.items});
     }
