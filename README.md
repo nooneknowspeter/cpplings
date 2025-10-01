@@ -39,6 +39,10 @@ This is a deliberate choice to test Zig’s practical usefulness in real-world C
 
 ## Build & Setup
 
+> [!NOTE]
+>
+> The binary can be found in `./zig-out/bin/cpplings_cli` after building `zig build` or running `zig build run`.
+
 Start by cloning this repository on your machine.
 
 > [!NOTE]
