@@ -203,9 +203,6 @@ fn draw(self: *CLI) !void {
 
 fn userInput(self: *CLI) !void {
     while (true) {
-
-        // TODO: multi threading
-        // TODO: non blocking IO
         const INPUT = try STDIN.takeDelimiterExclusive('\n');
 
         if (STD.mem.eql(u8, INPUT, "n")) {
@@ -230,7 +227,10 @@ fn userInput(self: *CLI) !void {
         }
 
         // TODO: reset using diff and patches
-        if (STD.mem.eql(u8, INPUT, "x")) {}
+        if (STD.mem.eql(u8, INPUT, "x")) {
+            try clear(self);
+            try draw(self);
+        }
 
         if (STD.mem.eql(u8, INPUT, "q")) {
             try clear(self);
