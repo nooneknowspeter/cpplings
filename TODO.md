@@ -1,9 +1,8 @@
 # TODO
 
-- [ ] add REPL feature
+- [ ] cli
   - [ ] diff and patches; solutions and testing
-  - [x] watch; continuously check and update fs
-  - [x] multi-threading
+  - [ ] improve software design and implementation; commands pattern + MPSC queue
 - [ ] add exercises
   - [ ] variables
   - [ ] functions
@@ -23,5 +22,4 @@
   - [ ] threads (concurrency, multi-threading, OS, hardware)
   - [ ] preprocessors (#include, #def, #ifdef)
   - [ ] cpphistory (creator, why was it created, cpp versions, features, c++11, c++14, c++17, c++20, c++23, c++26)
-  - [ ] extras
-    - [ ] bit-manipultion (bitwise arithmetic, operations, logic gates, hardware, OS)
+  - [ ] bit-manipultion (bitwise arithmetic, operations, logic gates, hardware, OS)
