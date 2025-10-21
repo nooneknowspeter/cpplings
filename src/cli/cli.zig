@@ -78,6 +78,21 @@ fn iterateExercises(self: *CLI) !void {
     }
 }
 
+fn iteratePreviousExercise(self: *CLI) !void {
+    if (self.current_exercise_index <= 0) {
+        return;
+    }
+
+    _ = self.completed_exercises.pop();
+
+    const PREVIOUS_EXERCISE_INDEX = self.current_exercise_index - 1;
+
+    self.current_exercise = self.list_of_exercises.items[PREVIOUS_EXERCISE_INDEX];
+    self.current_exercise_index = @intCast(PREVIOUS_EXERCISE_INDEX);
+
+    try compileCurrentExercise(self);
+}
+
 fn iterateNextExercise(self: *CLI) !void {
     try compileCurrentExercise(self);
 
@@ -194,6 +209,7 @@ fn draw(self: *CLI) !void {
 
     STD.debug.print("\n", .{});
     STD.debug.print("{s}n{s}: next / ", .{ STYLES.ASCII_STYLES.bold, STYLES.ASCII_STYLES.clear_style });
+    STD.debug.print("{s}p{s}: previous / ", .{ STYLES.ASCII_STYLES.bold, STYLES.ASCII_STYLES.clear_style });
     STD.debug.print("{s}c{s}: check all / ", .{ STYLES.ASCII_STYLES.bold, STYLES.ASCII_STYLES.clear_style });
     STD.debug.print("{s}r{s}: refresh / ", .{ STYLES.ASCII_STYLES.bold, STYLES.ASCII_STYLES.clear_style });
     STD.debug.print("{s}x{s}: reset / ", .{ STYLES.ASCII_STYLES.bold, STYLES.ASCII_STYLES.clear_style });
@@ -207,6 +223,13 @@ fn userInput(self: *CLI) !void {
 
         if (STD.mem.eql(u8, INPUT, "n")) {
             try iterateNextExercise(self);
+
+            try clear(self);
+            try draw(self);
+        }
+
+        if (STD.mem.eql(u8, INPUT, "p")) {
+            try iteratePreviousExercise(self);
 
             try clear(self);
             try draw(self);
