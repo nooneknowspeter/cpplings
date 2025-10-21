@@ -62,7 +62,7 @@ You can install the following:
 
 - clang-tools (clang-format)
 - gdb/lldb (debugging)
-- zig
+- zig >= 0.15.1
 
 ### asdf-vm
 
@@ -87,7 +87,7 @@ such as Zig, and more.
 >
 > If you do not have Nix installed, install it [here](https://nixos.org/download/).
 >
-> Ensure that you install the multi-user version of Nix
+> Ensure that you install the multi-user version of Nix.
 
 > [!NOTE]
 >
@@ -274,17 +274,20 @@ Have fun.
 
 [cppbyexample](https://cppbyexample.com/) — C++ concepts via concise examples.
 
-[learnxinyminutes: C++](https://learnxinyminutes.com/docs/c++) — Fast overview for experienced programmers.
+[getcracked.io](https://www.getcracked.io/) — A platform to help prepare for interviews and understand low-level concepts,
+has C++ questions and coding problems.
 
-[zig's build system](https://ziglang.org/learn/build-system/) — Documentation on Zig's build system
+[learnxinyminutes: C++](https://learnxinyminutes.com/docs/c++) — Fast language overview for experienced programmers.
+
+[zig's build system](https://ziglang.org/learn/build-system/) — Documentation on Zig's build system.
 
 [ziglings](https://codeberg.org/ziglings/exercises/) — Zig version of Rustlings, worth checking out if you're curious about Zig.
 
 [Maintain It With Zig](https://kristoff.it/blog/maintain-it-with-zig/) — A well written article by Loris Cro,
-explaining the benefits of Zig's build system in the world of C/C++
+explaining the benefits of Zig's build system in the world of C/C++.
 
-[Why Zig When There is Already C++, D, and Rust?](https://ziglang.org/learn/why_zig_rust_d_cpp/) — Another article on the benefits of Zig
+[Why Zig When There is Already C++, D, and Rust?](https://ziglang.org/learn/why_zig_rust_d_cpp/) — Another article on the benefits of Zig.
 
-[allyourcodebase](https://github.com/allyourcodebase) - C/C++ projects built with Zig
+[allyourcodebase](https://github.com/allyourcodebase) - C/C++ projects built with Zig.
 
-[clangd compiler flags](https://simonhartcher.com/posts/2025-09-08-announcing-compile-flagz/) - Make Clangd work with C++ using Zig as a build system
+[clangd compiler flags](https://simonhartcher.com/posts/2025-09-08-announcing-compile-flagz/) - Make Clangd work with C++ using Zig as a build system.
