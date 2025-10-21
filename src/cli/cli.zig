@@ -190,7 +190,7 @@ fn progressBar(self: *CLI) !void {
 fn draw(self: *CLI) !void {
     STD.debug.print("{s}\n", .{ASCII_ART});
 
-    STD.debug.print("{s}", .{self.current_exercise_stdout.items});
+    STD.debug.print("{s}\n", .{self.current_exercise_stdout.items});
     if (!(self.did_current_exercise_compile)) {
         STD.debug.print("\n{s}", .{self.current_exercise_stderr.items});
     }
