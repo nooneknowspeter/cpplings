@@ -57,6 +57,7 @@
               hyperfine
               lldb
               treefmt
+              valgrind
             ];
 
             shellHook = ''
