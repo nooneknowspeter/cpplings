@@ -143,8 +143,11 @@ fn compileCurrentExercise(self: *CLI) !void {
     try clear(self);
     try draw(self);
 
+    var process_args: STD.ArrayList([]const u8) = .empty;
+    defer process_args.deinit(self.allocator);
+    try process_args.appendSlice(self.allocator, &[_][]const u8{ "zig", "build", "exercises", "--", self.current_exercise });
     var process = STD.process.Child.init(
-        &[_][]const u8{ "zig", "build", "exercises", "--", self.current_exercise },
+        process_args.items,
         self.allocator,
     );
 
