@@ -19,6 +19,7 @@ pub const ASCII_ART =
 
 const CLI = struct {
     allocator: STD.mem.Allocator,
+    exercises_dir_path: []const u8 = "",
     list_of_exercises: STD.ArrayList([]const u8) = .empty,
     current_exercise: []const u8 = "",
     current_exercise_index: u8 = 0,
@@ -29,22 +30,29 @@ const CLI = struct {
     current_exercise_prev_mod_time: i128 = 0,
 };
 
-fn iterateExerciseDirectory(self: *CLI) !void {
-    const EXERCISES_DIR_PATH = "exercises/";
+fn iterateExerciseDirectory(
+    self: *CLI,
+    exercise_dir: struct { dir_path: []const u8 = "exercises" },
+) !void {
+    self.list_of_exercises.clearAndFree(self.allocator);
 
-    const EXERCISES_DIR = try STD.fs.cwd().openDir(EXERCISES_DIR_PATH, .{ .iterate = true });
+    self.exercises_dir_path = exercise_dir.dir_path;
+
+    const EXERCISES_DIR = try STD.fs.cwd().openDir(self.exercises_dir_path, .{ .iterate = true });
     var chapters = EXERCISES_DIR.iterate();
 
     while (try chapters.next()) |chapter| {
-        const CHAPTER_DIR_PATH = try STD.fs.path.join(self.allocator, &.{ EXERCISES_DIR_PATH, chapter.name });
+        const CHAPTER_DIR_PATH = try STD.fs.path.join(self.allocator, &.{ self.exercises_dir_path, chapter.name });
 
         const CHAPTER_DIR = try STD.fs.cwd().openDir(CHAPTER_DIR_PATH, .{ .iterate = true });
         var exercises = CHAPTER_DIR.iterate();
 
         while (try exercises.next()) |exercise| {
-            const EXERCISE_FILE_PATH = try STD.fs.path.join(self.allocator, &.{ EXERCISES_DIR_PATH, chapter.name, exercise.name });
+            const EXERCISE_FILE_PATH = try STD.fs.path.join(self.allocator, &.{ self.exercises_dir_path, chapter.name, exercise.name });
 
-            try self.list_of_exercises.append(self.allocator, EXERCISE_FILE_PATH);
+            if (STD.mem.containsAtLeast(u8, exercise.name, 1, ".cpp")) {
+                try self.list_of_exercises.append(self.allocator, EXERCISE_FILE_PATH);
+            }
         }
     }
 
@@ -273,7 +281,7 @@ pub fn run(allocator: STD.mem.Allocator) !void {
     defer allocator.destroy(self);
     self.* = .{ .allocator = allocator };
 
-    try iterateExerciseDirectory(self);
+    try iterateExerciseDirectory(self, .{});
 
     try clear(self);
     try draw(self);
