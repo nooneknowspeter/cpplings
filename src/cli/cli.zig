@@ -28,6 +28,8 @@ const CLI = struct {
     current_exercise_stdout: STD.ArrayList(u8) = .empty,
     current_exercise_stderr: STD.ArrayList(u8) = .empty,
     current_exercise_prev_mod_time: i128 = 0,
+    current_chapter: []const u8 = "",
+    list_of_chapter_support_files: STD.ArrayList([]const u8) = .empty,
 };
 
 fn iterateExerciseDirectory(
@@ -145,7 +147,44 @@ fn compileCurrentExercise(self: *CLI) !void {
 
     var process_args: STD.ArrayList([]const u8) = .empty;
     defer process_args.deinit(self.allocator);
+
     try process_args.appendSlice(self.allocator, &[_][]const u8{ "zig", "build", "exercises", "--", self.current_exercise });
+
+    var current_exercise_filepath_iterator = STD.mem.splitAny(u8, self.current_exercise, "/");
+    var current_exercise_filepath_slice: STD.ArrayList([]const u8) = .empty;
+
+    while (current_exercise_filepath_iterator.next()) |current_exercise_filepath_slice_element| {
+        if (STD.mem.containsAtLeast(u8, current_exercise_filepath_slice_element, 1, ".cpp")) {
+            break;
+        }
+
+        try current_exercise_filepath_slice.append(self.allocator, current_exercise_filepath_slice_element);
+    }
+
+    self.current_chapter = try STD.fs.path.join(self.allocator, current_exercise_filepath_slice.items);
+    const CHAPTER_DIR = try STD.fs.cwd().openDir(self.current_chapter, .{ .iterate = true });
+    var chapter_dir_contents = CHAPTER_DIR.iterate();
+
+    self.list_of_chapter_support_files.clearAndFree(self.allocator);
+
+    while (try chapter_dir_contents.next()) |content| {
+        if (STD.mem.containsAtLeast(u8, content.name, 1, "src")) {
+            const CHAPTER_SUPPORT_FILES_DIR_PATH = try STD.fs.path.join(self.allocator, &[_][]const u8{ self.current_chapter, content.name });
+            const CHAPTER_SUPPORT_FILES_DIR = try STD.fs.cwd().openDir(CHAPTER_SUPPORT_FILES_DIR_PATH, .{ .iterate = true });
+            var chapter_support_files = CHAPTER_SUPPORT_FILES_DIR.iterate();
+
+            while (try chapter_support_files.next()) |chapter_support_file| {
+                const CHAPTER_SUPPORT_FILE_PATH = try STD.fs.path.join(self.allocator, &.{ self.current_chapter, content.name, chapter_support_file.name });
+
+                if (STD.mem.containsAtLeast(u8, chapter_support_file.name, 1, ".cpp")) {
+                    try self.list_of_chapter_support_files.append(self.allocator, CHAPTER_SUPPORT_FILE_PATH);
+                }
+            }
+        }
+    }
+
+    try process_args.appendSlice(self.allocator, self.list_of_chapter_support_files.items);
+
     var process = STD.process.Child.init(
         process_args.items,
         self.allocator,
