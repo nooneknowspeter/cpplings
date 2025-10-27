@@ -47,6 +47,7 @@ pub fn build(b: *STD.Build) !void {
             CPPLINGS_EXERCISE.root_module.addCSourceFiles(.{ .flags = &COMPILER_FLAGS, .files = EXERCISE_FILENAMES });
 
             CPPLINGS_EXERCISE.root_module.addIncludePath(b.path("include"));
+            CPPLINGS_EXERCISE.root_module.addIncludePath(b.path("exercises"));
             CPPLINGS_EXERCISE.root_module.linkLibrary(DEP_GTEST.artifact("gtest"));
             // CPPLINGS_EXERCISE.root_module.linkLibrary(DEP_GTEST.artifact("gtest_main"));
 
