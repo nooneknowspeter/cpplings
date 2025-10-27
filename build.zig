@@ -48,7 +48,7 @@ pub fn build(b: *STD.Build) !void {
 
             CPPLINGS_EXERCISE.root_module.addIncludePath(b.path("include"));
             CPPLINGS_EXERCISE.root_module.linkLibrary(DEP_GTEST.artifact("gtest"));
-            CPPLINGS_EXERCISE.root_module.linkLibrary(DEP_GTEST.artifact("gtest_main"));
+            // CPPLINGS_EXERCISE.root_module.linkLibrary(DEP_GTEST.artifact("gtest_main"));
 
             b.installArtifact(CPPLINGS_EXERCISE);
         }
