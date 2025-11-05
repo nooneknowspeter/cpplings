@@ -318,12 +318,12 @@ fn clear(self: *CLI) !void {
     STD.debug.print("{s}", .{STYLES.ASCII_STYLES.clear_prompt});
 }
 
-pub fn run(allocator: STD.mem.Allocator) !void {
+pub fn run(allocator: STD.mem.Allocator, extra_options: struct { exercises_dir_path: []const u8 = "exercises" }) !void {
     const self = try allocator.create(CLI);
     defer allocator.destroy(self);
     self.* = .{ .allocator = allocator };
 
-    try iterateExerciseDirectory(self, .{});
+    try iterateExerciseDirectory(self, .{ .dir_path = extra_options.exercises_dir_path });
 
     try clear(self);
     try draw(self);
