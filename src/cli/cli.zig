@@ -204,8 +204,7 @@ fn compileCurrentExercise(self: *CLI) !void {
 
     self.current_exercise_stdout.clearAndFree(self.allocator);
 
-    // FIX: dynamically allocate max output bytes for stdout
-    try process.collectOutput(self.allocator, &self.current_exercise_stdout, &self.current_exercise_stderr, 65_536); // 16 bit output
+    try process.collectOutput(self.allocator, &self.current_exercise_stdout, &self.current_exercise_stderr, STD.math.pow(usize, 2, 16)); // 16 bit output
     const PROCESS_STATUS = try process.wait();
 
     if (PROCESS_STATUS.Exited == 0) {
