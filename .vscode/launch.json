@@ -5,8 +5,23 @@
       "type": "codelldb",
       "request": "launch",
       "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/zig-out/bin/cpplings_cli"
+    },
+    {
+      "name": "cpplings cli: generate patches",
+      "type": "codelldb",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
       "program": "${workspaceFolder}/zig-out/bin/cpplings_cli",
-      "args": ["src/main.zig"]
+      "args": ["-p"]
+    },
+    {
+      "name": "cpplings cli: run against solutions folder",
+      "type": "codelldb",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/zig-out/bin/cpplings_cli",
+      "args": ["-s"]
     }
   ]
 }
