@@ -14,5 +14,23 @@ pub fn main() !void {
     defer mem_arena.deinit();
     const mem_allocator = mem_arena.allocator();
 
-    try CLI.run(mem_allocator);
+    if (STD.os.argv.len > 2) {
+        STD.debug.print("Too many arguments\n", .{});
+        help_documentation();
+    }
+
+    if (STD.os.argv.len == 1) {
+        try CLI.run(mem_allocator, .{});
+        return;
+    }
+
+    const PROGRAM_ARGUMENT = STD.mem.span(STD.os.argv[1]);
+
+    if (STD.mem.eql(u8, PROGRAM_ARGUMENT, "-s") or STD.mem.eql(u8, PROGRAM_ARGUMENT, "--solutions")) {
+        try CLI.run(mem_allocator, .{ .exercises_dir_path = ".patches/solutions" });
+    } else if (STD.mem.eql(u8, PROGRAM_ARGUMENT, "-h") or STD.mem.eql(u8, PROGRAM_ARGUMENT, "--help") or STD.mem.eql(u8, PROGRAM_ARGUMENT, "help")) {
+        help_documentation();
+    } else {
+        help_documentation();
+    }
 }
