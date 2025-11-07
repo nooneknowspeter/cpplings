@@ -6,6 +6,9 @@ run:
 	zig build run
 build:
 	zig build
+solutions:
+	zig build
+	./zig-out/bin/cpplings_cli -s
 compile-commands:
 	zig build compile-flags
 nix-shell:
