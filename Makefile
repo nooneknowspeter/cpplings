@@ -9,6 +9,9 @@ build:
 solutions:
 	zig build
 	./zig-out/bin/cpplings_cli -s
+patches:
+	zig build
+	./zig-out/bin/cpplings_cli -p
 compile-commands:
 	zig build compile-flags
 nix-shell:
