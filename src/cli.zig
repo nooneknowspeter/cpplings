@@ -1,5 +1,6 @@
-const STYLES = @import("styles.zig");
 const STD = @import("std");
+
+const STYLES = @import("styles.zig");
 
 var stdin_buffer: [1024]u8 = undefined;
 var stdin_reader = STD.fs.File.stdin().reader(&stdin_buffer);
@@ -30,48 +31,10 @@ const CLI = struct {
     current_exercise_prev_mod_time: i128 = 0,
     current_chapter: []const u8 = "",
     list_of_chapter_support_files: STD.ArrayList([]const u8) = .empty,
+    list_of_patches: STD.ArrayList([]const u8) = .empty,
 };
 
-pub fn iterateDirectory(
-    allocator: STD.mem.Allocator,
-    extra_options: struct {
-        dir_path: []const u8 = "exercises",
-    },
-) !STD.ArrayList([]const u8) {
-    var list_of_contents: STD.ArrayList([]const u8) = .empty;
-
-    const TOP_LEVEL_DIR = try STD.fs.cwd().openDir(extra_options.dir_path, .{ .iterate = true });
-    var chapters = TOP_LEVEL_DIR.iterate();
-
-    while (try chapters.next()) |chapter| {
-        const CHAPTER_DIR_PATH = try STD.fs.path.join(allocator, &.{ extra_options.dir_path, chapter.name });
-
-        const CHAPTER_DIR = try STD.fs.cwd().openDir(CHAPTER_DIR_PATH, .{ .iterate = true });
-        var contents = CHAPTER_DIR.iterate();
-
-        while (try contents.next()) |content| {
-            const CONTENT_FILE_PATH = try STD.fs.path.join(allocator, &.{ extra_options.dir_path, chapter.name, content.name });
-
-            if (STD.mem.containsAtLeast(u8, content.name, 1, ".cpp")) {
-                try list_of_contents.append(allocator, CONTENT_FILE_PATH);
-            }
-        }
-    }
-
-    STD.sort.insertion(
-        []const u8,
-        list_of_contents.items,
-        {},
-        struct {
-            fn lessThan(_: void, a: []const u8, b: []const u8) bool {
-                return STD.mem.lessThan(u8, a, b);
-            }
-        }.lessThan,
-    );
-
-    return list_of_contents;
-}
-
+// TODO: strategy + observer pattern; iterate exercises, iterate patches
 fn iterateExerciseDirectory(
     self: *CLI,
     exercise_dir: struct { dir_path: []const u8 = "exercises" },
@@ -160,6 +123,7 @@ fn iterateNextExercise(self: *CLI) !void {
     try compileCurrentExercise(self);
 }
 
+// TODO: implement abstract factory/protoype; watch current exercise and support files
 fn watchFileChanges(self: *CLI, polling_rate_ms: u64) !void {
     while (true) {
         const CURRENT_EXERCISE_METADATA = try STD.fs.cwd().statFile(self.current_exercise);
@@ -375,3 +339,4 @@ pub fn run(allocator: STD.mem.Allocator, extra_options: struct { exercises_dir_p
 
     try userInput(self);
 }
+

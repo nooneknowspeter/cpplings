@@ -1,6 +1,7 @@
 const STD = @import("std");
-const CLI = @import("cli/cli.zig");
-const PATCH_SYSTEM = @import("cli/patch.zig");
+
+const CLI = @import("cli.zig");
+const PATCH_SYSTEM = @import("patch.zig");
 
 pub fn help_documentation() void {
     STD.debug.print("{s}\n", .{CLI.ASCII_ART});
