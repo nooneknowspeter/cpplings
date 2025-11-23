@@ -399,18 +399,21 @@ fn initTests() !void {
 }
 
 test "build paths" {
-    var allocator: STD.mem.Allocator = STD.testing.allocator;
+    var mem_arena: STD.heap.ArenaAllocator = STD.heap.ArenaAllocator.init(STD.testing.allocator);
+    defer mem_arena.deinit();
 
-    const PATH_BUILDER_INSTANCE = try allocator.create(PATH_BUILDER);
+    const ALLOCATOR: STD.mem.Allocator = mem_arena.allocator();
+
+    const PATH_BUILDER_INSTANCE = try ALLOCATOR.create(PATH_BUILDER);
     PATH_BUILDER_INSTANCE.init();
-    defer PATH_BUILDER_INSTANCE.denit(allocator);
+    defer PATH_BUILDER_INSTANCE.denit(ALLOCATOR);
 
-    try PATH_BUILDER_INSTANCE.add(allocator, ".");
-    try PATH_BUILDER_INSTANCE.addSlice(allocator, &[_][]const u8{ "hello", "world" });
+    try PATH_BUILDER_INSTANCE.add(ALLOCATOR, ".");
+    try PATH_BUILDER_INSTANCE.addSlice(ALLOCATOR, &[_][]const u8{ "hello", "world" });
 
     var path: STD.ArrayList(u8) = .empty;
-    defer path.deinit(allocator);
-    try PATH_BUILDER_INSTANCE.build(allocator, &path);
+    defer path.deinit(ALLOCATOR);
+    try PATH_BUILDER_INSTANCE.build(ALLOCATOR, &path);
 
     const EXPECTED_OUTPUT: []const u8 = switch (NATIVE_OS) {
         .windows => ".\\hello\\world",
@@ -423,17 +426,22 @@ test "build paths" {
 test "iterate test directory and filter files" {
     try initTests();
 
+    var mem_arena: STD.heap.ArenaAllocator = STD.heap.ArenaAllocator.init(STD.testing.allocator);
+    defer mem_arena.deinit();
+
+    const ALLOCATOR: STD.mem.Allocator = mem_arena.allocator();
+
     var list_of_contents: STD.ArrayList([]const u8) = .empty;
     defer {
         for (list_of_contents.items) |path| {
-            STD.testing.allocator.free(path);
+            ALLOCATOR.free(path);
         }
 
-        list_of_contents.deinit(STD.testing.allocator);
+        list_of_contents.deinit(ALLOCATOR);
     }
 
     try iterateDirectory(
-        STD.testing.allocator,
+        ALLOCATOR,
         TEST_SUB_DIR,
         .{
             .allow_move_contents = true,
@@ -448,22 +456,25 @@ test "iterate test directory and filter files" {
 }
 
 test "build and search directory tree" {
-    var allocator: STD.mem.Allocator = STD.testing.allocator;
+    var mem_arena: STD.heap.ArenaAllocator = STD.heap.ArenaAllocator.init(STD.testing.allocator);
+    defer mem_arena.deinit();
 
-    const dir_tree: *DIR_TREE = try allocator.create(DIR_TREE);
-    try dir_tree.init(allocator, TEST_DIR);
-    defer dir_tree.deinit(allocator);
+    const ALLOCATOR: STD.mem.Allocator = mem_arena.allocator();
+
+    const dir_tree: *DIR_TREE = try ALLOCATOR.create(DIR_TREE);
+    try dir_tree.init(ALLOCATOR, TEST_DIR);
+    defer dir_tree.deinit(ALLOCATOR);
 
     var filtered_dir_contents: STD.ArrayList([]const u8) = .empty;
     defer {
         for (filtered_dir_contents.items) |content| {
-            allocator.free(content);
+            ALLOCATOR.free(content);
         }
 
-        filtered_dir_contents.deinit(allocator);
+        filtered_dir_contents.deinit(ALLOCATOR);
     }
 
-    try dir_tree.buildandSearchFSTree(allocator, dir_tree.root_node, .{
+    try dir_tree.buildandSearchFSTree(ALLOCATOR, dir_tree.root_node, .{
         .is_debug_mode = false,
         .include_filter = ".txt",
         .allow_move_contents = true,
@@ -476,11 +487,16 @@ test "build and search directory tree" {
 }
 
 test "run sub process with default arguments" {
+    var mem_arena: STD.heap.ArenaAllocator = STD.heap.ArenaAllocator.init(STD.testing.allocator);
+    defer mem_arena.deinit();
+
+    const ALLOCATOR: STD.mem.Allocator = mem_arena.allocator();
+
     var process_output: STD.ArrayList(u8) = .empty;
-    defer process_output.deinit(STD.testing.allocator);
+    defer process_output.deinit(ALLOCATOR);
 
     try runSubProcess(
-        STD.testing.allocator,
+        ALLOCATOR,
         &process_output,
         .{},
     );
@@ -491,11 +507,16 @@ test "run sub process with default arguments" {
 }
 
 test "run hello world sub process" {
+    var mem_arena: STD.heap.ArenaAllocator = STD.heap.ArenaAllocator.init(STD.testing.allocator);
+    defer mem_arena.deinit();
+
+    const ALLOCATOR: STD.mem.Allocator = mem_arena.allocator();
+
     var process_output: STD.ArrayList(u8) = .empty;
-    defer process_output.deinit(STD.testing.allocator);
+    defer process_output.deinit(ALLOCATOR);
 
     try runSubProcess(
-        STD.testing.allocator,
+        ALLOCATOR,
         &process_output,
         .{ .args = "echo hello world" },
     );
@@ -504,4 +525,3 @@ test "run hello world sub process" {
         STD.mem.eql(u8, process_output.items, "hello world\n"),
     );
 }
-
