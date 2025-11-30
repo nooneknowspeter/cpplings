@@ -87,4 +87,3 @@ pub fn run(allocator: STD.mem.Allocator) !void {
     STD.debug.print("Generating patches...\n", .{});
     try generatePatches(allocator, patch_system);
 }
-
