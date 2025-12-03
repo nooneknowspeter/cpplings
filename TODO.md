@@ -4,22 +4,22 @@
   - [ ] diff and patches; solutions and testing
   - [ ] improve software design and implementation; commands pattern + MPSC queue
 - [ ] add exercises
-  - [ ] variables
-  - [ ] functions
+  - [x] variables
+  - [x] functions
   - [ ] control-flow (if-else)
   - [ ] primitives (datatypes)
+  - [ ] type-conversion
   - [ ] strings (c style vs std::strings)
   - [ ] containers (c style containers vs std containers)
-  - [ ] modules (#include, headers)
+  - [ ] modules (#include, headers, C++20 modules; import export, std lib)
   - [ ] structs
   - [ ] enums
   - [ ] classes
-  - [ ] memory (memory module, raw pointers, smart pointers)
   - [ ] generics (templating)
-  - [ ] type-conversion
-  - [ ] raii (memory, ownership, objects)
-  - [ ] exception-handling (errors)
-  - [ ] threads (concurrency, multi-threading, OS, hardware)
+  - [ ] exceptions (errors, exception handling)
+  - [ ] memory (memory module, raw pointers, smart pointers, computer architecture, operating systems, raii, performance)
+  - [ ] threads (concurrency, multi-threading, operation systems, computer architecture)
   - [ ] preprocessors (#include, #def, #ifdef)
   - [ ] cpphistory (creator, why was it created, cpp versions, features, c++11, c++14, c++17, c++20, c++23, c++26)
   - [ ] bit-manipultion (bitwise arithmetic, operations, logic gates, hardware, OS)
+  - [ ] network programming (sockets, server, client, IPC)

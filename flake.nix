@@ -56,6 +56,7 @@
               gnumake
               hyperfine
               lldb
+              perf
               treefmt
               valgrind
             ];
