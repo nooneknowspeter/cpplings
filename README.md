@@ -291,3 +291,5 @@ explaining the benefits of Zig's build system in the world of C/C++.
 [allyourcodebase](https://github.com/allyourcodebase) - C/C++ projects built with Zig.
 
 [clangd compiler flags](https://simonhartcher.com/posts/2025-09-08-announcing-compile-flagz/) - Make Clangd work with C++ using Zig as a build system.
+
+[The worst programming language of all time (CJ's reaction)](https://www.youtube.com/watch?v=K3z7Ymx4UWY)
