@@ -13,18 +13,21 @@ const TREE_NODE = struct {
     node_contents: []const u8,
 
     pub fn init(
-        self: *Self,
         allocator: STD.mem.Allocator,
         node_options: struct {
             parent: *TREE_NODE = undefined,
             node_contents: []const u8 = "empty",
         },
-    ) !void {
-        const DUPLICATED_CHILD_CONTENT = try allocator.dupe(u8, node_options.node_contents);
-        self.node_contents = DUPLICATED_CHILD_CONTENT;
+    ) !*TREE_NODE {
+        const TREE_NODE_INSTANCE = try allocator.create(TREE_NODE);
 
-        self.parent = node_options.parent;
-        self.children = .empty;
+        const DUPLICATED_CHILD_CONTENT = try allocator.dupe(u8, node_options.node_contents);
+        TREE_NODE_INSTANCE.node_contents = DUPLICATED_CHILD_CONTENT;
+
+        TREE_NODE_INSTANCE.parent = node_options.parent;
+        TREE_NODE_INSTANCE.children = .empty;
+
+        return TREE_NODE_INSTANCE;
     }
 
     pub fn deinit(self: *Self, allocator: STD.mem.Allocator) void {
@@ -44,26 +47,27 @@ pub const DIR_TREE = struct {
 
     // NOTE: https://ziggit.dev/t/cant-work-around-the-error-unable-to-resolve-inferred-error-set/2239/6
     pub fn init(
-        self: *Self,
         allocator: STD.mem.Allocator,
         dir_path: []const u8,
-    ) anyerror!void {
-        self.root_node = try allocator.create(TREE_NODE);
+    ) anyerror!*DIR_TREE {
+        const DIR_TREE_INSTANCE: *DIR_TREE = try allocator.create(DIR_TREE);
 
-        try self.root_node.init(
+        DIR_TREE_INSTANCE.root_node = try TREE_NODE.init(
             allocator,
             .{ .node_contents = dir_path },
         );
 
-        self.tree_nodes = .empty;
+        DIR_TREE_INSTANCE.tree_nodes = .empty;
 
-        self.populateTree(allocator, self.root_node) catch {
+        DIR_TREE_INSTANCE.populateTree(allocator, DIR_TREE_INSTANCE.root_node) catch {
             STD.debug.print("{s}{s}Failed to populate tree instance{s}", .{
                 STYLES.ASCII_STYLES.red,
                 STYLES.ASCII_STYLES.underline,
                 STYLES.ASCII_STYLES.clear_style,
             });
         };
+
+        return DIR_TREE_INSTANCE;
     }
 
     fn populateTree(
@@ -106,9 +110,7 @@ pub const DIR_TREE = struct {
         );
 
         for (children_node_contents.items) |child_content| {
-            const CHILD_NODE_INSTANCE: *TREE_NODE = try allocator.create(TREE_NODE);
-
-            try CHILD_NODE_INSTANCE.init(
+            const CHILD_NODE_INSTANCE: *TREE_NODE = try TREE_NODE.init(
                 allocator,
                 .{
                     .parent = parent_node,
@@ -310,9 +312,8 @@ test "build and search directory tree" {
 
     const allocator: STD.mem.Allocator = mem_arena.allocator();
 
-    const DIR_TREE_INSTANCE: *DIR_TREE = try allocator.create(DIR_TREE);
+    const DIR_TREE_INSTANCE: *DIR_TREE = try DIR_TREE.init(allocator, TEST_DIR);
     defer DIR_TREE_INSTANCE.deinit(allocator);
-    try DIR_TREE_INSTANCE.init(allocator, TEST_DIR);
 
     var returned_dir_contents: STD.ArrayList([]const u8) = .empty;
     defer returned_dir_contents.deinit(allocator);
@@ -333,13 +334,12 @@ test "build and search solutions directory tree" {
     var mem_arena: STD.heap.ArenaAllocator = STD.heap.ArenaAllocator.init(STD.testing.allocator);
     defer mem_arena.deinit();
 
-    var allocator: STD.mem.Allocator = mem_arena.allocator();
+    const ALLOCATOR: STD.mem.Allocator = mem_arena.allocator();
 
-    const DIR_TREE_INSTANCE: *DIR_TREE = try allocator.create(DIR_TREE);
-    defer DIR_TREE_INSTANCE.deinit(allocator);
-    try DIR_TREE_INSTANCE.init(allocator, ".patches/solutions");
+    const DIR_TREE_INSTANCE: *DIR_TREE = try DIR_TREE.init(ALLOCATOR, ".patches/solutions");
+    defer DIR_TREE_INSTANCE.deinit(ALLOCATOR);
 
-    try DIR_TREE_INSTANCE.iterateAndFilterTree(allocator, .{
+    try DIR_TREE_INSTANCE.iterateAndFilterTree(ALLOCATOR, .{
         .is_debug_enabled = false,
         .include_filter = "src",
     });
@@ -393,4 +393,3 @@ test "run hello world sub process" {
         STD.mem.eql(u8, process_output.items, "hello world\n"),
     );
 }
-
