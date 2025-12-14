@@ -16,11 +16,14 @@ pub fn build(b: *STD.Build) !void {
 
     // cli
     {
-        const CPPLINGS_CLI = b.addExecutable(.{ .name = "cpplings_cli", .root_module = b.createModule(.{
-            .target = TARGET,
-            .optimize = OPTIMIZE,
-            .root_source_file = b.path("src/main.zig"),
-        }) });
+        const CPPLINGS_CLI = b.addExecutable(.{
+            .name = "cpplings_cli",
+            .root_module = b.createModule(.{
+                .target = TARGET,
+                .optimize = OPTIMIZE,
+                .root_source_file = b.path("src/main.zig"),
+            }),
+        });
 
         b.installArtifact(CPPLINGS_CLI);
         const CPPLINGS_CLI_ARTIFIACT = b.addRunArtifact(CPPLINGS_CLI);
@@ -34,6 +37,23 @@ pub fn build(b: *STD.Build) !void {
                 CPPLINGS_CLI_ARTIFIACT.addArgs(args);
             }
         }
+    }
+
+    // tests
+    {
+        const CPPLINGS_CLI_TESTS = b.addTest(.{
+            .name = "cpplings_tests",
+            .root_module = b.createModule(.{
+                .target = TARGET,
+                .optimize = OPTIMIZE,
+                .root_source_file = b.path("src/test.zig"),
+            }),
+        });
+
+        const CPPLINGS_CLI_TESTS_ARTIFACT = b.addRunArtifact(CPPLINGS_CLI_TESTS);
+
+        const CPPLINGS_CLI_TESTS_STEP = b.step("tests", "Run cpplings tests");
+        CPPLINGS_CLI_TESTS_STEP.dependOn(&CPPLINGS_CLI_TESTS_ARTIFACT.step);
     }
 
     // exercises
