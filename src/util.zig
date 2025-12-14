@@ -16,16 +16,15 @@ const TREE_NODE = struct {
         allocator: STD.mem.Allocator,
         node_options: struct {
             parent: *TREE_NODE = undefined,
-            node_contents: []const u8 = "empty",
+            node_contents: []const u8 = "",
         },
     ) !*TREE_NODE {
         const TREE_NODE_INSTANCE = try allocator.create(TREE_NODE);
 
-        const DUPLICATED_CHILD_CONTENT = try allocator.dupe(u8, node_options.node_contents);
-        TREE_NODE_INSTANCE.node_contents = DUPLICATED_CHILD_CONTENT;
-
         TREE_NODE_INSTANCE.parent = node_options.parent;
         TREE_NODE_INSTANCE.children = .empty;
+
+        TREE_NODE_INSTANCE.node_contents = try allocator.dupe(u8, node_options.node_contents);
 
         return TREE_NODE_INSTANCE;
     }
@@ -182,10 +181,10 @@ pub const DIR_TREE = struct {
             STD.debug.print("\n[\n", .{});
 
             for (debug_nodes_list.items) |item| {
-                STD.debug.print("{s},", .{item});
+                STD.debug.print("{s},\n", .{item});
             }
 
-            STD.debug.print("\n]\n", .{});
+            STD.debug.print("]\n\n", .{});
         }
     }
 
@@ -341,7 +340,7 @@ test "build and search solutions directory tree" {
 
     try DIR_TREE_INSTANCE.iterateAndFilterTree(ALLOCATOR, .{
         .is_debug_enabled = false,
-        .include_filter = "src",
+        .include_filter = ".cpp",
     });
 }
 
