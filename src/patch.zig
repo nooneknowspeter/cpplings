@@ -4,7 +4,7 @@ const CLI = @import("cli.zig");
 const UTIL = @import("util.zig");
 const STYLES = @import("styles.zig");
 
-const PatchSystem = struct {
+pub const PatchSystem = struct {
     const Self = @This();
 
     list_of_solution_file_paths: STD.ArrayList([]const u8),
@@ -137,7 +137,7 @@ const PatchSystem = struct {
             .data = diff_contents.items,
         });
 
-        STD.debug.print("\n{s}Generated patch -> {s}{s}{s}\n", .{
+        STD.debug.print("\n{s}Generated patch -> {s}{s}{s}\n\n", .{
             STYLES.ASCII_STYLES.bold,
             STYLES.ASCII_STYLES.underline,
             patch_file_path,
