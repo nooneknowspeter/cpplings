@@ -5,6 +5,15 @@ const BUILTIN = @import("builtin");
 
 pub const NATIVE_OS = BUILTIN.target.os.tag;
 
+/// tree node
+///
+/// examples
+/// --------
+/// const TREE_NODE_INSTANCE: *TREE_NODE = try TREE_NODE.init(
+///     allocator,
+///     .{ .node_contents = dir_path },
+/// );
+/// defer TREE_NODE_INSTANCE.deinit(allocator);
 const TREE_NODE = struct {
     const Self = @This();
 
@@ -38,6 +47,26 @@ const TREE_NODE = struct {
     }
 };
 
+/// create file tree
+///
+/// examples
+/// --------
+/// const DIR_TREE_INSTANCE: *DIR_TREE = try DIR_TREE.init(allocator, TEST_DIR);
+/// defer DIR_TREE_INSTANCE.deinit(allocator);
+///
+/// var returned_dir_contents: STD.ArrayList([]const u8) = .empty;
+/// defer returned_dir_contents.deinit(allocator);
+///
+/// try DIR_TREE_INSTANCE.iterateAndFilterTree(allocator, .{
+///     .is_debug_enabled = false,
+///     .include_filter = ".txt",
+///     .is_move_semantics_enabled = true,
+///     .external_list = &returned_dir_contents,
+/// });
+///
+/// try STD.testing.expect(
+///     STD.mem.eql(u8, returned_dir_contents.items[0], "tests/test_dir/chapter/test.txt"),
+/// );
 pub const DIR_TREE = struct {
     const Self = @This();
 
@@ -214,17 +243,19 @@ pub const DIR_TREE = struct {
 /// --------
 /// var process_output: STD.ArrayList(u8) = .empty;
 /// defer process_output.deinit(STD.testing.allocator);
+///
 /// try runSubProcess(STD.testing.allocator, &process_output, .{ .args = "echo hello world" });
+///
 /// try STD.testing.expect(STD.mem.eql(u8, process_output.items, "hello world\n"));
 pub fn runSubProcess(
     allocator: STD.mem.Allocator,
     extra_options: struct {
         allow_move_semantics: bool = false,
         args: []const u8 = "echo this is a sub-process",
-        is_debug_mode: bool = false,
+        is_debug_enabled: bool = false,
         move_process_output_to: *STD.ArrayList(u8),
     },
-) !u8 {
+) !void {
     const BUFFER_SIZE = comptime 1 << 16;
 
     var process_args: STD.ArrayList([]const u8) = .empty;
@@ -257,29 +288,22 @@ pub fn runSubProcess(
 
     try process.collectOutput(allocator, &process_stdout_buffer, &process_stderr_buffer, BUFFER_SIZE);
 
+    if (extra_options.is_debug_enabled) {
+        STD.debug.print("STDERR ->\n{s}\n", .{process_stderr_buffer.items});
+        STD.debug.print("STDOUT ->\n{s}\n", .{process_stdout_buffer.items});
+    }
+
     const PROCESS_STATUS = try process.wait();
 
     if (PROCESS_STATUS.Exited != 0) {
-        if (extra_options.is_debug_mode) {
-            STD.debug.print("{s}\n", .{process_stderr_buffer.items});
-        }
-
         if (extra_options.allow_move_semantics) {
             try extra_options.move_process_output_to.appendSlice(allocator, process_stderr_buffer.items);
         }
-
-        return PROCESS_STATUS.Exited;
-    }
-
-    if (extra_options.is_debug_mode) {
-        STD.debug.print("{s}\n", .{process_stdout_buffer.items});
     }
 
     if (extra_options.allow_move_semantics) {
         try extra_options.move_process_output_to.appendSlice(allocator, process_stdout_buffer.items);
     }
-
-    return PROCESS_STATUS.Exited;
 }
 
 // tests
@@ -306,6 +330,8 @@ fn initTests() !void {
 }
 
 test "build and search directory tree" {
+    try initTests();
+
     var mem_arena: STD.heap.ArenaAllocator = STD.heap.ArenaAllocator.init(STD.testing.allocator);
     defer mem_arena.deinit();
 
@@ -353,15 +379,13 @@ test "run sub process with default arguments" {
     var process_output: STD.ArrayList(u8) = .empty;
     defer process_output.deinit(ALLOCATOR);
 
-    const PROCESS_EXIT_STATUS = try runSubProcess(
+    try runSubProcess(
         ALLOCATOR,
         .{
             .allow_move_semantics = true,
             .move_process_output_to = &process_output,
         },
     );
-
-    try STD.testing.expect(PROCESS_EXIT_STATUS == 0);
 
     try STD.testing.expect(
         STD.mem.eql(u8, process_output.items, "this is a sub-process\n"),
@@ -377,7 +401,7 @@ test "run hello world sub process" {
     var process_output: STD.ArrayList(u8) = .empty;
     defer process_output.deinit(ALLOCATOR);
 
-    const PROCESS_EXIT_STATUS = try runSubProcess(
+    try runSubProcess(
         ALLOCATOR,
         .{
             .args = "echo hello world",
@@ -385,8 +409,6 @@ test "run hello world sub process" {
             .move_process_output_to = &process_output,
         },
     );
-
-    try STD.testing.expect(PROCESS_EXIT_STATUS == 0);
 
     try STD.testing.expect(
         STD.mem.eql(u8, process_output.items, "hello world\n"),
