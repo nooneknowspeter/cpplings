@@ -5,168 +5,248 @@ const UTIL = @import("util.zig");
 const STYLES = @import("styles.zig");
 
 const PatchSystem = struct {
-    list_of_original_file_paths: STD.ArrayList([]const u8) = .empty,
-    list_of_modified_file_paths: STD.ArrayList([]const u8) = .empty,
-};
+    const Self = @This();
 
-fn iterateDirs(allocator: STD.mem.Allocator, patch_system: *PatchSystem) !void {
-    _ = patch_system;
+    list_of_solution_file_paths: STD.ArrayList([]const u8),
+    list_of_exercise_file_paths: STD.ArrayList([]const u8),
 
-    try UTIL.iterateDirectory(allocator, ".patches/solutions", .{ .is_print_list_of_contents = true });
+    pub fn init(allocator: STD.mem.Allocator, extra_options: struct {
+        original_files_dir: []const u8 = ".patches",
+        modified_dir: []const u8 = "exercises",
+        extension_filter: []const u8 = ".cpp",
+        is_debug_enabled: bool = false,
+    }) !*PatchSystem {
+        STD.debug.print("{s}\n\n", .{CLI.ASCII_ART});
 
-}
+        STD.debug.print("initializing patch system\n", .{});
+        const PATCH_SYSTEM: *PatchSystem = try allocator.create(PatchSystem);
 
-// TODO: clean up
-fn generatePatches(allocator: STD.mem.Allocator, patch_system: *PatchSystem) !void {
-    for (patch_system.list_of_exercises.items, patch_system.list_of_solutions.items) |exercise, solution| {
-        const BUFFER_SIZE = comptime STD.math.pow(usize, 2, 16);
+        STD.debug.print("populating dirs\n", .{});
+        PATCH_SYSTEM.list_of_solution_file_paths = .empty;
+        PATCH_SYSTEM.list_of_exercise_file_paths = .empty;
 
-        // TODO: DRY
-        var current_solution_filepath_iterator = STD.mem.splitAny(u8, solution, "/");
-        var current_solution_filepath_list: STD.ArrayList([]const u8) = .empty;
+        var ORIGINAL_FILES_TREE: *UTIL.DIR_TREE = try UTIL.DIR_TREE.init(
+            allocator,
+            extra_options.original_files_dir,
+        );
+        defer ORIGINAL_FILES_TREE.deinit(allocator);
 
-        while (current_solution_filepath_iterator.next()) |current_solution_filepath_slice_element| {
-            try current_solution_filepath_list.append(allocator, current_solution_filepath_slice_element);
-        }
-
-        const TOP_LEVEL_DIR = current_solution_filepath_list.items[0];
-        const CHAPTER_DIR = current_solution_filepath_list.items[2];
-        const SOLUTION_FILENAME = current_solution_filepath_list.items[3];
-
-        const OUTPUT_FILENAME = try STD.mem.replaceOwned(u8, allocator, SOLUTION_FILENAME, ".cpp", ".patch");
-
-        const OUTPUT_FILEPATH = try STD.fs.path.join(allocator, &[_][]const u8{ TOP_LEVEL_DIR, "patches", CHAPTER_DIR, OUTPUT_FILENAME });
-
-        STD.debug.print("diff {s} {s} --> {s}{s}{s}\n", .{
-            exercise,
-            solution,
-            STYLES.ASCII_STYLES.underline,
-            OUTPUT_FILEPATH,
-            STYLES.ASCII_STYLES.clear_style,
+        try ORIGINAL_FILES_TREE.iterateAndFilterTree(allocator, .{
+            .is_debug_enabled = extra_options.is_debug_enabled,
+            .include_filter = extra_options.extension_filter,
+            .is_move_semantics_enabled = true,
+            .external_list = &PATCH_SYSTEM.list_of_solution_file_paths,
         });
 
-        // TODO: DRY
-        var process_args: STD.ArrayList([]const u8) = .empty;
+        var MODIFIED_FILES_TREE: *UTIL.DIR_TREE = try UTIL.DIR_TREE.init(
+            allocator,
+            extra_options.modified_dir,
+        );
+        defer MODIFIED_FILES_TREE.deinit(allocator);
 
-        try process_args.appendSlice(allocator, &[_][]const u8{ "diff", "-u", exercise, solution });
-        var process = STD.process.Child.init(process_args.items, allocator);
+        try MODIFIED_FILES_TREE.iterateAndFilterTree(allocator, .{
+            .is_debug_enabled = extra_options.is_debug_enabled,
+            .include_filter = extra_options.extension_filter,
+            .is_move_semantics_enabled = true,
+            .external_list = &PATCH_SYSTEM.list_of_exercise_file_paths,
+        });
 
-        process.stderr_behavior = .Pipe;
-        process.stdout_behavior = .Pipe;
+        STD.debug.print("generating patches\n", .{});
+        try PATCH_SYSTEM.generatePatches(allocator, .{
+            .extension_filter = extra_options.extension_filter,
+            .is_debug_enabled = extra_options.is_debug_enabled,
+        });
 
-        var process_stdout_buffer: STD.ArrayList(u8) = .empty;
-        var process_stderr_buffer: STD.ArrayList(u8) = .empty;
-
-        process.spawn() catch {
-            STD.debug.print("{s}Failed to generate patches!\n{s}", .{
-                STYLES.ASCII_STYLES.red,
-                STYLES.ASCII_STYLES.clear_style,
-            });
-            return;
-        };
-
-        try process.collectOutput(allocator, &process_stdout_buffer, &process_stderr_buffer, BUFFER_SIZE);
-
-        const PATCHES_DIR_PATH = try STD.fs.path.join(allocator, &[_][]const u8{ TOP_LEVEL_DIR, "patches" });
-        const PATCHES_CHAPTER_DIR_PATH = try STD.fs.path.join(allocator, &[_][]const u8{ TOP_LEVEL_DIR, "patches", CHAPTER_DIR });
-
-        STD.fs.cwd().access(PATCHES_DIR_PATH, .{}) catch {
-            try STD.fs.cwd().makeDir(PATCHES_DIR_PATH);
-        };
-
-        STD.fs.cwd().access(PATCHES_CHAPTER_DIR_PATH, .{}) catch {
-            try STD.fs.cwd().makeDir(PATCHES_CHAPTER_DIR_PATH);
-        };
-
-        try STD.fs.cwd().writeFile(.{ .sub_path = OUTPUT_FILEPATH, .data = process_stdout_buffer.items });
+        return PATCH_SYSTEM;
     }
 
-    STD.debug.print("\n{s}Generated patches -> {s}./patches/patches{s}\n", .{ STYLES.ASCII_STYLES.bold, STYLES.ASCII_STYLES.underline, STYLES.ASCII_STYLES.clear_style });
-}
+    fn generatePatches(
+        self: *Self,
+        allocator: STD.mem.Allocator,
+        extra_options: struct {
+            extension_filter: []const u8 = ".cpp",
+            is_debug_enabled: bool = false,
+        },
+    ) !void {
+        for (self.list_of_solution_file_paths.items, self.list_of_exercise_file_paths.items) |solution, exercise| {
+            const PATCH_FILE_PATH = try STD.mem.replaceOwned(
+                u8,
+                allocator,
+                solution,
+                extra_options.extension_filter,
+                ".patch",
+            );
 
-// TODO: implement patch function
-fn patch(
-    allocator: STD.mem.Allocator,
-    file: []const u8,
-    patch_file: []const u8,
-    extra_options: struct { reverse: bool = true },
-) !void {
-    _ = extra_options;
+            try PatchSystem.generatePatch(allocator, solution, exercise, PATCH_FILE_PATH, .{
+                .is_debug_enabled = extra_options.is_debug_enabled,
+            });
+        }
+    }
 
-    // TODO: DRY
-    const BUFFER_SIZE = comptime STD.math.pow(usize, 2, 16);
+    fn generatePatch(
+        allocator: STD.mem.Allocator,
+        original_file_path: []const u8,
+        modified_file_path: []const u8,
+        patch_file_path: []const u8,
+        extra_options: struct {
+            is_debug_enabled: bool = false,
+        },
+    ) !void {
+        var splitted_string_iterator = STD.mem.splitSequence(u8, patch_file_path, "/");
 
-    var process_args: STD.ArrayList([]const u8) = .empty;
+        var splitted_string_array_list: STD.ArrayList([]const u8) = .empty;
+        defer splitted_string_array_list.deinit(allocator);
 
-    try process_args.appendSlice(allocator, &[_][]const u8{ "patch", "-u", file, patch_file });
-    var process = STD.process.Child.init(process_args.items, allocator);
+        while (splitted_string_iterator.next()) |string_component| {
+            try splitted_string_array_list.append(allocator, string_component);
+        }
 
-    process.stderr_behavior = .Pipe;
-    process.stdout_behavior = .Pipe;
+        _ = splitted_string_array_list.pop();
 
-    var process_stdout_buffer: STD.ArrayList(u8) = .empty;
-    var process_stderr_buffer: STD.ArrayList(u8) = .empty;
+        const PATCH_FILE_DIR = try STD.fs.path.join(allocator, splitted_string_array_list.items);
 
-    process.spawn() catch {
-        STD.debug.print("{s}Failed to patch {s}file!\n{s}", .{
-            STYLES.ASCII_STYLES.red,
-            file,
+        STD.debug.print("diff -u {s} {s} --> {s}{s}{s}\n", .{
+            original_file_path,
+            modified_file_path,
+            STYLES.ASCII_STYLES.underline,
+            patch_file_path,
             STYLES.ASCII_STYLES.clear_style,
         });
-        return;
-    };
 
-    try process.collectOutput(allocator, &process_stdout_buffer, &process_stderr_buffer, BUFFER_SIZE);
-}
+        const PROCESS_ARGS = try STD.fmt.allocPrint(allocator, "diff -u {s} {s}", .{
+            original_file_path,
+            modified_file_path,
+        });
 
-pub fn run(allocator: STD.mem.Allocator) !void {
-    STD.debug.print("{s}\n\n", .{CLI.ASCII_ART});
+        var diff_contents: STD.ArrayList(u8) = .empty;
+        defer diff_contents.deinit(allocator);
 
-    STD.debug.print("Creating patch system...\n", .{});
-    const patch_system: *PatchSystem = try allocator.create(PatchSystem);
-    defer allocator.destroy(patch_system);
+        try UTIL.runSubProcess(allocator, .{
+            .args = PROCESS_ARGS,
+            .allow_move_semantics = true,
+            .move_process_output_to = &diff_contents,
+            .is_debug_enabled = extra_options.is_debug_enabled,
+        });
 
-    STD.debug.print("Iterating exercises...\n", .{});
-    try iterateDirs(allocator, patch_system);
+        STD.fs.cwd().access(patch_file_path, .{}) catch {
+            try STD.fs.cwd().makePath(PATCH_FILE_DIR);
+        };
 
-    // STD.debug.print("Generating patches...\n", .{});
-    // try generatePatches(allocator, patch_system);
-}
+        try STD.fs.cwd().writeFile(.{
+            .sub_path = patch_file_path,
+            .data = diff_contents.items,
+        });
+
+        STD.debug.print("\n{s}Generated patch -> {s}{s}{s}\n", .{
+            STYLES.ASCII_STYLES.bold,
+            STYLES.ASCII_STYLES.underline,
+            patch_file_path,
+            STYLES.ASCII_STYLES.clear_style,
+        });
+    }
+
+    fn patch(
+        allocator: STD.mem.Allocator,
+        file: []const u8,
+        patch_file: []const u8,
+        extra_options: struct {
+            reverse: bool = true,
+            is_debug_enabled: bool = false,
+        },
+    ) !void {
+        var patch_options: []const u8 = "-u";
+
+        if (extra_options.reverse) {
+            patch_options = "-u -R";
+        }
+
+        const PROCESS_ARGS = try STD.fmt.allocPrint(allocator, "patch {s} {s} {s}", .{
+            patch_options,
+            file,
+            patch_file,
+        });
+
+        var process_output: STD.ArrayList(u8) = .empty;
+        defer process_output.deinit(allocator);
+
+        try UTIL.runSubProcess(allocator, .{
+            .is_debug_enabled = extra_options.is_debug_enabled,
+            .args = PROCESS_ARGS,
+            .allow_move_semantics = false,
+            .move_process_output_to = &process_output,
+        });
+    }
+
+    pub fn deinit(self: *Self, allocator: STD.mem.Allocator) void {
+        self.list_of_exercise_file_paths.deinit(allocator);
+        self.list_of_solution_file_paths.deinit(allocator);
+
+        allocator.destroy(self);
+    }
+};
 
 // tests
 
 const TEST_PATCHES_DIR = "tests/patches";
-const ORIGINAL_FILES_DIR = TEST_PATCHES_DIR ++ "/" ++ "original";
-const ORIGINAL_FILE_PATH = ORIGINAL_FILES_DIR ++ "/" ++ "original.txt";
-const MODIFIED_FILES_DIR = TEST_PATCHES_DIR ++ "/" ++ "modified";
-const MODIFIED_FILE_PATH = MODIFIED_FILES_DIR ++ "/" ++ "modified.txt";
+const ORIGINAL_TESTS_FILES_DIR = TEST_PATCHES_DIR ++ "/" ++ "original";
+const ORIGINAL_TEST_FILE_PATH = ORIGINAL_TESTS_FILES_DIR ++ "/" ++ "original.txt";
+const MODIFIED_TEST_FILES_DIR = TEST_PATCHES_DIR ++ "/" ++ "modified";
+const MODIFIED_TEST_FILE_PATH = MODIFIED_TEST_FILES_DIR ++ "/" ++ "modified.txt";
+const PATCH_TEST_FILES_DIR = TEST_PATCHES_DIR ++ "/" ++ "patch";
+const PATCH_TEST_FILE_PATH = PATCH_TEST_FILES_DIR ++ "/" ++ "patch.patch";
 
 fn initTest() !void {
-    STD.fs.cwd().access(ORIGINAL_FILES_DIR, .{}) catch {
-        try STD.fs.cwd().makePath(ORIGINAL_FILES_DIR);
+    STD.fs.cwd().access(ORIGINAL_TESTS_FILES_DIR, .{}) catch {
+        try STD.fs.cwd().makePath(ORIGINAL_TESTS_FILES_DIR);
     };
 
-    STD.fs.cwd().access(MODIFIED_FILES_DIR, .{}) catch {
-        try STD.fs.cwd().makePath(MODIFIED_FILES_DIR);
+    STD.fs.cwd().access(MODIFIED_TEST_FILES_DIR, .{}) catch {
+        try STD.fs.cwd().makePath(MODIFIED_TEST_FILES_DIR);
     };
 
-    STD.fs.cwd().access(ORIGINAL_FILE_PATH, .{}) catch {
-        try STD.fs.cwd().writeFile(.{ .sub_path = ORIGINAL_FILE_PATH, .data = "hello", .flags = .{ .truncate = true } });
+    STD.fs.cwd().access(ORIGINAL_TEST_FILE_PATH, .{}) catch {
+        try STD.fs.cwd().writeFile(.{ .sub_path = ORIGINAL_TEST_FILE_PATH, .data = "hello", .flags = .{ .truncate = true } });
     };
 
-    STD.fs.cwd().access(MODIFIED_FILE_PATH, .{}) catch {
-        try STD.fs.cwd().writeFile(.{ .sub_path = MODIFIED_FILE_PATH, .data = "hey", .flags = .{ .truncate = true } });
+    STD.fs.cwd().access(MODIFIED_TEST_FILE_PATH, .{}) catch {
+        try STD.fs.cwd().writeFile(.{ .sub_path = MODIFIED_TEST_FILE_PATH, .data = "hey", .flags = .{ .truncate = true } });
     };
 }
 
-test "patch system" {
-    var allocator: STD.mem.Allocator = STD.testing.allocator;
+test "generate patch" {
+    try initTest();
 
-    try PATCH.run(allocator);
+    var mem_arena: STD.heap.ArenaAllocator = STD.heap.ArenaAllocator.init(STD.testing.allocator);
+    defer mem_arena.deinit();
+
+    const ALLOCATOR: STD.mem.Allocator = mem_arena.allocator();
+
+    try PatchSystem.generatePatch(
+        ALLOCATOR,
+        ORIGINAL_TEST_FILE_PATH,
+        MODIFIED_TEST_FILE_PATH,
+        PATCH_TEST_FILE_PATH,
+        .{},
+    );
 }
 
 test "patch" {
-    var allocator: STD.mem.Allocator = STD.testing.allocator;
+    try initTest();
 
-    _ = allocator;
+    var mem_arena: STD.heap.ArenaAllocator = STD.heap.ArenaAllocator.init(STD.testing.allocator);
+    defer mem_arena.deinit();
+
+    const ALLOCATOR = mem_arena.allocator();
+
+    try PatchSystem.patch(ALLOCATOR, MODIFIED_TEST_FILE_PATH, PATCH_TEST_FILE_PATH, .{
+        .reverse = true,
+    });
+
+    const FILE_CONTENTS = try STD.fs.cwd().readFileAlloc(
+        ALLOCATOR,
+        MODIFIED_TEST_FILE_PATH,
+        STD.math.maxInt(usize),
+    );
+
+    try STD.testing.expectEqualSlices(u8, FILE_CONTENTS, "hello");
 }
