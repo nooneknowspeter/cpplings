@@ -339,4 +339,3 @@ pub fn run(allocator: STD.mem.Allocator, extra_options: struct { exercises_dir_p
 
     try userInput(self);
 }
-
