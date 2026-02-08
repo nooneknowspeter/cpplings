@@ -1,0 +1,11 @@
+--- .patches/solutions/00_intro/02_intro.cpp	2025-12-19 17:53:56.027599896 -0400
++++ exercises/00_intro/02_intro.cpp	2025-12-19 17:53:56.030599930 -0400
+@@ -22,7 +22,7 @@
+ void intro02()
+ {
+     // TODO: Fix the line of code to print "Hello World!" to the console.
+-    std::cout << "Hello World!";
++    std::cout << "Hello ";
+ }
+ 
+ int main()

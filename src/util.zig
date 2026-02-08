@@ -152,6 +152,14 @@ pub const DIR_TREE = struct {
         }
     }
 
+    /// examples
+    /// --------
+    /// try DIR_TREE_INSTANCE.iterateAndFilterTree(allocator, .{
+    ///     .is_debug_enabled = false,
+    ///     .include_filter = ".txt",
+    ///     .is_move_semantics_enabled = true,
+    ///     .external_list = &returned_dir_contents,
+    /// });
     pub fn iterateAndFilterTree(
         self: *Self,
         allocator: STD.mem.Allocator,
@@ -241,22 +249,39 @@ pub const DIR_TREE = struct {
 ///
 /// examples
 /// --------
-/// var process_output: STD.ArrayList(u8) = .empty;
-/// defer process_output.deinit(STD.testing.allocator);
+/// var process_stdout: STD.ArrayList(u8) = .empty;
+/// defer process_stdout.deinit(ALLOCATOR);
 ///
-/// try runSubProcess(STD.testing.allocator, &process_output, .{ .args = "echo hello world" });
+/// var process_stderr: STD.ArrayList(u8) = .empty;
+/// defer process_stderr.deinit(ALLOCATOR);
 ///
-/// try STD.testing.expect(STD.mem.eql(u8, process_output.items, "hello world\n"));
+/// try runSubProcess(
+///     ALLOCATOR,
+///     .{
+///         .allow_move_semantics = true,
+///         .move_process_stdout_to = &process_stdout,
+///         .move_process_stderr_to = &process_stderr,
+///     },
+/// );
+///
+/// try STD.testing.expect(
+///     STD.mem.eql(u8, process_stdout.items, "this is a sub-process\n"),
+/// );
 pub fn runSubProcess(
     allocator: STD.mem.Allocator,
     extra_options: struct {
         allow_move_semantics: bool = false,
         args: []const u8 = "echo this is a sub-process",
         is_debug_enabled: bool = false,
-        move_process_output_to: *STD.ArrayList(u8),
+        move_process_stdout_to: *STD.ArrayList(u8),
+        move_process_stderr_to: *STD.ArrayList(u8),
     },
 ) !void {
     const BUFFER_SIZE = comptime 1 << 16;
+
+    const PROCESS_ERROR = error{
+        PROCESS_RUNTIME_ERROR,
+    };
 
     var process_args: STD.ArrayList([]const u8) = .empty;
     defer process_args.deinit(allocator);
@@ -293,16 +318,16 @@ pub fn runSubProcess(
         STD.debug.print("STDOUT ->\n{s}\n", .{process_stdout_buffer.items});
     }
 
+    if (extra_options.allow_move_semantics) {
+        try extra_options.move_process_stdout_to.appendSlice(allocator, process_stdout_buffer.items);
+
+        try extra_options.move_process_stderr_to.appendSlice(allocator, process_stderr_buffer.items);
+    }
+
     const PROCESS_STATUS = try process.wait();
 
     if (PROCESS_STATUS.Exited != 0) {
-        if (extra_options.allow_move_semantics) {
-            try extra_options.move_process_output_to.appendSlice(allocator, process_stderr_buffer.items);
-        }
-    }
-
-    if (extra_options.allow_move_semantics) {
-        try extra_options.move_process_output_to.appendSlice(allocator, process_stdout_buffer.items);
+        return PROCESS_ERROR.PROCESS_RUNTIME_ERROR;
     }
 }
 
@@ -376,19 +401,23 @@ test "run sub process with default arguments" {
 
     const ALLOCATOR: STD.mem.Allocator = mem_arena.allocator();
 
-    var process_output: STD.ArrayList(u8) = .empty;
-    defer process_output.deinit(ALLOCATOR);
+    var process_stdout: STD.ArrayList(u8) = .empty;
+    defer process_stdout.deinit(ALLOCATOR);
+
+    var process_stderr: STD.ArrayList(u8) = .empty;
+    defer process_stderr.deinit(ALLOCATOR);
 
     try runSubProcess(
         ALLOCATOR,
         .{
             .allow_move_semantics = true,
-            .move_process_output_to = &process_output,
+            .move_process_stdout_to = &process_stdout,
+            .move_process_stderr_to = &process_stderr,
         },
     );
 
     try STD.testing.expect(
-        STD.mem.eql(u8, process_output.items, "this is a sub-process\n"),
+        STD.mem.eql(u8, process_stdout.items, "this is a sub-process\n"),
     );
 }
 
@@ -398,19 +427,24 @@ test "run hello world sub process" {
 
     const ALLOCATOR: STD.mem.Allocator = mem_arena.allocator();
 
-    var process_output: STD.ArrayList(u8) = .empty;
-    defer process_output.deinit(ALLOCATOR);
+    var process_stdout: STD.ArrayList(u8) = .empty;
+    defer process_stdout.deinit(ALLOCATOR);
+
+    var process_stderr: STD.ArrayList(u8) = .empty;
+    defer process_stderr.deinit(ALLOCATOR);
 
     try runSubProcess(
         ALLOCATOR,
         .{
             .args = "echo hello world",
             .allow_move_semantics = true,
-            .move_process_output_to = &process_output,
+            .move_process_stdout_to = &process_stdout,
+            .move_process_stderr_to = &process_stderr,
         },
     );
 
     try STD.testing.expect(
-        STD.mem.eql(u8, process_output.items, "hello world\n"),
+        STD.mem.eql(u8, process_stdout.items, "hello world\n"),
     );
 }
+

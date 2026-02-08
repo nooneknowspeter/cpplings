@@ -1,0 +1,11 @@
+--- .patches/solutions/02_functions/01_functions.cpp	2025-12-19 17:53:56.028599907 -0400
++++ exercises/02_functions/01_functions.cpp	2025-12-19 17:53:56.031599941 -0400
+@@ -7,7 +7,7 @@
+ // Read more about the stack here: https://en.wikipedia.org/wiki/Stack-based_memory_allocation/
+ //
+ // A C++ function includes:
+-//  - The functions signature: int f(int x)
++//  - The function signature: int f(int x)
+ //                              |  | |
+ //                              |  | parameter list (parameter datatype parameter name, ...)
+ //                              |  |

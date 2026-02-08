@@ -2,23 +2,30 @@
 // even after you already figured it out.
 //
 // Printing in C++ involves "cout", a function from the "std" namespace,
-// that displays an stream buffer in the console.
+// that displays a stream buffer in the console.
 //
 // Referencing a function from a namespace, or in this a case a namespace
-// from a module (imported using "#include <iostream>"),
+// from a module/header (imported using "#include <iostream>"),
 // involves using the scope resolution operator (::),
-// we will get deeper into modules later.
+// we will get deeper into modules and headers later.
 //
 // The value to be printed must "shift to the stream" using the
 // left-shift operator (<<).
 //
 // https://cppbyexample.com/what_is_iostream.html
 // http://www.en.cppreference.com/w/cpp/io/cout.html
+// https://www.learncpp.com/cpp-tutorial/statements-and-the-structure-of-a-program/
 
+#include <gtest/gtest.h>
 #include <iostream>
 
-void message()
+void intro02()
 {
-    // TODO: Fix the line of code to print "Hello World!" to the console
-    std::cout << "Hello World!";
+    // TODO: Fix the line of code to print "Hello World!" to the console.
+    std::cout << "Hello ";
+}
+
+int main()
+{
+    intro02();
 }

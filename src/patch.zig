@@ -83,7 +83,7 @@ pub const PatchSystem = struct {
         }
     }
 
-    fn generatePatch(
+    pub fn generatePatch(
         allocator: STD.mem.Allocator,
         original_file_path: []const u8,
         modified_file_path: []const u8,
@@ -118,13 +118,17 @@ pub const PatchSystem = struct {
             modified_file_path,
         });
 
-        var diff_contents: STD.ArrayList(u8) = .empty;
-        defer diff_contents.deinit(allocator);
+        var process_stdout: STD.ArrayList(u8) = .empty;
+        defer process_stdout.deinit(allocator);
+
+        var process_stderr: STD.ArrayList(u8) = .empty;
+        defer process_stderr.deinit(allocator);
 
         try UTIL.runSubProcess(allocator, .{
             .args = PROCESS_ARGS,
             .allow_move_semantics = true,
-            .move_process_output_to = &diff_contents,
+            .move_process_stdout_to = &process_stdout,
+            .move_process_stderr_to = &process_stderr,
             .is_debug_enabled = extra_options.is_debug_enabled,
         });
 
@@ -134,7 +138,7 @@ pub const PatchSystem = struct {
 
         try STD.fs.cwd().writeFile(.{
             .sub_path = patch_file_path,
-            .data = diff_contents.items,
+            .data = process_stdout.items,
         });
 
         STD.debug.print("\n{s}Generated patch -> {s}{s}{s}\n\n", .{
@@ -145,7 +149,7 @@ pub const PatchSystem = struct {
         });
     }
 
-    fn patch(
+    pub fn patch(
         allocator: STD.mem.Allocator,
         file: []const u8,
         patch_file: []const u8,
@@ -166,14 +170,18 @@ pub const PatchSystem = struct {
             patch_file,
         });
 
-        var process_output: STD.ArrayList(u8) = .empty;
-        defer process_output.deinit(allocator);
+        var process_stdout: STD.ArrayList(u8) = .empty;
+        defer process_stdout.deinit(allocator);
+
+        var process_stderr: STD.ArrayList(u8) = .empty;
+        defer process_stderr.deinit(allocator);
 
         try UTIL.runSubProcess(allocator, .{
             .is_debug_enabled = extra_options.is_debug_enabled,
             .args = PROCESS_ARGS,
             .allow_move_semantics = false,
-            .move_process_output_to = &process_output,
+            .move_process_stdout_to = &process_stdout,
+            .move_process_stderr_to = &process_stderr,
         });
     }
 
@@ -250,3 +258,4 @@ test "patch" {
 
     try STD.testing.expectEqualSlices(u8, FILE_CONTENTS, "hello");
 }
+

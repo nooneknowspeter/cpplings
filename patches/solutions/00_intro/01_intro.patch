@@ -1,0 +1,11 @@
+--- .patches/solutions/00_intro/01_intro.cpp	2025-12-19 17:53:56.027599896 -0400
++++ exercises/00_intro/01_intro.cpp	2025-12-19 17:53:56.030599930 -0400
+@@ -10,7 +10,7 @@
+ {
+     // TODO: Enter the correct passphrase.
+     // NOTE: Use the testcase as reference.
+-    std::cout << "Welcome to " << "cpplings" << "!" << std::endl;
++    std::cout << "Welcome to " << "" << "!" << std::endl;
+ }
+ 
+ int main(int argc, char *argv[])
