@@ -1,0 +1,48 @@
+OCI_IMAGE := "ghcr.io/nooneknowspeter/cpplings:main"
+
+default:
+    @just --list
+
+run:
+    zig build run
+
+build:
+    zig build
+
+solutions:
+    zig build
+    ./zig-out/bin/cpplings_cli -s
+
+patches:
+    zig build
+    ./zig-out/bin/cpplings_cli -p
+
+compile-commands:
+    zig build compile-flags
+
+nix-shell:
+    nix --extra-experimental-features "nix-command flakes" develop
+
+docker-build:
+    docker buildx build -t ${OCI_IMAGE} .
+
+docker-run:
+    docker run -itd -v .:/cpplings --name cpplings ${OCI_IMAGE}
+
+docker-exec:
+    docker exec -it -w "/cpplings" cpplings bash
+
+docker-stop:
+    docker container stop cpplings
+
+docker-rm:
+    docker rm -f cpplings
+
+format:
+    treefmt
+
+lint:
+    treefmt --ci --config-file treefmt.lint.toml
+
+benchmark:
+    hyperfine -i "zig build cli"
