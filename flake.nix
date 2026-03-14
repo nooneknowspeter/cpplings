@@ -1,27 +1,18 @@
 {
   description = "Development environment for cpplings";
 
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-  };
+  inputs.flake-utils.url = "github:numtide/flake-utils";
 
-  outputs =
-    { self, nixpkgs }:
-    let
-      supportedSystems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ];
-      forEachSupportedSystem =
-        f: nixpkgs.lib.genAttrs supportedSystems (system: f { pkgs = import nixpkgs { inherit system; }; });
-    in
-    {
+  outputs = { self, nixpkgs, flake-utils }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
 
-      devShells = forEachSupportedSystem (
-        { pkgs }:
-        {
+          config = { allowUnfree = true; };
+        };
+      in {
+        devShells = {
           default = pkgs.mkShell {
             packages = with pkgs; [
               # formatters & linters
@@ -30,7 +21,7 @@
               beautysh
               clang-tools
               deadnix
-              dockerfile-language-server-nodejs
+              dockerfile-language-server
               marksman
               nil
               nixd
@@ -62,12 +53,11 @@
             ];
 
             shellHook = ''
-              							export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH"
-                            cat .ascii-art.txt | fastfetch --raw - --logo-width 15 --logo-height 7 --logo-padding-right 25 --logo-padding-top 10
+              export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH"
+              cat .ascii-art.txt | fastfetch --raw - --logo-width 15 --logo-height 7 --logo-padding-right 25 --logo-padding-top 10
             '';
 
           };
-        }
-      );
-    };
+        };
+      });
 }
