@@ -1,6 +1,9 @@
 const STD = @import("std");
 
 const STYLES = @import("styles.zig");
+const EXERCISE_RUNNER = @import("exercise_runner.zig");
+const EXERCISE_ITERATOR = @import("exercise_iterator.zig");
+const FILE_WATCHER = @import("file_watcher.zig");
 
 var stdin_buffer: [1024]u8 = undefined;
 var stdin_reader = STD.fs.File.stdin().reader(&stdin_buffer);
@@ -18,126 +21,10 @@ pub const ASCII_ART =
     \\
 ;
 
-const CLI = struct {
-    allocator: STD.mem.Allocator,
-    exercises_dir_path: []const u8 = "",
-    list_of_exercises: STD.ArrayList([]const u8) = .empty,
-    current_exercise: []const u8 = "",
-    current_exercise_index: u8 = 0,
-    did_current_exercise_compile: bool = false,
-    completed_exercises: STD.ArrayList([]const u8) = .empty,
-    current_exercise_stdout: STD.ArrayList(u8) = .empty,
-    current_exercise_stderr: STD.ArrayList(u8) = .empty,
-    current_exercise_prev_mod_time: i128 = 0,
-    current_chapter: []const u8 = "",
-    list_of_chapter_support_files: STD.ArrayList([]const u8) = .empty,
-    list_of_patches: STD.ArrayList([]const u8) = .empty,
-};
+pub const WATCH_POLLING_RATE_MS: u64 = 500;
+pub const PROCESS_BUFFER_SIZE: usize = 1 << 16;
+pub const DEFAULT_EXERCISES_DIR = "exercises";
 
-// TODO: strategy + observer pattern; iterate exercises, iterate patches
-fn iterateExerciseDirectory(
-    self: *CLI,
-    exercise_dir: struct { dir_path: []const u8 = "exercises" },
-) !void {
-    self.list_of_exercises.clearAndFree(self.allocator);
-
-    self.exercises_dir_path = exercise_dir.dir_path;
-
-    const EXERCISES_DIR = try STD.fs.cwd().openDir(self.exercises_dir_path, .{ .iterate = true });
-    var chapters = EXERCISES_DIR.iterate();
-
-    while (try chapters.next()) |chapter| {
-        const CHAPTER_DIR_PATH = try STD.fs.path.join(self.allocator, &.{ self.exercises_dir_path, chapter.name });
-
-        const CHAPTER_DIR = try STD.fs.cwd().openDir(CHAPTER_DIR_PATH, .{ .iterate = true });
-        var exercises = CHAPTER_DIR.iterate();
-
-        while (try exercises.next()) |exercise| {
-            const EXERCISE_FILE_PATH = try STD.fs.path.join(self.allocator, &.{ self.exercises_dir_path, chapter.name, exercise.name });
-
-            if (STD.mem.containsAtLeast(u8, exercise.name, 1, ".cpp")) {
-                try self.list_of_exercises.append(self.allocator, EXERCISE_FILE_PATH);
-            }
-        }
-    }
-
-    STD.sort.insertion(
-        []const u8,
-        self.list_of_exercises.items,
-        {},
-        struct {
-            fn lessThan(_: void, a: []const u8, b: []const u8) bool {
-                return STD.mem.lessThan(u8, a, b);
-            }
-        }.lessThan,
-    );
-}
-
-fn iterateExercises(self: *CLI) !void {
-    self.completed_exercises.clearAndFree(self.allocator);
-
-    for (0.., self.list_of_exercises.items) |index, exercise| {
-        self.current_exercise = exercise;
-        self.current_exercise_index = @intCast(index);
-        self.did_current_exercise_compile = false;
-
-        try compileCurrentExercise(self);
-
-        if (!(self.did_current_exercise_compile)) {
-            break;
-        }
-
-        try self.completed_exercises.append(self.allocator, exercise);
-    }
-}
-
-fn iteratePreviousExercise(self: *CLI) !void {
-    if (self.current_exercise_index <= 0) {
-        return;
-    }
-
-    _ = self.completed_exercises.pop();
-
-    const PREVIOUS_EXERCISE_INDEX = self.current_exercise_index - 1;
-
-    self.current_exercise = self.list_of_exercises.items[PREVIOUS_EXERCISE_INDEX];
-    self.current_exercise_index = @intCast(PREVIOUS_EXERCISE_INDEX);
-
-    try compileCurrentExercise(self);
-}
-
-fn iterateNextExercise(self: *CLI) !void {
-    try compileCurrentExercise(self);
-
-    if (!(self.did_current_exercise_compile)) {
-        return;
-    }
-
-    try self.completed_exercises.append(self.allocator, self.current_exercise);
-
-    const NEXT_EXERCISE_INDEX = self.current_exercise_index + 1;
-
-    self.current_exercise = self.list_of_exercises.items[NEXT_EXERCISE_INDEX];
-    self.current_exercise_index = @intCast(NEXT_EXERCISE_INDEX);
-
-    try compileCurrentExercise(self);
-}
-
-// TODO: implement abstract factory/protoype; watch current exercise and support files
-fn watchFileChanges(self: *CLI, polling_rate_ms: u64) !void {
-    while (true) {
-        const CURRENT_EXERCISE_METADATA = try STD.fs.cwd().statFile(self.current_exercise);
-        const CURRENT_EXERCISE_MODIFIED_TIME = CURRENT_EXERCISE_METADATA.mtime;
-
-        if (CURRENT_EXERCISE_MODIFIED_TIME != self.current_exercise_prev_mod_time) {
-            self.current_exercise_prev_mod_time = CURRENT_EXERCISE_MODIFIED_TIME;
-            try compileCurrentExercise(self);
-            try clear(self);
-            try draw(self);
-        }
-
-        STD.Thread.sleep(@intCast(polling_rate_ms * 1_000_000));
-    }
 pub fn help_documentation() void {
     STD.debug.print("{s}\n", .{ASCII_ART});
     STD.debug.print("cpplings [OPTION]\n\n", .{});
@@ -147,126 +34,60 @@ pub fn help_documentation() void {
     STD.debug.print("-s | --solutions -> run and test cpplings against solutions dir\n", .{});
 }
 
-fn compileCurrentExercise(self: *CLI) !void {
-    self.current_exercise_stdout.clearAndFree(self.allocator);
-    self.current_exercise_stderr.clearAndFree(self.allocator);
-
-    try self.current_exercise_stdout.appendSlice(self.allocator, "Wait, compiling...");
-
-    try clear(self);
-    try draw(self);
-
-    var process_args: STD.ArrayList([]const u8) = .empty;
-    defer process_args.deinit(self.allocator);
-
-    try process_args.appendSlice(self.allocator, &[_][]const u8{ "zig", "build", "exercises", "--", self.current_exercise });
-
-    var current_exercise_filepath_iterator = STD.mem.splitAny(u8, self.current_exercise, "/");
-    var current_exercise_filepath_slice: STD.ArrayList([]const u8) = .empty;
-
-    while (current_exercise_filepath_iterator.next()) |current_exercise_filepath_slice_element| {
-        if (STD.mem.containsAtLeast(u8, current_exercise_filepath_slice_element, 1, ".cpp")) {
-            break;
-        }
-
-        try current_exercise_filepath_slice.append(self.allocator, current_exercise_filepath_slice_element);
-    }
-
-    self.current_chapter = try STD.fs.path.join(self.allocator, current_exercise_filepath_slice.items);
-    const CHAPTER_DIR = try STD.fs.cwd().openDir(self.current_chapter, .{ .iterate = true });
-    var chapter_dir_contents = CHAPTER_DIR.iterate();
-
-    self.list_of_chapter_support_files.clearAndFree(self.allocator);
-
-    while (try chapter_dir_contents.next()) |content| {
-        if (STD.mem.containsAtLeast(u8, content.name, 1, "src")) {
-            const CHAPTER_SUPPORT_FILES_DIR_PATH = try STD.fs.path.join(self.allocator, &[_][]const u8{ self.current_chapter, content.name });
-            const CHAPTER_SUPPORT_FILES_DIR = try STD.fs.cwd().openDir(CHAPTER_SUPPORT_FILES_DIR_PATH, .{ .iterate = true });
-            var chapter_support_files = CHAPTER_SUPPORT_FILES_DIR.iterate();
-
-            while (try chapter_support_files.next()) |chapter_support_file| {
-                const CHAPTER_SUPPORT_FILE_PATH = try STD.fs.path.join(self.allocator, &.{ self.current_chapter, content.name, chapter_support_file.name });
-
-                if (STD.mem.containsAtLeast(u8, chapter_support_file.name, 1, ".cpp")) {
-                    try self.list_of_chapter_support_files.append(self.allocator, CHAPTER_SUPPORT_FILE_PATH);
-                }
-            }
-        }
-    }
-
-    try process_args.appendSlice(self.allocator, self.list_of_chapter_support_files.items);
-
-    var process = STD.process.Child.init(
-        process_args.items,
-        self.allocator,
-    );
-
-    process.stderr_behavior = .Pipe;
-    process.stdout_behavior = .Pipe;
-
-    process.spawn() catch
-        {
-            STD.debug.print("\n{s}Error compiling exercise...{s}\n", .{
-                STYLES.ASCII_STYLES.red,
-                STYLES.ASCII_STYLES.clear_style,
-            });
-            return;
-        };
-
-    self.current_exercise_stdout.clearAndFree(self.allocator);
-
-    try process.collectOutput(self.allocator, &self.current_exercise_stdout, &self.current_exercise_stderr, STD.math.pow(usize, 2, 16)); // 16 bit output
-    const PROCESS_STATUS = try process.wait();
-
-    if (PROCESS_STATUS.Exited == 0) {
-        self.did_current_exercise_compile = true;
-        return;
-    }
-
-    self.did_current_exercise_compile = false;
-}
+const CLI = struct {
+    allocator: STD.mem.Allocator,
+    exercise_iterator: *EXERCISE_ITERATOR.ExerciseIterator,
+    exercise_runner: EXERCISE_RUNNER.ExerciseRunner,
+};
 
 fn progressBar(self: *CLI) !void {
     var ascii_bar: STD.ArrayList(u8) = .empty;
+    defer ascii_bar.deinit(self.allocator);
 
-    for (self.completed_exercises.items) |exercise| {
-        _ = exercise;
-
+    for (self.exercise_iterator.completed_exercises.items) |_| {
         try ascii_bar.append(self.allocator, '#');
     }
 
     try ascii_bar.append(self.allocator, '>');
 
-    for (self.list_of_exercises.items[self.completed_exercises.items.len..]) |exercise| {
-        _ = exercise;
-
+    const remaining = self.exercise_iterator.total() - self.exercise_iterator.progress();
+    for (0..remaining) |_| {
         try ascii_bar.append(self.allocator, '-');
     }
 
-    STD.debug.print("\nProgress: [{s}] {d}/{d}\n", .{ ascii_bar.items, self.current_exercise_index + 1, self.list_of_exercises.items.len });
-
-    ascii_bar.clearAndFree(self.allocator);
+    STD.debug.print("\nProgress: [{s}] {d}/{d}\n", .{
+        ascii_bar.items,
+        self.exercise_iterator.progress() + 1,
+        self.exercise_iterator.total(),
+    });
 }
 
 fn draw(self: *CLI) !void {
     STD.debug.print("{s}\n", .{ASCII_ART});
 
-    STD.debug.print("{s}\n", .{self.current_exercise_stdout.items});
-    if (!(self.did_current_exercise_compile)) {
-        STD.debug.print("\n{s}", .{self.current_exercise_stderr.items});
+    STD.debug.print("{s}\n", .{self.exercise_runner.current_exercise_stdout.items});
+    if (!self.exercise_runner.did_current_exercise_compile) {
+        STD.debug.print("\n{s}", .{self.exercise_runner.current_exercise_stderr.items});
     }
 
     STD.debug.print("{s}", .{STYLES.ASCII_STYLES.bold});
-    if (self.did_current_exercise_compile) {
-        STD.debug.print("\nExercise completed , move on to the next...\n", .{});
+    if (self.exercise_runner.did_current_exercise_compile) {
+        STD.debug.print("\nExercise completed, move on to the next...\n", .{});
     } else {
-        STD.debug.print("\nExercise failed to compile . Keep trying, we believe in you.\n", .{});
+        STD.debug.print("\nExercise failed to compile. Keep trying, we believe in you.\n", .{});
     }
     STD.debug.print("{s}", .{STYLES.ASCII_STYLES.clear_style});
 
     try progressBar(self);
 
-    STD.debug.print("Current exercise: {s}{s}{s}{s}\n", .{ STYLES.ASCII_STYLES.bold, STYLES.ASCII_STYLES.underline, self.current_exercise, STYLES.ASCII_STYLES.clear_style });
+    if (self.exercise_iterator.current()) |current| {
+        STD.debug.print("Current exercise: {s}{s}{s}{s}\n", .{
+            STYLES.ASCII_STYLES.bold,
+            STYLES.ASCII_STYLES.underline,
+            current,
+            STYLES.ASCII_STYLES.clear_style,
+        });
+    }
 
     STD.debug.print("\n", .{});
     STD.debug.print("{s}n{s}: next / ", .{ STYLES.ASCII_STYLES.bold, STYLES.ASCII_STYLES.clear_style });
@@ -278,71 +99,118 @@ fn draw(self: *CLI) !void {
     STD.debug.print("-> ", .{});
 }
 
+fn clear() void {
+    STD.debug.print("{s}", .{STYLES.ASCII_STYLES.clear_prompt});
+}
+
+fn compileCurrentExercise(self: *CLI) !void {
+    const current_exercise = self.exercise_iterator.current() orelse return;
+
+    try self.exercise_runner.current_exercise_stdout.appendSlice(self.allocator, "Wait, compiling...");
+
+    clear();
+    try draw(self);
+
+    var support_files = try self.exercise_runner.getChapterSupportFiles(self.allocator, current_exercise);
+    defer support_files.deinit(self.allocator);
+
+    try self.exercise_runner.compile(self.allocator, current_exercise, support_files.items);
+}
+
 fn userInput(self: *CLI) !void {
     while (true) {
         const INPUT = try STDIN.takeDelimiterExclusive('\n');
 
         if (STD.mem.eql(u8, INPUT, "n")) {
-            try iterateNextExercise(self);
+            try self.exercise_iterator.next();
+            try compileCurrentExercise(self);
 
-            try clear(self);
+            clear();
             try draw(self);
         }
 
         if (STD.mem.eql(u8, INPUT, "p")) {
-            try iteratePreviousExercise(self);
+            self.exercise_iterator.prev();
+            try compileCurrentExercise(self);
 
-            try clear(self);
+            clear();
             try draw(self);
         }
 
         if (STD.mem.eql(u8, INPUT, "c")) {
-            try iterateExercises(self);
+            self.exercise_iterator.reset();
+            while (self.exercise_iterator.current()) |_| {
+                try compileCurrentExercise(self);
+                if (!self.exercise_runner.did_current_exercise_compile) {
+                    break;
+                }
+                try self.exercise_iterator.next();
+            }
 
-            try clear(self);
+            clear();
             try draw(self);
         }
 
         if (STD.mem.eql(u8, INPUT, "r")) {
             try compileCurrentExercise(self);
 
-            try clear(self);
+            clear();
             try draw(self);
         }
 
-        // TODO: reset using diff and patches
         if (STD.mem.eql(u8, INPUT, "x")) {
-            try clear(self);
+            self.exercise_iterator.reset();
+            clear();
             try draw(self);
         }
 
         if (STD.mem.eql(u8, INPUT, "q")) {
-            try clear(self);
+            clear();
             break;
         }
     }
 }
 
-fn clear(self: *CLI) !void {
-    _ = self;
-    STD.debug.print("{s}", .{STYLES.ASCII_STYLES.clear_prompt});
+fn watchFileChanges(self: *CLI) !void {
+    while (true) {
+        const current_exercise = self.exercise_iterator.current() orelse break;
+
+        var watcher = FILE_WATCHER.FileWatcher.init(current_exercise);
+        const has_changes = watcher.checkForChanges() catch break;
+
+        if (has_changes) {
+            try compileCurrentExercise(self);
+            clear();
+            try draw(self);
+        }
+
+        STD.Thread.sleep(@intCast(WATCH_POLLING_RATE_MS * 1_000_000));
+    }
 }
 
-pub fn run(allocator: STD.mem.Allocator, extra_options: struct { exercises_dir_path: []const u8 = "exercises" }) !void {
-    const self = try allocator.create(CLI);
-    defer allocator.destroy(self);
-    self.* = .{ .allocator = allocator };
+pub fn run(allocator: STD.mem.Allocator, extra_options: struct { exercises_dir_path: []const u8 = DEFAULT_EXERCISES_DIR }) !void {
+    const exercise_iterator = try EXERCISE_ITERATOR.ExerciseIterator.init(
+        allocator,
+        extra_options.exercises_dir_path,
+    );
+    errdefer exercise_iterator.deinit();
 
-    try iterateExerciseDirectory(self, .{ .dir_path = extra_options.exercises_dir_path });
+    var exercise_runner = EXERCISE_RUNNER.ExerciseRunner.init();
+    errdefer exercise_runner.deinit(allocator);
 
-    try clear(self);
-    try draw(self);
+    var cli = CLI{
+        .allocator = allocator,
+        .exercise_iterator = exercise_iterator,
+        .exercise_runner = exercise_runner,
+    };
 
-    try iterateExercises(self);
+    try compileCurrentExercise(&cli);
 
-    const watch_daemon_polling_rate: u64 = 500;
-    var watch_thread: STD.Thread = try STD.Thread.spawn(.{}, watchFileChanges, .{ self, watch_daemon_polling_rate });
+    clear();
+    try draw(&cli);
+
+    var watch_thread: STD.Thread = try STD.Thread.spawn(.{}, watchFileChanges, .{&cli});
     watch_thread.detach();
 
-    try userInput(self);
+    try userInput(&cli);
 }
