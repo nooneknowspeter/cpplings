@@ -72,7 +72,22 @@ pub const PatchSystem = struct {
             is_debug_enabled: bool = false,
         },
     ) !void {
-        for (self.list_of_solution_file_paths.items, self.list_of_exercise_file_paths.items) |solution, exercise| {
+        for (self.list_of_solution_file_paths.items) |solution| {
+            const basename = STD.fs.path.basename(solution);
+
+            var matched_exercise: ?[]const u8 = null;
+            for (self.list_of_exercise_file_paths.items) |exercise| {
+                if (STD.mem.eql(u8, STD.fs.path.basename(exercise), basename)) {
+                    matched_exercise = exercise;
+                    break;
+                }
+            }
+
+            const exercise = matched_exercise orelse {
+                STD.debug.print("No matching exercise found for {s}\n", .{basename});
+                continue;
+            };
+
             const PATCH_FILE_PATH = try STD.mem.replaceOwned(
                 u8,
                 allocator,
