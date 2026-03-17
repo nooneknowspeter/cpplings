@@ -4,6 +4,10 @@ const CLI = @import("cli.zig");
 const UTIL = @import("util.zig");
 const STYLES = @import("styles.zig");
 
+pub const DEFAULT_ORIGINAL_DIR = "patches";
+pub const DEFAULT_MODIFIED_DIR: []const u8 = CLI.DEFAULT_EXERCISES_DIR;
+pub const DEFAULT_EXTENSION_FILTER = ".cpp";
+
 pub const PatchSystem = struct {
     const Self = @This();
 
@@ -11,9 +15,9 @@ pub const PatchSystem = struct {
     list_of_exercise_file_paths: STD.ArrayList([]const u8),
 
     pub fn init(allocator: STD.mem.Allocator, extra_options: struct {
-        original_files_dir: []const u8 = ".patches",
-        modified_dir: []const u8 = "exercises",
-        extension_filter: []const u8 = ".cpp",
+        original_files_dir: []const u8 = DEFAULT_ORIGINAL_DIR,
+        modified_dir: []const u8 = DEFAULT_MODIFIED_DIR,
+        extension_filter: []const u8 = DEFAULT_EXTENSION_FILTER,
         is_debug_enabled: bool = false,
     }) !*PatchSystem {
         STD.debug.print("{s}\n\n", .{CLI.ASCII_ART});
@@ -64,7 +68,7 @@ pub const PatchSystem = struct {
         self: *Self,
         allocator: STD.mem.Allocator,
         extra_options: struct {
-            extension_filter: []const u8 = ".cpp",
+            extension_filter: []const u8 = DEFAULT_EXTENSION_FILTER,
             is_debug_enabled: bool = false,
         },
     ) !void {
