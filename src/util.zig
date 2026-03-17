@@ -5,6 +5,8 @@ const BUILTIN = @import("builtin");
 
 pub const NATIVE_OS = BUILTIN.target.os.tag;
 
+pub const PROCESS_BUFFER_SIZE = 1 << 16;
+
 /// tree node
 ///
 /// examples
@@ -256,8 +258,6 @@ pub fn runSubProcess(
         move_process_output_to: *STD.ArrayList(u8),
     },
 ) !void {
-    const BUFFER_SIZE = comptime 1 << 16;
-
     var process_args: STD.ArrayList([]const u8) = .empty;
     defer process_args.deinit(allocator);
 
@@ -286,7 +286,7 @@ pub fn runSubProcess(
         });
     };
 
-    try process.collectOutput(allocator, &process_stdout_buffer, &process_stderr_buffer, BUFFER_SIZE);
+    try process.collectOutput(allocator, &process_stdout_buffer, &process_stderr_buffer, PROCESS_BUFFER_SIZE);
 
     if (extra_options.is_debug_enabled) {
         STD.debug.print("STDERR ->\n{s}\n", .{process_stderr_buffer.items});
