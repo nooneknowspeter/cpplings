@@ -138,6 +138,13 @@ fn watchFileChanges(self: *CLI, polling_rate_ms: u64) !void {
 
         STD.Thread.sleep(@intCast(polling_rate_ms * 1_000_000));
     }
+pub fn help_documentation() void {
+    STD.debug.print("{s}\n", .{ASCII_ART});
+    STD.debug.print("cpplings [OPTION]\n\n", .{});
+    STD.debug.print("Options:\n", .{});
+    STD.debug.print("-h | --help | help -> output this help documentation\n", .{});
+    STD.debug.print("-p | --patch -> generate patch files\n", .{});
+    STD.debug.print("-s | --solutions -> run and test cpplings against solutions dir\n", .{});
 }
 
 fn compileCurrentExercise(self: *CLI) !void {

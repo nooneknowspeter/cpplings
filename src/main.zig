@@ -3,15 +3,6 @@ const STD = @import("std");
 const CLI = @import("cli.zig");
 const PATCH_SYSTEM = @import("patch.zig");
 
-pub fn help_documentation() void {
-    STD.debug.print("{s}\n", .{CLI.ASCII_ART});
-    STD.debug.print("cpplings [OPTION]\n\n", .{});
-    STD.debug.print("Options:\n", .{});
-    STD.debug.print("-h | --help | help -> output this help documentation\n", .{});
-    STD.debug.print("-p | --patch -> generate patch files\n", .{});
-    STD.debug.print("-s | --solutions -> run and test cpplings against solutions dir\n", .{});
-}
-
 pub fn main() !void {
     var mem_arena = STD.heap.ArenaAllocator.init(STD.heap.page_allocator);
     defer mem_arena.deinit();
@@ -20,7 +11,7 @@ pub fn main() !void {
 
     if (STD.os.argv.len > 2) {
         STD.debug.print("Too many arguments\n", .{});
-        help_documentation();
+        CLI.help_documentation();
     }
 
     if (STD.os.argv.len == 1) {
@@ -36,8 +27,8 @@ pub fn main() !void {
         const PATCH_SYSTEM_INSTANCE = try PATCH_SYSTEM.PatchSystem.init(ALLOCATOR, .{});
         defer PATCH_SYSTEM_INSTANCE.deinit(ALLOCATOR);
     } else if (STD.mem.eql(u8, PROGRAM_ARGUMENT, "-h") or STD.mem.eql(u8, PROGRAM_ARGUMENT, "--help") or STD.mem.eql(u8, PROGRAM_ARGUMENT, "help")) {
-        help_documentation();
+        CLI.help_documentation();
     } else {
-        help_documentation();
+        CLI.help_documentation();
     }
 }
