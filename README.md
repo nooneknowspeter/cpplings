@@ -1,15 +1,30 @@
 # cpplings
 
+> [!NOTE]
+>
+> This project may sound simple especially being a TUI 
+> but it is hard for me when I want to write the best code possible;
+> not just for asthetics but for **maintain** ability, **scale** ability, **repair** ability
+> and that everything works well while building everything from scratch.
+> 
+> Achieving that standard while having a full-time job is hard therefore,
+> it will take a long time for updates to roll out.
+> Although I do use LLMs via their web clients for documentation and research purposes,
+> I refrain from using coding agents.
+>
+> I am also meticulously going over resources; reading books cover to cover
+> before recommending as supplement learning material.
+
 **cpplings**, inspired by [Rustlings](https://github.com/rust-lang/rustlings),
 is a set of hands-on exercises to help you get comfortable reading
-and writing modern **C++**.
+and writing modern **C++** but also understand the history; >=C++11.
 
 These exercises reference the excellent [learncpp](https://www.learncpp.com/)
 and are conceptually related to [cplings](https://github.com/rdjondo/cplings),
 which adopted this idea earlier.
 
-We recommend doing these exercises alongside reading [learncpp](https://www.learncpp.com/)
-and checking out the additional learning resources listed below
+We recommend doing these exercises alongside reading [learncpp](https://www.learncpp.com/) 
+while checking out the additional learning resources listed below
 and in the comments of the source code.
 
 ---
@@ -50,10 +65,10 @@ Start by cloning this repository on your machine.
 > If you want to store and save your progress you can fork the repository or
 > change the remote orgin URI to your own repository
 
-This project uses a [`Makefile`](./Makefile) to simplify common development tasks.
-You will need `make` installed on your system.
-If you do not want to install make (make is provided in the Nix shell environment)
-or don't have it installed, you can use the commands specified in the [`Makefile`](./Makefile).
+This project uses a [`Makefile`](./Makefile) and [`justfile`](./justfiles) to simplify common development tasks.
+You will need `make` or `just` installed on your system.
+If you do not want to install make or just (either is provided in the Nix shell environment)
+or don't have it installed, you can use the commands specified in either source file.
 
 ### Native Package Manager
 
@@ -121,7 +136,7 @@ This gives you a fully configured development shell without installing the depen
 > the shell with `nix develop`
 
 If you are unfarmiliar with Nix,
-it is a package manager and system configuration tool.
+it is a package manager and system configuration tool/language.
 It prevents the "it works on my machine" problem by allowing declerative and reproducible builds of environments.
 
 You can read more about it [here](https://nixos.org/guides/how-nix-works/)
@@ -268,28 +283,31 @@ Have fun.
 
 ## Resources
 
-[learncpp](https://www.learncpp.com/) — Comprehensive and beginner-friendly C++ guide.
+[learncpp](https://www.learncpp.com/) - Comprehensive and beginner-friendly C++ guide.
 
-[cppreference](https://en.cppreference.com/w/) — The canonical C++ reference.
+[C++ Core Guidelines | ISO Standards](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) - C++ Standard Practices.
 
-[cppbyexample](https://cppbyexample.com/) — C++ concepts via concise examples.
+[cppreference](https://en.cppreference.com/w/) - The canonical C++ reference.
 
-[getcracked.io](https://www.getcracked.io/) — A platform to help prepare for interviews and understand low-level concepts,
+[cppbyexample](https://cppbyexample.com/) - C++ concepts via concise examples.
+
+[getcracked.io](https://www.getcracked.io/) - A platform to help prepare for interviews and understand low-level concepts,
 has C++ questions and coding problems.
 
-[learnxinyminutes: C++](https://learnxinyminutes.com/docs/c++) — Fast language overview for experienced programmers.
+[learnxinyminutes: C++](https://learnxinyminutes.com/docs/c++) - Fast language overview for experienced programmers.
 
-[zig's build system](https://ziglang.org/learn/build-system/) — Documentation on Zig's build system.
+[zig's build system](https://ziglang.org/learn/build-system/) - Documentation on Zig's build system.
 
-[ziglings](https://codeberg.org/ziglings/exercises/) — Zig version of Rustlings, worth checking out if you're curious about Zig.
+[ziglings](https://codeberg.org/ziglings/exercises/) - Zig version of Rustlings, worth checking out if you're curious about Zig.
 
-[Maintain It With Zig](https://kristoff.it/blog/maintain-it-with-zig/) — A well written article by Loris Cro,
+[Maintain It With Zig](https://kristoff.it/blog/maintain-it-with-zig/) - A well written article by Loris Cro,
 explaining the benefits of Zig's build system in the world of C/C++.
 
-[Why Zig When There is Already C++, D, and Rust?](https://ziglang.org/learn/why_zig_rust_d_cpp/) — Another article on the benefits of Zig.
+[Why Zig When There is Already C++, D, and Rust?](https://ziglang.org/learn/why_zig_rust_d_cpp/) - Another article on the benefits of Zig.
 
 [allyourcodebase](https://github.com/allyourcodebase) - C/C++ projects built with Zig.
 
 [clangd compiler flags](https://simonhartcher.com/posts/2025-09-08-announcing-compile-flagz/) - Make Clangd work with C++ using Zig as a build system.
 
 [The worst programming language of all time (CJ's reaction)](https://www.youtube.com/watch?v=K3z7Ymx4UWY)
+
