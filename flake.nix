@@ -1,7 +1,15 @@
 {
-  description = "Development environment for cpplings";
+  description = "cpplings flake";
 
-  inputs.flake-utils.url = "github:numtide/flake-utils";
+  inputs = {
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+    };
+
+    nixpkgs = {
+      url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    };
+  };
 
   outputs =
     {
@@ -55,11 +63,15 @@
               gdb
               gnumake
               hyperfine
-							just
+              just
               lldb
               perf
               treefmt
               valgrind
+
+              # docs
+              pandoc
+              quarto
             ];
 
             shellHook = ''
@@ -72,3 +84,4 @@
       }
     );
 }
+
