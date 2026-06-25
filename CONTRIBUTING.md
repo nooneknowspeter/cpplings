@@ -1,6 +1,7 @@
 # Contributing to cpplings
 
 Thank you for your interest in contributing to cpplings! 
+
 This document provides guidelines and instructions for contributing.
 
 ## Code of Conduct
@@ -13,7 +14,7 @@ Please be respectful and constructive in all interactions.
 ### Prerequisites
 
 - Zig >= 0.15.1
-- A C++ compiler (zig c++, g++, or clang++)
+- A C++ compiler that supports >= C++23 (zig c++, g++, or clang++)
 - Git
 
 ### Setting Up Your Development Environment
@@ -31,6 +32,7 @@ Please be respectful and constructive in all interactions.
    direnv allow # direnv users
    ```
    Or manually:
+   - Install a compiler, -std=c++23
    - Install Zig >= 0.15.1
    - Install clang-tools (for formatting)
 
@@ -57,8 +59,6 @@ cpplings/
 ├── patches/
 │   └── solutions/      # Complete solutions for exercises
 ├── src/                # CLI source code (Zig)
-│   ├── main.zig
-│   ├── cli.zig
 │   └── ...
 ├── tests/              # Test files
 └── build.zig           # Zig build configuration
@@ -173,20 +173,20 @@ Use TODO comments to indicate what users should fix:
 
 - Must compile with `-std=c++23`
 - Should pass all tests
-- Follow modern C++ practices (C++17/20 features encouraged)
+- Follow modern C++ practices (C++17+ features encouraged, show pre C++17 differences for history)
 
 ## Code Style
 
 ### C++ Code
 
 - Use `auto` when type is obvious
-- Follow [learncpp](https://www.learncpp.com/) best practices
+- Follow [C++ core guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) best practices
 - Microsoft style convention
 
 ### Zig Code
 
 - Follow Zig standard library conventions
-- Use `std.mem.span` for string handling
+- Use `b` context for string handling and runtime structures
 - Proper error handling with `try`/`catch`
 - Constants and imports must be UPPER_SNAKE_CASE
 - Variables must be snake_case
@@ -228,9 +228,15 @@ zig build tests
 
 ## Pull Request Process
 
-1. **Fork and Branch**: Create a feature branch from `dev`
+1. **Fork and Branch**: Create a feature branch from `develop`
    ```bash
    git checkout -b feature/your-feature-name
+   ```
+
+   or
+
+   ```bash
+   git switch -c feature/your-feature-name
    ```
 
 2. **Make Changes**: Implement your changes following the conventions
@@ -248,6 +254,12 @@ zig build tests
 5. **Format**: Run the formatter
    ```bash
    treefmt
+   ```
+
+   can be done inline with:
+
+   ```bash
+   nix develop -c treefmt
    ```
 
 6. **Commit**: Use clear, descriptive commit messages
