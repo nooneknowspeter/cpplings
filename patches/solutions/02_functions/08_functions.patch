@@ -1,0 +1,39 @@
+--- patches/solutions/02_functions/08_functions.cpp	2026-03-18 21:10:26.051117152 -0400
++++ exercises/02_functions/08_functions.cpp	2026-03-18 21:10:38.014543442 -0400
+@@ -17,23 +17,18 @@
+ // [&] - capture everything by reference
+ // [x, &y] - capture x by value, y by reference
+ //
+-// Lambdas are useful for:
+-// - Short-lived functions (callbacks, predicates)
+-// - Inline function objects
+-// - STL algorithms
+-//
+ // https://www.learncpp.com/cpp-tutorial/introduction-to-lambdas-anonymous-functions/
+ // https://www.learncpp.com/cpp-tutorial/lambda-captures/
+ 
+ #include <gtest/gtest.h>
+ #include <vector>
+ 
+-// Lambda that checks if a number is even.
+-// [] means no captures, (int n) is the parameter, -> bool is explicit return.
++// TODO: Create a lambda named 'isEven' that returns true if a number is even.
++// The lambda should take an int parameter and return a bool.
+ auto isEven = [](int n) -> bool { return n % 2 == 0; };
+ 
+-// Lambda that doubles a number.
+-// Return type is inferred as int.
++// TODO: Create a lambda named 'doubleIt' that doubles a number.
++// Use the 'auto' keyword for the return type inference.
+ auto doubleIt = [](int n) { return n * 2; };
+ 
+ int main(int argc, char *argv[])
+@@ -56,7 +51,7 @@
+ 
+ TEST(Functions, Functions08_Capture)
+ {
+-    // Lambda with capture by value [=].
++    // TODO: Create a lambda that captures 'multiplier' by value.
+     const int multiplier = 3;
+     auto multiplyByGlobal = [=](int n) { return n * multiplier; };
+     ASSERT_EQ(multiplyByGlobal(4), 12);

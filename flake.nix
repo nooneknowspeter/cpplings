@@ -55,6 +55,7 @@
               gdb
               gnumake
               hyperfine
+							just
               lldb
               perf
               treefmt

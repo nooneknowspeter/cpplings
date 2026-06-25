@@ -1,0 +1,58 @@
+--- patches/solutions/05_type-coercion/01_type-coercion.cpp	2026-03-18 21:14:06.553077925 -0400
++++ exercises/05_type-coercion/01_type-coercion.cpp	2026-03-18 21:13:19.243728189 -0400
+@@ -8,42 +8,40 @@
+ // - Usually widening (small type -> large type)
+ // - int to double, char to int, etc.
+ //
+-// Explicit conversion (casting) using static_cast:
+-// - Compile-time checked conversion
+-// - Makes intent clear
+-// - Use when conversion might lose data
+-//
+-// Why explicit casting?
+-// - Makes programmer's intent clear
+-// - Helps catch accidental conversions
+-// - Easier to find in code reviews
++// Explicit conversion (casting):
++// - Done manually by the programmer
++// - static_cast<T>(value) - compile-time checked
++// - reinterpret_cast<T>(value) - reinterpret bits
++// - const_cast<T>(value) - remove/add const
+ //
+ // https://www.learncpp.com/cpp-tutorial/implicit-type-conversion-coercion/
+ // https://www.learncpp.com/cpp-tutorial/explicit-type-conversion-casting/
+ 
+ #include <gtest/gtest.h>
+ 
+-// Adds an int and a double.
+-// The int is implicitly converted to double for the addition.
++// TODO: Implement a function that adds an int and a double.
++// Return the result as a double (implicit conversion of int to double).
+ double addIntDouble(int a, double b)
+ {
+     return a + b;
+ }
+ 
+-// Divides two integers and returns a double.
+-// Must explicitly cast to prevent integer division.
++// TODO: Implement a function that divides two integers and returns a double.
++// Use explicit casting: static_cast<double>(value)
+ double divideInts(int a, int b)
+ {
+     return static_cast<double>(a) / static_cast<double>(b);
+ }
+ 
+-// Truncates a double to an int (rounds toward zero).
++// TODO: Implement a function that truncates a double to an int.
++// Use static_cast to explicitly convert.
+ int truncateToInt(double d)
+ {
+     return static_cast<int>(d);
+ }
+ 
+-// Rounds a double to the nearest integer.
++// TODO: Implement a function that rounds a double to the nearest int.
++// Hint: Add 0.5 before truncating for positive numbers.
+ int roundToInt(double d)
+ {
+     if (d >= 0)

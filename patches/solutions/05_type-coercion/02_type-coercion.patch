@@ -1,0 +1,55 @@
+--- patches/solutions/05_type-coercion/02_type-coercion.cpp	2026-03-18 21:13:46.725520597 -0400
++++ exercises/05_type-coercion/02_type-coercion.cpp	2026-03-18 21:13:24.497881525 -0400
+@@ -1,39 +1,38 @@
+ // TODO: We sometimes encourage you to keep trying things on a given exercise
+ // even after you already figured it out.
+ //
+-// Numeric promotions:
+-// - bool -> int (true becomes 1, false becomes 0)
+-// - char -> int (uses ASCII value)
++// Numeric promotions and conversions:
++// - bool -> int
++// - char -> int
+ // - short -> int
+ // - float -> double
+ //
+-// Arithmetic conversions (usual arithmetic conversions):
+-// - When binary operators have different types
+-// - Smaller types are promoted to larger types
+-// - Integer types are promoted to floating-point when needed
++// When mixing types in expressions, the compiler promotes smaller
++// types to larger ones (arithmetic conversions).
+ //
+-// Narrowing conversion risks:
+-// - Large values may wrap around
+-// - Fractional parts are lost
+-// - Always be aware of potential data loss
++// Narrowing conversion: converting a larger type to a smaller one
++// Can lose data - use with caution!
+ //
+ // https://www.learncpp.com/cpp-tutorial/arithmetic-conversions/
+ 
+ #include <gtest/gtest.h>
+ 
+-// Converts char to int (widening, always safe).
++// TODO: Implement a function that safely converts a char to an int.
++// This is a widening conversion (char -> int), no data loss.
+ int charToInt(char c)
+ {
+     return c;
+ }
+ 
+-// Converts int to char (narrowing, may lose data).
++// TODO: Implement a function that converts an int to a char.
++// This is a narrowing conversion - use static_cast to make it explicit.
+ char intToChar(int i)
+ {
+     return static_cast<char>(i);
+ }
+ 
+-// Checks if a double represents a whole number.
++// TODO: Implement a function that checks if a double can be safely
++// converted to an int without losing fractional part.
+ bool isWholeNumber(double d)
+ {
+     int i = static_cast<int>(d);

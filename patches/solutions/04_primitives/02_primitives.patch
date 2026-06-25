@@ -1,0 +1,40 @@
+--- patches/solutions/04_primitives/02_primitives.cpp	2026-03-18 21:12:50.248865776 -0400
++++ exercises/04_primitives/02_primitives.cpp	2026-03-18 21:12:26.864149445 -0400
+@@ -13,31 +13,28 @@
+ // - Stored as ASCII value
+ // - Use single quotes for char literals: 'A', '5', '\n'
+ //
+-// Key concepts:
+-// - bool can be used in conditions directly
+-// - char comparisons use ASCII values
+-// - std::tolower/toupper for case-insensitive comparison
+-//
+ // https://www.learncpp.com/cpp-tutorial/boolean-values/
+ // https://www.learncpp.com/cpp-tutorial/char/
+ 
+-#include <cctype>
+ #include <gtest/gtest.h>
+ 
+-// Checks if a character is a vowel (case-insensitive).
++// TODO: Implement a function that checks if a character is a vowel.
++// Return true if the character is 'a', 'e', 'i', 'o', 'u' (case insensitive).
+ bool isVowel(char c)
+ {
+     c = std::tolower(c);
+     return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+ }
+ 
+-// Checks if a character is a digit ('0' through '9').
++// TODO: Implement a function that checks if a character is a digit.
++// Return true if the character is '0' through '9'.
+ bool isDigit(char c)
+ {
+     return c >= '0' && c <= '9';
+ }
+ 
+-// Converts a boolean to a string.
++// TODO: Implement a function that converts a boolean to a string.
++// Return "true" if b is true, "false" otherwise.
+ const char *boolToString(bool b)
+ {
+     return b ? "true" : "false";

@@ -183,7 +183,7 @@ Use TODO comments to indicate what users should fix:
 - Follow [learncpp](https://www.learncpp.com/) best practices
 - Microsoft style convention
 
-### Zig Code (CLI)
+### Zig Code
 
 - Follow Zig standard library conventions
 - Use `std.mem.span` for string handling

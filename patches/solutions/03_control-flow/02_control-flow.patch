@@ -1,0 +1,61 @@
+--- patches/solutions/03_control-flow/02_control-flow.cpp	2026-03-18 21:11:46.980882248 -0400
++++ exercises/03_control-flow/02_control-flow.cpp	2026-03-18 21:11:14.927819614 -0400
+@@ -1,25 +1,33 @@
+ // TODO: We sometimes encourage you to keep trying things on a given exercise
+ // even after you already figured it out.
+ //
+-// A switch statement provides a cleaner alternative to multiple if-else chains
+-// when comparing a single value against multiple constants.
++// A switch statement provides a cleaner way to compare a value
++// against multiple possible matches.
+ //
+-// Key concepts:
+-// - The switch expression is compared against case constants
+-// - case constants must be constant expressions (known at compile time)
+-// - break prevents fall-through to the next case
+-// - default is optional and executes if no case matches
+-// - Cases can be grouped (case 1: case 2: same code)
++// Syntax:
++// switch (value) {
++//     case constant1:
++//         // code
++//         break;
++//     case constant2:
++//         // code
++//         break;
++//     default:
++//         // code if no case matches
++// }
+ //
+-// Important: Don't forget break!
+-// Without it, execution "falls through" to subsequent cases.
++// Important: Don't forget the 'break' statement!
++// Without it, execution will "fall through" to the next case.
+ //
+ // https://www.learncpp.com/cpp-tutorial/switch-statements/
+ 
+ #include <gtest/gtest.h>
+ 
+-// Returns the number of days in a given month.
+-// Uses switch for cleaner code than if-else chains.
++// TODO: Implement a function that returns the number of days in a month.
++// Use a switch statement.
++// January: 31, February: 28, March: 31, April: 30,
++// May: 31, June: 30, July: 31, August: 31,
++// September: 30, October: 31, November: 30, December: 31
+ int getDaysInMonth(int month)
+ {
+     switch (month)
+@@ -53,8 +61,10 @@
+     }
+ }
+ 
+-// Returns the name of a day of the week.
+-// 1 = Monday, 2 = Tuesday, etc.
++// TODO: Implement a function that returns the day of the week as a string.
++// Use a switch statement.
++// 1: "Monday", 2: "Tuesday", 3: "Wednesday", 4: "Thursday",
++// 5: "Friday", 6: "Saturday", 7: "Sunday"
+ const char *getDayOfWeek(int day)
+ {
+     switch (day)

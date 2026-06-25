@@ -1,0 +1,65 @@
+--- patches/solutions/06_strings/02_strings.cpp	2026-03-18 21:15:16.994967664 -0400
++++ exercises/06_strings/02_strings.cpp	2026-03-18 21:14:36.127887942 -0400
+@@ -1,34 +1,24 @@
+ // TODO: We sometimes encourage you to keep trying things on a given exercise
+ // even after you already figured it out.
+ //
+-// std::string is C++'s modern string class with automatic memory management.
++// std::string provides a safer and more feature-rich alternative to C-strings.
+ //
+-// Key features:
+-// - Dynamic size (grows as needed)
+-// - Safe operations (no buffer overflows)
+-// - Rich set of methods
+-// - Can be used with streams (<<, >>)
+-//
+-// Common methods:
++// Common operations:
+ // - + : concatenation
+-// - ==, !=, <, >, <=, >= : comparison operators
+-// - length(), size() : number of characters
++// - ==, !=, <, > : comparison
++// - length(), size() : get length
+ // - substr(pos, len) : extract substring
+-// - find(str) : find substring, returns npos if not found
+-// - find_first_of(chars) : find first occurrence of any character
+-// - empty() : check if string is empty
+-//
+-// Best practices:
+-// - Use std::string for most string operations
+-// - Use const std::string& for read-only parameters
+-// - Be aware of performance implications of frequent concatenations
++// - find(str) : find substring
++// - append(str) : add to end
++// - clear() : empty the string
+ //
+-// https://www.learncpp.com/cpp-tutorial/stdstring-overview/
++// https://www.learncpp.com/cpp-tutorial/stdstring-construction-and-destruction/
++// https://www.learncpp.com/cpp-tutorial/stdstring-character-access-and-conversion-to-cstyle/
+ 
+ #include <gtest/gtest.h>
+ #include <string>
+ 
+-// Reverses a std::string.
++// TODO: Implement a function that reverses a std::string.
+ std::string reverseString(const std::string &str)
+ {
+     std::string result;
+@@ -39,7 +29,7 @@
+     return result;
+ }
+ 
+-// Counts occurrences of a character in a string.
++// TODO: Implement a function that counts occurrences of a character.
+ int countChar(const std::string &str, char c)
+ {
+     int count = 0;
+@@ -53,7 +43,7 @@
+     return count;
+ }
+ 
+-// Checks if a string is a palindrome (reads same forwards and backwards).
++// TODO: Implement a function that checks if a string is a palindrome.
+ bool isPalindrome(const std::string &str)
+ {
+     int left = 0;

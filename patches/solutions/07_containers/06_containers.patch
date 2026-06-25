@@ -1,0 +1,67 @@
+--- patches/solutions/07_containers/06_containers.cpp	2026-03-18 21:18:17.018257757 -0400
++++ exercises/07_containers/06_containers.cpp	2026-03-18 21:16:44.038129105 -0400
+@@ -3,35 +3,28 @@
+ //
+ // std::list is a doubly-linked list.
+ //
+-// Key characteristics:
++// Key features:
+ // - O(1) insertion/deletion at any position (with iterator)
+ // - No random access (no operator[])
+-// - More memory overhead than vector (each node has two pointers)
+ // - Efficient for frequent insertions/deletions in the middle
+-// - Good for implementing deques, queues, etc.
++// - More memory overhead than vector (each node stores pointers)
+ //
+-// Common operations:
+-// - push_front(val), push_back(val): add elements
+-// - pop_front(), pop_back(): remove elements
+-// - insert(it, val): insert before position
+-// - erase(it): remove at position
+-// - size(): number of elements
+-// - empty(): true if empty
+-// - clear(): remove all
+-// - remove(val): remove all elements equal to val
+-// - unique(): remove consecutive duplicates
+-// - sort(), merge(), reverse()
++// std::forward_list is a singly-linked list (C++11).
++// - Even more memory efficient
++// - Less functionality
+ //
+-// When to use list vs vector:
+-// - List: frequent insertions/deletions in the middle
+-// - Vector: random access, cache locality, or append-only
++// Common operations:
++// - push_front(val), push_back(val)
++// - pop_front(), pop_back()
++// - insert(it, val), erase(it)
++// - size(), empty(), clear()
+ //
+ // https://www.learncpp.com/cpp-tutorial/stdlist/
+ 
+ #include <gtest/gtest.h>
+ #include <list>
+ 
+-// Removes all even numbers from a list.
++// TODO: Implement a function that removes all even numbers from a list.
+ std::list<int> removeEvens(const std::list<int> &lst)
+ {
+     std::list<int> result;
+@@ -45,7 +38,7 @@
+     return result;
+ }
+ 
+-// Reverses a list.
++// TODO: Implement a function that reverses a list.
+ std::list<int> reverseList(const std::list<int> &lst)
+ {
+     std::list<int> result;
+@@ -56,7 +49,7 @@
+     return result;
+ }
+ 
+-// Merges two sorted lists into one sorted list.
++// TODO: Implement a function that merges two sorted lists into one sorted list.
+ std::list<int> mergeSortedLists(const std::list<int> &a, const std::list<int> &b)
+ {
+     std::list<int> result;

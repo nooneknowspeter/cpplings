@@ -1,0 +1,58 @@
+--- patches/solutions/00_intro/01_intro.cpp	2026-03-17 15:26:59.196802975 -0400
++++ exercises/00_intro/01_intro.cpp	2026-03-13 23:52:23.886198607 -0400
+@@ -1,31 +1,31 @@
+-// TODO: We sometimes encourage you to keep trying things on a given exercise
+-// even after you already figured it out. If you got everything working and feel
+-// ready for the next exercise, enter `n` in the terminal.
+-
+-#include <gtest/gtest.h>
+ #include <iostream>
+-#include <string>
+ 
+-void intro01()
++void splashScreen()
+ {
+-    // TODO: Enter the correct passphrase.
+-    // NOTE: Use the testcase as reference.
+-    std::cout << "Welcome to " << "cpplings" << "!" << std::endl;
+-}
+ 
+-int main(int argc, char *argv[])
+-{
+-    intro01();
++    // // user input
++    // char userInput{};
+ 
+-    std::cout << "\n\n" << "Testing output begins here\n--------------------------" << "\n";
+-    testing::InitGoogleTest(&argc, argv);
+-    return RUN_ALL_TESTS();
+-}
++    // splash screen
++    // std::cout << "          Welcome to cpplings!        \n";
++    std::cout << "                  _ _                 \n";
++    std::cout << "                 | (_)                \n";
++    std::cout << "  ___ _ __  _ __ | |_ _ __   __ _ ___ \n";
++    std::cout << " / __| '_ \\| '_ \\| | | '_ \\ / _` / __|\n";
++    std::cout << "| (__| |_) | |_) | | | | | | (_| \\__ \\\n";
++    std::cout << " \\___| .__/| .__/|_|_|_| |_|\\__, |___/\n";
++    std::cout << "     | |   | |               __/ |    \n";
++    std::cout << "     |_|   |_|              |___/     \n";
++    std::cout << "                                      \n";
++    // std::cout << "          Enter Y/y to continue       \n";
+ 
+-TEST(Intro, Intro01)
+-{
+-    testing::internal::CaptureStdout();
+-    intro01();
+-    std::string stdout{testing::internal::GetCapturedStdout()};
+-    ASSERT_EQ(stdout, "Welcome to cpplings!\n");
++    // while (true)
++    // {
++    //     std::cin >> userInput;
++    //
++    //     if (userInput == 'y' || userInput == 'Y')
++    //     {
++    //         break;
++    //     }
++    // }
+ }

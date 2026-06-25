@@ -1,0 +1,68 @@
+--- patches/solutions/02_functions/10_functions.cpp	2026-03-18 21:09:34.402200624 -0400
++++ exercises/02_functions/10_functions.cpp	2026-03-18 21:08:41.173085805 -0400
+@@ -2,53 +2,36 @@
+ // even after you already figured it out.
+ //
+ // std::forward is used in variadic templates to perfectly forward arguments.
+-// Perfect forwarding allows arguments to be passed to another function
+-// while preserving their original value category (lvalue or rvalue).
++// It preserves the value category (lvalue/rvalue) of the original argument.
+ //
+-// Key concepts:
+-// - Lvalue: has an address, can appear on left side of assignment (e.g., variables)
+-// - Rvalue: temporary values, can only appear on right side (e.g., literals)
+-// - std::move() converts lvalue to rvalue
+-// - std::forward<T>() preserves the original value category based on T
+-//
+-// When to use std::forward:
+-// - In template functions that forward arguments
+-// - When implementing wrapper functions or adapters
+-// - In factory functions (like std::make_pair, std::make_unique)
+-//
+-// std::decay_t<T> removes references and cv-qualifiers,
+-// useful for getting the underlying type for storage.
++// When combined with variadic templates, std::forward enables:
++// - Perfect forwarding: arguments passed to a function are forwarded with their
++//   original value category to another function
++// - Avoids unnecessary copies
+ //
+ // https://www.learncpp.com/cpp-tutorial/perfect-forwarding/
+ 
+ #include <gtest/gtest.h>
+ #include <utility>
+ 
+-// Simple wrapper that forwards the argument
+-// T&& is a forwarding reference (can bind to lvalue or rvalue)
++// TODO: Implement a wrapper function that perfectly forwards arguments.
++// Use std::forward to preserve lvalue/rvalue semantics.
+ template <typename T> T wrapper(T arg)
+ {
+-    // When called with an lvalue, arg is a copy
+-    // When called with an rvalue, arg is moved (if T supports move)
+     return arg;
+ }
+ 
+-// Factory function that perfectly forwards arguments to std::pair constructor
+-// T1&& and T2&& are forwarding references
+-template <typename T1, typename T2>
+-auto createPair(T1 &&first, T2 &&second) -> std::pair<std::decay_t<T1>, std::decay_t<T2>>
++// TODO: Create a function 'createPair' that uses std::forward
++// to perfectly forward arguments to std::make_pair.
++template <typename T1, typename T2> auto createPair(T1 &&first, T2 &&second)
+ {
+-    // std::forward<T1>(first) preserves the value category:
+-    // - If first was passed an lvalue, forward keeps it as lvalue
+-    // - If first was passed an rvalue, forward keeps it as rvalue
+     return std::pair<std::decay_t<T1>, std::decay_t<T2>>(std::forward<T1>(first), std::forward<T2>(second));
+ }
+ 
+-// Generic processor that forwards to wrapper
+-// Demonstrates perfect forwarding in a callback scenario
++// TODO: Implement a 'process' function that forwards to another function.
++// Use std::forward to maintain the original argument category.
+ template <typename T> void process(T &&value)
+ {
+-    // Forward the value to wrapper while preserving its category
+     wrapper(std::forward<T>(value));
+ }
+ 

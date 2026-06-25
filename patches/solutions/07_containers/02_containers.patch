@@ -1,0 +1,66 @@
+--- patches/solutions/07_containers/02_containers.cpp	2026-03-18 21:17:49.955655548 -0400
++++ exercises/07_containers/02_containers.cpp	2026-03-18 21:16:11.766348345 -0400
+@@ -1,25 +1,18 @@
+ // TODO: We sometimes encourage you to keep trying things on a given exercise
+ // even after you already figured it out.
+ //
+-// C-style arrays vs std::array:
++// C-style arrays vs C++ std::array:
+ //
+-// C-style: int arr[5] = {1, 2, 3, 4, 5};
+-// - Fixed size but decays to pointer when passed to functions
+-// - No bounds checking
+-// - Manual memory management
+-// - Limited standard library support
++// C-style array: int arr[5] = {1, 2, 3, 4, 5};
++// - Fixed size, no bounds checking
++// - Decays to pointer when passed to functions
++// - Memory managed manually
+ //
+ // std::array: std::array<int, 5> arr = {1, 2, 3, 4, 5};
+-// - Fixed size at compile time (size is part of the type)
+-// - Does NOT decay to pointer (preserves size information)
+-// - Provides STL-like interface (iterators, algorithms)
+-// - Safer: use .at() for bounds-checked access
+-// - Stack-allocated (no dynamic memory)
+-//
+-// Best practices:
+-// - Prefer std::array for fixed-size arrays
+-// - Use C-style arrays only for C interop
+-// - Always know your array size at compile time
++// - Fixed size (known at compile time)
++// - Does NOT decay to pointer
++// - Provides member functions (size, empty, at)
++// - Safer with bounds-checked .at() method
+ //
+ // https://www.learncpp.com/cpp-tutorial/stdarray/
+ 
+@@ -27,7 +20,7 @@
+ #include <cstddef>
+ #include <gtest/gtest.h>
+ 
+-// Sums all elements in a std::array.
++// TODO: Implement a function that sums all elements in a std::array.
+ int sumArray(const std::array<int, 5> &arr)
+ {
+     int sum = 0;
+@@ -38,8 +31,8 @@
+     return sum;
+ }
+ 
+-// Finds an element in the array.
+-// Returns its index, or -1 if not found.
++// TODO: Implement a function that finds an element in an array.
++// Return its index, or -1 if not found.
+ int findInArray(const std::array<int, 5> &arr, int target)
+ {
+     for (int i = 0; i < 5; i++)
+@@ -52,7 +45,7 @@
+     return -1;
+ }
+ 
+-// Doubles each element in the array.
++// TODO: Implement a function that doubles each element in an array.
+ std::array<int, 5> doubleArray(const std::array<int, 5> &arr)
+ {
+     std::array<int, 5> result;

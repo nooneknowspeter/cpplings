@@ -1,0 +1,43 @@
+--- patches/solutions/02_functions/06_functions.cpp	2026-03-18 21:09:04.544032740 -0400
++++ exercises/02_functions/06_functions.cpp	2026-03-18 21:08:20.217211017 -0400
+@@ -4,36 +4,26 @@
+ // C++ allows multiple functions to have the same name,
+ // this technique is called function overloading.
+ //
+-// The compiler differentiates functions based on their parameter types
+-// and counts (not return type).
+-//
+-// When you call add(1, 1), the compiler looks for the add function
+-// that best matches the argument types (int, int).
+-//
+-// Function overloading is useful when you want the same operation
+-// to work on different data types.
+-//
+ // https://www.learncpp.com/cpp-tutorial/introduction-to-function-overloading/
+ // https://www.learncpp.com/cpp-tutorial/function-overload-differentiation/
+ // https://www.learncpp.com/cpp-tutorial/function-overload-resolution-and-ambiguous-matches/
+ 
+ #include <gtest/gtest.h>
+ 
+-// A function that adds two integers.
++// TODO: Implement the add function for integers.
++// NOTE: Use the test cases as reference.
+ int add(int x, int y)
+ {
+     return x + y;
+ }
+ 
+-// A function that adds two floats.
+-// The compiler knows this is different from add(int, int)
+-// because the parameter types are different.
++// TODO: Implement the add function for floats.
+ float add(float x, float y)
+ {
+     return x + y;
+ }
+ 
+-// A function that adds two doubles.
++// TODO: Implement the add function for doubles.
+ double add(double x, double y)
+ {
+     return x + y;

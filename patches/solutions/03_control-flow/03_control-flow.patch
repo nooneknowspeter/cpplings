@@ -1,0 +1,66 @@
+--- patches/solutions/03_control-flow/03_control-flow.cpp	2026-03-18 21:11:54.124113578 -0400
++++ exercises/03_control-flow/03_control-flow.cpp	2026-03-18 21:11:20.835018541 -0400
+@@ -1,29 +1,27 @@
+ // TODO: We sometimes encourage you to keep trying things on a given exercise
+ // even after you already figured it out.
+ //
+-// Loops execute code multiple times while a condition is true.
++// Loops allow you to execute code multiple times.
+ //
+ // while loop:
+-// - Checks condition before each iteration
+-// - May not execute at all if condition is initially false
++// while (condition) {
++//     // code
++// }
+ //
+-// do-while loop:
+-// - Executes at least once
+-// - Checks condition after each iteration
+-//
+-// Key concepts:
+-// - Loop variable: controls how many times loop runs
+-// - Update statement: changes loop variable to eventually exit
+-// - Infinite loops: make sure condition eventually becomes false
++// do-while loop (always executes at least once):
++// do {
++//     // code
++// } while (condition);
+ //
+ // https://www.learncpp.com/cpp-tutorial/while-statements/
+ // https://www.learncpp.com/cpp-tutorial/do-while-statements/
+ 
+ #include <gtest/gtest.h>
+ 
+-// Calculates factorial using a while loop.
++// TODO: Implement a function that calculates the factorial of a number
++// using a while loop.
+ // factorial(5) = 5 * 4 * 3 * 2 * 1 = 120
+-// factorial(0) = 1 (by mathematical definition)
++// factorial(0) = 1 (by definition)
+ int factorial(int n)
+ {
+     int result = 1;
+@@ -35,8 +33,10 @@
+     return result;
+ }
+ 
+-// Counts the number of digits in a number using do-while.
+-// do-while is perfect here because numbers always have at least 1 digit.
++// TODO: Implement a function that counts the digits in a number
++// using a do-while loop.
++// countDigits(12345) = 5
++// countDigits(0) = 1
+ int countDigits(int n)
+ {
+     int count = 0;
+@@ -48,7 +48,8 @@
+     return count;
+ }
+ 
+-// Calculates the sum of all integers from 1 to n.
++// TODO: Implement a function that calculates the sum of all numbers
++// from 1 to n using a while loop.
+ int sumToN(int n)
+ {
+     int sum = 0;

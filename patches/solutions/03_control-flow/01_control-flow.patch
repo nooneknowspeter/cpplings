@@ -1,0 +1,52 @@
+--- patches/solutions/03_control-flow/01_control-flow.cpp	2026-03-18 21:11:39.299631296 -0400
++++ exercises/03_control-flow/01_control-flow.cpp	2026-03-18 21:11:07.644572370 -0400
+@@ -4,26 +4,25 @@
+ // Control flow statements allow you to execute code conditionally
+ // or repeatedly. The most basic is the if statement.
+ //
+-// if statements evaluate a condition (must be boolean).
+-// If true, the block executes. Otherwise, it checks else if or else.
++// Syntax:
++// if (condition) {
++//     // code to execute if condition is true
++// }
+ //
+-// Key concepts:
+-// - Conditions are always boolean (true/false)
+-// - else if chains are evaluated top to bottom
+-// - The first true condition wins
+-// - else is executed if no condition is true
+-//
+-// Best practices:
+-// - Always use braces {} for clarity
+-// - Handle edge cases (like the else)
+-// - Keep conditions simple and readable
++// The condition must evaluate to a boolean (true/false).
++// You can chain with else if and else for multiple conditions.
+ //
+ // https://www.learncpp.com/cpp-tutorial/if-statements-and-blocks/
+ // https://www.learncpp.com/cpp-tutorial/if-else-statements/
+ 
+ #include <gtest/gtest.h>
+ 
+-// Returns a grade letter based on the numeric score.
++// TODO: Implement a function that returns a grade letter based on a score.
++// - 90-100: return 'A'
++// - 80-89: return 'B'
++// - 70-79: return 'C'
++// - 60-69: return 'D'
++// - below 60: return 'F'
+ char getGrade(int score)
+ {
+     if (score >= 90)
+@@ -48,8 +47,8 @@
+     }
+ }
+ 
+-// Checks if a number is positive, negative, or zero.
+-// Returns 1 for positive, -1 for negative, 0 for zero.
++// TODO: Implement a function that checks if a number is positive, negative, or zero.
++// Return 1 for positive, -1 for negative, 0 for zero.
+ int checkNumber(int num)
+ {
+     if (num > 0)

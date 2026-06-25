@@ -1,0 +1,40 @@
+--- patches/solutions/04_primitives/01_primitives.cpp	2026-03-18 21:12:44.576693766 -0400
++++ exercises/04_primitives/01_primitives.cpp	2026-03-18 21:12:21.110970258 -0400
+@@ -14,14 +14,7 @@
+ // - double: typically 64 bits, ~15 significant digits
+ // - long double: even more precision
+ //
+-// The 'auto' keyword deduces the type from the initializer.
+-// It's useful when the type is verbose or obvious.
+-//
+-// Best practices:
+-// - Use 'int' for most integer values
+-// - Use 'double' for most floating-point calculations
+-// - Use 'const' for values that shouldn't change
+-// - Use 'auto' when the type is obvious from context
++// The 'auto' keyword lets the compiler deduce the type.
+ //
+ // https://www.learncpp.com/cpp-tutorial/introduction-to-fundamental-data-types/
+ // https://www.learncpp.com/cpp-tutorial/floating-point-numbers/
+@@ -29,16 +22,17 @@
+ #include <cstdint>
+ #include <gtest/gtest.h>
+ 
+-// Integer variable storing age.
++// TODO: Declare an int variable named 'age' with value 25.
+ int age = 25;
+ 
+-// Double variable storing a price.
++// TODO: Declare a double variable named 'price' with value 19.99.
+ double price = 19.99;
+ 
+-// Constant integer for maximum size.
++// TODO: Declare a const int named 'MAX_SIZE' with value 100.
+ const int MAX_SIZE = 100;
+ 
+-// Auto-deduced integer (compiler sees 42 and deduces int).
++// TODO: Use 'auto' to declare a variable 'quantity' with value 42.
++// The compiler will deduce it as int.
+ auto quantity = 42;
+ 
+ int main(int argc, char *argv[])

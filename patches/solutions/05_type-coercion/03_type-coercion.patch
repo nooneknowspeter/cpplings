@@ -1,0 +1,56 @@
+--- patches/solutions/05_type-coercion/03_type-coercion.cpp	2026-03-18 21:13:52.452682791 -0400
++++ exercises/05_type-coercion/03_type-coercion.cpp	2026-03-18 21:13:30.046042492 -0400
+@@ -2,41 +2,36 @@
+ // even after you already figured it out.
+ //
+ // Type deduction with auto:
+-// - auto deduces type from the initializer
+-// - const, volatile, and references are dropped by default
+-// - Use const auto& to preserve constness
+-// - Use auto& to deduce a reference type
++// - auto deduces the type from the initializer
++// - References are dropped unless & is used
++// - const and volatile are dropped unless explicitly kept
+ //
+-// constexpr (C++11):
+-// - Evaluated at compile time
+-// - Enables optimizations
+-// - Required for array sizes, template arguments
+-// - constexpr functions must be simple (C++14 relaxed this)
+-//
+-// constexpr vs const:
+-// - const: run-time constant, value doesn't change after initialization
+-// - constexpr: compile-time constant, known at compile time
++// constexpr: compile-time constant evaluation
++// - Value is computed at compile time
++// - Can be used in contexts requiring constants
+ //
+ // https://www.learncpp.com/cpp-tutorial/type-deduction-with-auto/
+ // https://www.learncpp.com/cpp-tutorial/constexpr-variables/
+ 
+ #include <gtest/gtest.h>
+ 
+-// Adds values and returns the result.
+-// Type is deduced as double (the wider type).
++// TODO: Use auto to deduce the type of a value.
++// Return the result of adding an int and a double.
+ auto addWithAuto(int a, double b)
+ {
+     auto result = a + b;
+     return result;
+ }
+ 
+-// Calculates the square of an integer at compile time.
++// TODO: Create a constexpr function that calculates the square of a number.
++// This should be evaluable at compile time.
+ constexpr int square(int x)
+ {
+     return x * x;
+ }
+ 
+-// Compile-time constant (computed during compilation).
++// TODO: Create a constexpr variable that stores the result of square(10).
++// This will be computed at compile time.
+ constexpr int SQUARED_TEN = square(10);
+ 
+ int main(int argc, char *argv[])

@@ -1,0 +1,62 @@
+--- patches/solutions/07_containers/05_containers.cpp	2026-03-18 21:18:09.344088355 -0400
++++ exercises/07_containers/05_containers.cpp	2026-03-18 21:16:34.281895503 -0400
+@@ -1,25 +1,19 @@
+ // TODO: We sometimes encourage you to keep trying things on a given exercise
+ // even after you already figured it out.
+ //
+-// std::unordered_map is a hash table (key-value pairs).
++// std::unordered_map is a hash table implementation of map.
+ //
+-// Key characteristics:
+-// - O(1) average case for insert, find, erase
++// Key features:
++// - O(1) average case lookup, insertion, deletion
+ // - No guaranteed order of elements
+-// - Requires hash function for key type
+-// - Better performance for large datasets
++// - Requires hash function for keys
++// - Works with any hashable type
+ //
+-// std::unordered_set is a hash table (unique elements).
++// std::unordered_set is a hash table implementation of set.
+ //
+-// When to use unordered containers:
+-// - Fast lookups are more important than order
+-// - Large datasets (O(1) beats O(log n))
+-// - When you don't need sorted iteration
+-//
+-// When to use ordered containers:
+-// - Need sorted data or ordered iteration
+-// - Need predictable iteration order
+-// - Small datasets where O(log n) is fine
++// When to use unordered vs ordered:
++// - unordered_map/set: when you need fast lookups and don't care about order
++// - map/set: when you need sorted data or ordered iteration
+ //
+ // https://www.learncpp.com/cpp-tutorial/stdunordered_map/
+ 
+@@ -27,7 +21,7 @@
+ #include <unordered_map>
+ #include <unordered_set>
+ 
+-// Counts word frequencies using unordered_map.
++// TODO: Implement a function that counts word frequencies using unordered_map.
+ std::unordered_map<std::string, int> wordFrequency(const std::vector<std::string> &words)
+ {
+     std::unordered_map<std::string, int> freq;
+@@ -38,13 +32,13 @@
+     return freq;
+ }
+ 
+-// Returns unique elements from a vector using unordered_set.
++// TODO: Implement a function that finds unique elements using unordered_set.
+ std::unordered_set<int> uniqueElements(const std::vector<int> &v)
+ {
+     return std::unordered_set<int>(v.begin(), v.end());
+ }
+ 
+-// Checks if two unordered_maps have the same key-value pairs.
++// TODO: Implement a function that checks if two unordered_maps are equal.
+ bool mapsEqual(const std::unordered_map<std::string, int> &a, const std::unordered_map<std::string, int> &b)
+ {
+     if (a.size() != b.size())
