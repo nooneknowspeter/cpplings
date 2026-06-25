@@ -23,3 +23,8 @@
   - [ ] cpphistory (creator, why was it created, cpp versions, features, c++11, c++14, c++17, c++20, c++23, c++26)
   - [ ] bit-manipultion (bitwise arithmetic, operations, logic gates, hardware, OS)
   - [ ] network programming (sockets, server, client, IPC)
+
+- [ ] c++ 23 rewrite
+- [ ] frontend; nextjs (static) / quarto
+- [ ] documentation; quarto
+- [ ] cli demo
