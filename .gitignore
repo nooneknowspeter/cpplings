@@ -7,7 +7,7 @@ compile_flags.txt
 zig-out
 .cache
 init
-tests
+zig-pkg/
 
 # direnv
 .direnv
