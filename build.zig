@@ -8,11 +8,22 @@ pub fn build(b: *STD.Build) !void {
         @compileError("Zig >= v0.15.1 is required...");
     }
 
+    const COMPILER_FLAGS = [_][]const u8{
+        "-std=c++23",
+        "-Wall",
+        "-Werror",
+        "-Wextra",
+        "-pedantic",
+    };
+
     const TARGET = b.standardTargetOptions(.{});
     const OPTIMIZE = b.standardOptimizeOption(.{});
 
     // dependencies
-    const DEP_GTEST = b.dependency("googletest", .{});
+    const DEP_GTEST = b.dependency(
+        "googletest",
+        .{},
+    );
 
     // cli
     {
@@ -21,8 +32,20 @@ pub fn build(b: *STD.Build) !void {
             .root_module = b.createModule(.{
                 .target = TARGET,
                 .optimize = OPTIMIZE,
-                .root_source_file = b.path("src/main.zig"),
+                .valgrind = true,
+                .link_libcpp = true,
+                .link_libc = true,
+                .single_threaded = false,
             }),
+        });
+
+        CPPLINGS_CLI.root_module.addIncludePath(b.path("include"));
+        CPPLINGS_CLI.root_module.addIncludePath(b.path("src"));
+
+        // TODO: pass in cpp source files
+        CPPLINGS_CLI.root_module.addCSourceFile(.{
+            .file = b.path("src/main.cpp"),
+            .flags = &COMPILER_FLAGS,
         });
 
         b.installArtifact(CPPLINGS_CLI);
@@ -41,25 +64,37 @@ pub fn build(b: *STD.Build) !void {
 
     // tests
     {
-        const CPPLINGS_CLI_TESTS = b.addTest(.{
+        const CPPLINGS_CLI_TESTS = b.addExecutable(.{
             .name = "cpplings_tests",
             .root_module = b.createModule(.{
                 .target = TARGET,
                 .optimize = OPTIMIZE,
-                .root_source_file = b.path("src/test.zig"),
+                .link_libc = true,
+                .link_libcpp = true,
+                .valgrind = true,
+                .single_threaded = true,
             }),
         });
 
+        CPPLINGS_CLI_TESTS.root_module.addIncludePath(b.path("include"));
+        CPPLINGS_CLI_TESTS.root_module.addIncludePath(b.path("src"));
+
+        // TODO: pass in cpp source files
+        CPPLINGS_CLI_TESTS.root_module.addCSourceFile(.{
+            .file = b.path("src/tests/test.cpp"),
+            .flags = &COMPILER_FLAGS,
+        });
+
+        b.installArtifact(CPPLINGS_CLI_TESTS);
         const CPPLINGS_CLI_TESTS_ARTIFACT = b.addRunArtifact(CPPLINGS_CLI_TESTS);
 
         const CPPLINGS_CLI_TESTS_STEP = b.step("tests", "Run cpplings tests");
         CPPLINGS_CLI_TESTS_STEP.dependOn(&CPPLINGS_CLI_TESTS_ARTIFACT.step);
+        CPPLINGS_CLI_TESTS_ARTIFACT.step.dependOn(b.getInstallStep());
     }
 
     // exercises
     {
-        const COMPILER_FLAGS = [_][]const u8{ "-std=c++23", "-Wall", "-Werror", "-Wextra" };
-
         const CPPLINGS_EXERCISE = b.addExecutable(.{
             .name = "cpplings_exercise",
             .root_module = b.createModule(.{
@@ -67,6 +102,7 @@ pub fn build(b: *STD.Build) !void {
                 .optimize = OPTIMIZE,
                 .link_libc = true,
                 .link_libcpp = true,
+                .single_threaded = false,
             }),
         });
 
@@ -74,7 +110,10 @@ pub fn build(b: *STD.Build) !void {
             if (args.len > 0) {
                 const EXERCISE_FILENAMES = args;
 
-                CPPLINGS_EXERCISE.root_module.addCSourceFiles(.{ .flags = &COMPILER_FLAGS, .files = EXERCISE_FILENAMES });
+                CPPLINGS_EXERCISE.root_module.addCSourceFiles(.{
+                    .flags = &COMPILER_FLAGS,
+                    .files = EXERCISE_FILENAMES,
+                });
 
                 CPPLINGS_EXERCISE.root_module.addIncludePath(b.path("include"));
                 CPPLINGS_EXERCISE.root_module.addIncludePath(b.path("exercises"));
@@ -87,7 +126,7 @@ pub fn build(b: *STD.Build) !void {
 
         const CPPLINGS_EXERCISE_ARTIFACT = b.addRunArtifact(CPPLINGS_EXERCISE);
 
-        const CPPLINGS_RUN_EXERCISE_STEP = b.step("exercises", "Build and run cppligns_exercise exercise");
+        const CPPLINGS_RUN_EXERCISE_STEP = b.step("exercises", "Build and run cpplings_exercise exercise");
         CPPLINGS_RUN_EXERCISE_STEP.dependOn(&CPPLINGS_EXERCISE_ARTIFACT.step);
         CPPLINGS_EXERCISE_ARTIFACT.step.dependOn(b.getInstallStep());
 
@@ -99,14 +138,30 @@ pub fn build(b: *STD.Build) !void {
     }
 
     // create compile flags generator
+    // TODO: update compile flagz to zig 0.16.0 std
+    // TODO: variable args, multi args
+    // TODO: facade + dependency injection; find system include paths inside lib
+    // TODO: strategy pattern; use different compilers to get include paths
     {
         var cflags = COMPILE_FLAGZ.addCompileFlags(b);
         cflags.addIncludePath(b.path("include"));
         cflags.addIncludePath(b.path("src"));
         cflags.addIncludePath(DEP_GTEST.path("include"));
 
-        const CLANG_PLUS_PLUS = try STD.process.Child.run(.{ .allocator = b.allocator, .argv = &[_][]const u8{ "zig", "c++", "-E", "-x", "c++", "-", "-v" } });
-        var clang_plus_plus_output = STD.mem.splitScalar(u8, CLANG_PLUS_PLUS.stderr, '\n');
+        const CLANG_PLUS_PLUS = try STD.process.Child.run(.{ .allocator = b.allocator, .argv = &[_][]const u8{
+            "zig",
+            "c++",
+            "-E",
+            "-x",
+            "c++",
+            "-",
+            "-v",
+        } });
+        var clang_plus_plus_output = STD.mem.splitScalar(
+            u8,
+            CLANG_PLUS_PLUS.stderr,
+            '\n',
+        );
         var start_capture = false;
 
         while (clang_plus_plus_output.next()) |line| {
@@ -128,3 +183,4 @@ pub fn build(b: *STD.Build) !void {
         CFLAGS_STEP.dependOn(&cflags.step);
     }
 }
+
