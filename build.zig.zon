@@ -2,24 +2,23 @@
     .name = .cpplings,
     .version = "0.1.0",
     .fingerprint = 0x6719bcd28155f7e5,
-    .minimum_zig_version = "0.15.1",
+    .minimum_zig_version = "0.16.0",
     .dependencies = .{
-        .vaxis = .{
-            .url = "git+https://github.com/rockorager/libvaxis.git#ec8e7bd481098472a4f6ae850894328d0632e343",
-            .hash = "vaxis-0.5.1-BWNV_NAXCQBfhj7096k0ejbvSUOmQ21UuvIab9lr5xPE",
-        },
         .googletest = .{
-            .url = "git+https://github.com/nooneknowspeter/googletest#90981c05aeafd9dd885ba8b49d6afa8f6df77adb",
-            .hash = "googletest-1.17.0-yQyPFmGECAACww8tJ3IXFK823pe3_l5P1WOJzE3wao4u",
+            .url = "git+https://github.com/nooneknowspeter/googletest.git#97fb7fae9ed592c15d85a33ee37f0e767995ebd0",
+            .hash = "googletest-1.17.0-vLU55pEVAAAMAhAdFeyK-RU7Y6HSiH1ktOqbkS5XC267",
         },
         .compile_flagz = .{
-            .url = "git+https://github.com/deevus/compile_flagz#59bce23aa6ad232655a288852999d94a78edaf7f",
+            .url = "git+https://github.com/nooneknowspeter/compile_flagz.git#ebea9a5e87ae15b6842999a30666b6707c369107",
             .hash = "compile_flagz-2.0.0-dev-SrEtlFgcAAAOYG5s4Fe5BLdoynlL3MW0SS7RilJB5kTc",
         },
-        .clap = .{
-            .url = "https://github.com/Hejsil/zig-clap/archive/refs/tags/0.11.0.tar.gz",
-            .hash = "clap-0.11.0-oBajB-HnAQDPCKYzwF7rO3qDFwRcD39Q0DALlTSz5H7e",
-        },
     },
-    .paths = .{ "build.zig", "build.zig.zon", "src", "LICENSE", "README.md" },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "LICENSE",
+        "README.md",
+    },
 }
+
