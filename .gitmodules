@@ -1,3 +1,7 @@
 [submodule "gtest"]
 	path = lib/googletest
 	url = git@github.com:nooneknowspeter/googletest.git
+[submodule "compile_flagz"]
+	path = lib/compile_flagz
+	url = git@github.com:nooneknowspeter/compile_flagz.git
+	branch = feat/v3.x.x
