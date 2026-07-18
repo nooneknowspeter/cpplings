@@ -1,12 +1,14 @@
 const STD = @import("std");
 const COMPILE_FLAGZ = @import("compile_flagz");
-const CONFIG = @import("config");
 const BUILTIN = @import("builtin");
 
 pub fn build(b: *STD.Build) !void {
-    if (BUILTIN.zig_version.minor < 15) {
-        @compileError("Zig >= v0.15.1 is required...");
+    if (BUILTIN.zig_version.minor < 16) {
+        @compileError("Zig >= v0.16.0 is required...");
     }
+
+    const TARGET = b.standardTargetOptions(.{});
+    const OPTIMIZE = b.standardOptimizeOption(.{});
 
     const COMPILER_FLAGS = [_][]const u8{
         "-std=c++23",
@@ -15,9 +17,6 @@ pub fn build(b: *STD.Build) !void {
         "-Wextra",
         "-pedantic",
     };
-
-    const TARGET = b.standardTargetOptions(.{});
-    const OPTIMIZE = b.standardOptimizeOption(.{});
 
     // dependencies
     const DEP_GTEST = b.dependency(
@@ -39,13 +38,15 @@ pub fn build(b: *STD.Build) !void {
             }),
         });
 
-        CPPLINGS_CLI.root_module.addIncludePath(b.path("include"));
         CPPLINGS_CLI.root_module.addIncludePath(b.path("src"));
 
         // TODO: pass in cpp source files
-        CPPLINGS_CLI.root_module.addCSourceFile(.{
-            .file = b.path("src/main.cpp"),
+        // NOTE: exclude ./src/tests
+        CPPLINGS_CLI.root_module.addCSourceFiles(.{
             .flags = &COMPILER_FLAGS,
+            .files = &[_][]const u8{
+                "src/main.cpp",
+            },
         });
 
         b.installArtifact(CPPLINGS_CLI);
@@ -76,14 +77,16 @@ pub fn build(b: *STD.Build) !void {
             }),
         });
 
-        CPPLINGS_CLI_TESTS.root_module.addIncludePath(b.path("include"));
-        CPPLINGS_CLI_TESTS.root_module.addIncludePath(b.path("src"));
-
         // TODO: pass in cpp source files
+        // NOTE: only ./src/tests
         CPPLINGS_CLI_TESTS.root_module.addCSourceFile(.{
             .file = b.path("src/tests/test.cpp"),
             .flags = &COMPILER_FLAGS,
         });
+
+        CPPLINGS_CLI_TESTS.root_module.addIncludePath(b.path("include"));
+        CPPLINGS_CLI_TESTS.root_module.addIncludePath(b.path("src"));
+        CPPLINGS_CLI_TESTS.root_module.linkLibrary(DEP_GTEST.artifact("gtest"));
 
         b.installArtifact(CPPLINGS_CLI_TESTS);
         const CPPLINGS_CLI_TESTS_ARTIFACT = b.addRunArtifact(CPPLINGS_CLI_TESTS);
@@ -138,48 +141,28 @@ pub fn build(b: *STD.Build) !void {
     }
 
     // create compile flags generator
-    // TODO: update compile flagz to zig 0.16.0 std
-    // TODO: variable args, multi args
-    // TODO: facade + dependency injection; find system include paths inside lib
-    // TODO: strategy pattern; use different compilers to get include paths
     {
-        var cflags = COMPILE_FLAGZ.addCompileFlags(b);
-        cflags.addIncludePath(b.path("include"));
-        cflags.addIncludePath(b.path("src"));
-        cflags.addIncludePath(DEP_GTEST.path("include"));
-
-        const CLANG_PLUS_PLUS = try STD.process.Child.run(.{ .allocator = b.allocator, .argv = &[_][]const u8{
-            "zig",
-            "c++",
-            "-E",
-            "-x",
-            "c++",
-            "-",
-            "-v",
-        } });
-        var clang_plus_plus_output = STD.mem.splitScalar(
-            u8,
-            CLANG_PLUS_PLUS.stderr,
-            '\n',
+        var cflags = COMPILE_FLAGZ.configureCompileFlags(
+            b,
+            .{
+                .language_variant = .cxx23,
+                .warnings = .{
+                    .Wall = true,
+                    .Werror = true,
+                },
+                .compiler = .zigcxx,
+                .paths = &[_]STD.Build.LazyPath{
+                    b.path("src"),
+                    DEP_GTEST.path("include"),
+                },
+                .custom = null,
+            },
         );
-        var start_capture = false;
 
-        while (clang_plus_plus_output.next()) |line| {
-            if (STD.mem.startsWith(u8, line, "#include <...> search starts here:")) {
-                start_capture = true;
-                continue;
-            }
-
-            if (STD.mem.startsWith(u8, line, "End of search list.")) {
-                break;
-            }
-
-            if (start_capture) {
-                cflags.addIncludePath(.{ .cwd_relative = STD.mem.trim(u8, line, " ") });
-            }
-        }
-
-        const CFLAGS_STEP = b.step("compile-flags", "Generate compile_flags.txt for C/C++ IDE support");
+        const CFLAGS_STEP = b.step(
+            "compile-flags",
+            "Generate compile_flags.txt for C/C++ IDE support",
+        );
         CFLAGS_STEP.dependOn(&cflags.step);
     }
 }
