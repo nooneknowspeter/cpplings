@@ -310,3 +310,35 @@ explaining the benefits of Zig's build system in the world of C/C++.
 [clangd compiler flags](https://simonhartcher.com/posts/2025-09-08-announcing-compile-flagz/) - Make Clangd work with C++ using Zig as a build system.
 
 [The worst programming language of all time (CJ's reaction)](https://www.youtube.com/watch?v=K3z7Ymx4UWY)
+
+
+## TODO
+
+- [ ] cli
+  - [ ] diff and patches; solutions and testing
+  - [ ] improve software design and implementation; commands pattern + MPSC queue
+- [ ] add exercises
+  - [x] variables
+  - [x] functions
+  - [ ] control-flow (if-else)
+  - [ ] primitives (datatypes)
+  - [ ] type-conversion
+  - [ ] strings (c style vs std::strings)
+  - [ ] containers (c style containers vs std containers)
+  - [ ] modules (#include, headers, C++20 modules; import export, std lib)
+  - [ ] structs
+  - [ ] enums
+  - [ ] classes
+  - [ ] generics (templating)
+  - [ ] exceptions (errors, exception handling)
+  - [ ] memory (memory module, raw pointers, smart pointers, computer architecture, operating systems, raii, performance)
+  - [ ] threads (concurrency, multi-threading, operation systems, computer architecture)
+  - [ ] preprocessors (#include, #def, #ifdef)
+  - [ ] cpphistory (creator, why was it created, cpp versions, features, c++11, c++14, c++17, c++20, c++23, c++26)
+  - [ ] bit-manipultion (bitwise arithmetic, operations, logic gates, hardware, OS)
+  - [ ] network programming (sockets, server, client, IPC)
+
+- [ ] c++ 23 rewrite
+- [ ] frontend; nextjs (static) / quarto
+- [ ] documentation; quarto
+- [ ] cli demo
