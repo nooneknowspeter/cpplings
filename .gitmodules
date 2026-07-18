@@ -5,3 +5,6 @@
 	path = lib/compile_flagz
 	url = git@github.com:nooneknowspeter/compile_flagz.git
 	branch = feat/v3.x.x
+[submodule "catch2"]
+	path = lib/catch2
+	url = git@github.com:nooneknowspeter/catch2.git

@@ -10,6 +10,9 @@
         .compile_flagz = .{
             .path = "./lib/compile_flagz",
         },
+        .catch2 = .{
+            .path = "./lib/catch2/",
+        },
     },
     .paths = .{
         "build.zig",
@@ -19,3 +22,4 @@
         "README.md",
     },
 }
+
