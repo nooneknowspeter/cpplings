@@ -74,6 +74,7 @@ Patches use the unified diff format:
 3. **Patch File**: Unified diff showing the differences
 
 The patch system allows:
+
 - Users to see hints by comparing exercise to solution
 - Automatic verification that exercises are solvable
 - Easy maintenance of exercise content

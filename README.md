@@ -2,11 +2,11 @@
 
 > [!NOTE]
 >
-> This project may sound simple especially being a TUI 
+> This project may sound simple especially being a TUI
 > but it is hard for me when I want to write the best code possible;
 > not just for asthetics but for **maintain** ability, **scale** ability, **repair** ability
 > and that everything works well while building everything from scratch.
-> 
+>
 > Achieving that standard while having a full-time job is hard therefore,
 > it will take a long time for updates to roll out.
 > Although I do use LLMs via their web clients for documentation and research purposes,
@@ -23,7 +23,7 @@ These exercises reference the excellent [learncpp](https://www.learncpp.com/)
 and are conceptually related to [cplings](https://github.com/rdjondo/cplings),
 which adopted this idea earlier.
 
-We recommend doing these exercises alongside reading [learncpp](https://www.learncpp.com/) 
+We recommend doing these exercises alongside reading [learncpp](https://www.learncpp.com/)
 while checking out the additional learning resources listed below
 and in the comments of the source code.
 
@@ -310,4 +310,3 @@ explaining the benefits of Zig's build system in the world of C/C++.
 [clangd compiler flags](https://simonhartcher.com/posts/2025-09-08-announcing-compile-flagz/) - Make Clangd work with C++ using Zig as a build system.
 
 [The worst programming language of all time (CJ's reaction)](https://www.youtube.com/watch?v=K3z7Ymx4UWY)
-

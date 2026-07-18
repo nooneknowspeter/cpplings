@@ -1,12 +1,12 @@
 # Contributing to cpplings
 
-Thank you for your interest in contributing to cpplings! 
+Thank you for your interest in contributing to cpplings!
 
 This document provides guidelines and instructions for contributing.
 
 ## Code of Conduct
 
-This project adheres to a code of conduct that all contributors are expected to follow. 
+This project adheres to a code of conduct that all contributors are expected to follow.
 Please be respectful and constructive in all interactions.
 
 ## Getting Started
@@ -121,7 +121,7 @@ Solutions include full explanations:
 // TODO: We sometimes encourage you to keep trying things on a given exercise
 // even after you already figured it out.
 //
-// The same explaination as the exercise or a 
+// The same explaination as the exercise or a
 // detailed explanation of the concept.
 //
 // Key points:
@@ -198,7 +198,7 @@ Use TODO comments to indicate what users should fix:
 Run formatting before committing:
 
 > [!NOTE]
-> 
+>
 > `treefmt` must be installed with the formatters listed in the [`flake.nix`](./flake.nix).
 
 ```bash
@@ -229,6 +229,7 @@ zig build tests
 ## Pull Request Process
 
 1. **Fork and Branch**: Create a feature branch from `develop`
+
    ```bash
    git checkout -b feature/your-feature-name
    ```
@@ -242,16 +243,19 @@ zig build tests
 2. **Make Changes**: Implement your changes following the conventions
 
 3. **Test**: Ensure all tests pass
+
    ```bash
    zig build tests
    ```
 
 4. **Generate Patches**: Generate the unified diffs of the added exercises and solutions
-    ```bash
-    zig build run -- -p
-    ```
+
+   ```bash
+   zig build run -- -p
+   ```
 
 5. **Format**: Run the formatter
+
    ```bash
    treefmt
    ```
@@ -263,6 +267,7 @@ zig build tests
    ```
 
 6. **Commit**: Use clear, descriptive commit messages
+
    ```bash
    git commit -m "feat: add exercise for C++ strings and string_view"
    ```
