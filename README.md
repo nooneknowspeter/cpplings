@@ -93,7 +93,7 @@ Check [`.tool-versions`](./.tool-versions) and ensure you have the plugins added
 asdf plugin add <plugin-name>
 ```
 
-### Nix
+### Nix (Recommended)
 
 If you're using NixOS or Nix installed, a flake based nix shell environment is provided with all required dependencies,
 such as Zig, and more.
@@ -310,7 +310,6 @@ explaining the benefits of Zig's build system in the world of C/C++.
 [clangd compiler flags](https://simonhartcher.com/posts/2025-09-08-announcing-compile-flagz/) - Make Clangd work with C++ using Zig as a build system.
 
 [The worst programming language of all time (CJ's reaction)](https://www.youtube.com/watch?v=K3z7Ymx4UWY)
-
 
 ## TODO
 
