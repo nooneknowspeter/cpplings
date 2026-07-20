@@ -24,6 +24,11 @@ pub fn build(b: *STD.Build) !void {
         .{},
     );
 
+    const DEP_CATCH = b.dependency(
+        "catch2",
+        .{},
+    );
+
     // cli
     {
         const CPPLINGS_CLI = b.addExecutable(.{
@@ -31,14 +36,12 @@ pub fn build(b: *STD.Build) !void {
             .root_module = b.createModule(.{
                 .target = TARGET,
                 .optimize = OPTIMIZE,
-                .valgrind = true,
                 .link_libcpp = true,
                 .link_libc = true,
-                .single_threaded = false,
             }),
         });
 
-        CPPLINGS_CLI.root_module.addIncludePath(b.path("src"));
+        b.installArtifact(CPPLINGS_CLI);
 
         // TODO: pass in cpp source files
         // NOTE: exclude ./src/tests
@@ -46,19 +49,26 @@ pub fn build(b: *STD.Build) !void {
             .flags = &COMPILER_FLAGS,
             .files = &[_][]const u8{
                 "src/main.cpp",
+                "src/tui.cpp",
             },
         });
 
-        b.installArtifact(CPPLINGS_CLI);
-        const CPPLINGS_CLI_ARTIFIACT = b.addRunArtifact(CPPLINGS_CLI);
+        CPPLINGS_CLI.root_module.addIncludePath(b.path("src"));
 
-        const CPPLINGS_CLI_RUN_STEP = b.step("run", "Run cpplings cli");
-        CPPLINGS_CLI_RUN_STEP.dependOn(&CPPLINGS_CLI_ARTIFIACT.step);
-        CPPLINGS_CLI_ARTIFIACT.step.dependOn(b.getInstallStep());
+        const CPPLINGS_CLI_RUN_STEP = b.step(
+            "run",
+            "Run cpplings cli",
+        );
+
+        const CPPLINGS_CLI_RUN_CMD = b.addRunArtifact(
+            CPPLINGS_CLI,
+        );
+        CPPLINGS_CLI_RUN_STEP.dependOn(&CPPLINGS_CLI_RUN_CMD.step);
+        CPPLINGS_CLI_RUN_CMD.step.dependOn(b.getInstallStep());
 
         if (b.args) |args| {
             if (args.len > 0) {
-                CPPLINGS_CLI_ARTIFIACT.addArgs(args);
+                CPPLINGS_CLI_RUN_CMD.addArgs(args);
             }
         }
     }
@@ -70,12 +80,13 @@ pub fn build(b: *STD.Build) !void {
             .root_module = b.createModule(.{
                 .target = TARGET,
                 .optimize = OPTIMIZE,
-                .link_libc = true,
                 .link_libcpp = true,
-                .valgrind = true,
+                .link_libc = true,
                 .single_threaded = true,
             }),
         });
+
+        b.installArtifact(CPPLINGS_CLI_TESTS);
 
         // TODO: pass in cpp source files
         // NOTE: only ./src/tests
@@ -84,15 +95,22 @@ pub fn build(b: *STD.Build) !void {
             .flags = &COMPILER_FLAGS,
         });
 
-        CPPLINGS_CLI_TESTS.root_module.addIncludePath(b.path("include"));
         CPPLINGS_CLI_TESTS.root_module.addIncludePath(b.path("src"));
-        CPPLINGS_CLI_TESTS.root_module.linkLibrary(DEP_GTEST.artifact("gtest"));
+        // CPPLINGS_CLI_TESTS.root_module.linkLibrary(DEP_GTEST.artifact("gtest"));
+        CPPLINGS_CLI_TESTS.root_module.linkLibrary(DEP_CATCH.artifact("Catch2"));
 
-        b.installArtifact(CPPLINGS_CLI_TESTS);
-        const CPPLINGS_CLI_TESTS_ARTIFACT = b.addRunArtifact(CPPLINGS_CLI_TESTS);
+        const CPPLINGS_CLI_TESTS_STEP = b.step(
+            "tests",
+            "Run cpplings tests",
+        );
 
-        const CPPLINGS_CLI_TESTS_STEP = b.step("tests", "Run cpplings tests");
-        CPPLINGS_CLI_TESTS_STEP.dependOn(&CPPLINGS_CLI_TESTS_ARTIFACT.step);
+        const CPPLINGS_CLI_TESTS_ARTIFACT = b.addRunArtifact(
+            CPPLINGS_CLI_TESTS,
+        );
+
+        CPPLINGS_CLI_TESTS_STEP.dependOn(
+            &CPPLINGS_CLI_TESTS_ARTIFACT.step,
+        );
         CPPLINGS_CLI_TESTS_ARTIFACT.step.dependOn(b.getInstallStep());
     }
 
@@ -118,19 +136,34 @@ pub fn build(b: *STD.Build) !void {
                     .files = EXERCISE_FILENAMES,
                 });
 
-                CPPLINGS_EXERCISE.root_module.addIncludePath(b.path("include"));
-                CPPLINGS_EXERCISE.root_module.addIncludePath(b.path("exercises"));
-                CPPLINGS_EXERCISE.root_module.linkLibrary(DEP_GTEST.artifact("gtest"));
-                // CPPLINGS_EXERCISE.root_module.linkLibrary(DEP_GTEST.artifact("gtest_main"));
+                CPPLINGS_EXERCISE.root_module.addIncludePath(
+                    b.path("include"),
+                );
+                CPPLINGS_EXERCISE.root_module.addIncludePath(
+                    b.path("exercises"),
+                );
+                // CPPLINGS_EXERCISE.root_module.linkLibrary(
+                //     DEP_GTEST.artifact("gtest"),
+                // );
+                // CPPLINGS_EXERCISE.root_module.linkLibrary(
+                //     DEP_GTEST.artifact("gtest_main"),
+                // );
 
                 b.installArtifact(CPPLINGS_EXERCISE);
             }
         }
 
-        const CPPLINGS_EXERCISE_ARTIFACT = b.addRunArtifact(CPPLINGS_EXERCISE);
+        const CPPLINGS_EXERCISE_ARTIFACT = b.addRunArtifact(
+            CPPLINGS_EXERCISE,
+        );
 
-        const CPPLINGS_RUN_EXERCISE_STEP = b.step("exercises", "Build and run cpplings_exercise exercise");
-        CPPLINGS_RUN_EXERCISE_STEP.dependOn(&CPPLINGS_EXERCISE_ARTIFACT.step);
+        const CPPLINGS_RUN_EXERCISE_STEP = b.step(
+            "exercises",
+            "Build and run cpplings_exercise exercise",
+        );
+        CPPLINGS_RUN_EXERCISE_STEP.dependOn(
+            &CPPLINGS_EXERCISE_ARTIFACT.step,
+        );
         CPPLINGS_EXERCISE_ARTIFACT.step.dependOn(b.getInstallStep());
 
         if (b.args) |args| {
@@ -153,7 +186,7 @@ pub fn build(b: *STD.Build) !void {
                 .compiler = .zigcxx,
                 .paths = &[_]STD.Build.LazyPath{
                     b.path("src"),
-                    DEP_GTEST.path("include"),
+                    DEP_GTEST.path("zig-out/include"),
                 },
                 .custom = null,
             },
@@ -166,4 +199,3 @@ pub fn build(b: *STD.Build) !void {
         CFLAGS_STEP.dependOn(&cflags.step);
     }
 }
-
