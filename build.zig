@@ -202,9 +202,14 @@ pub fn build(b: *STD.Build) !void {
                 .paths = &[_]STD.Build.LazyPath{
                     b.path("src"),
                     DEP_GTEST.path("zig-out/include"),
+                    DEP_CATCH.path("zig-out/include"),
                     DEP_BOOST.path("zig-out/include"),
                 },
-                .custom = null,
+                .custom = &[_][]const u8{
+                    "-D_LIBCPP_HAS_FILESYSTEM=1",
+                    "-D_LIBCPP_HAS_THREADS=1",
+                    "-D_LIBCPP_HAS_TIME_ZONE_DATABASE=1",
+                },
             },
         );
 
