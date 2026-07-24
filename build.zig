@@ -29,6 +29,11 @@ pub fn build(b: *STD.Build) !void {
         .{},
     );
 
+    const DEP_BOOST = b.dependency("boost", .{
+        .target = TARGET,
+        .optimize = OPTIMIZE,
+    });
+
     // cli
     {
         const CPPLINGS_CLI = b.addExecutable(.{
@@ -54,6 +59,16 @@ pub fn build(b: *STD.Build) !void {
         });
 
         CPPLINGS_CLI.root_module.addIncludePath(b.path("src"));
+
+        const BOOST_ARTIFACT = DEP_BOOST.artifact("boost");
+        for (BOOST_ARTIFACT.root_module.include_dirs.items) |include_dir| {
+            try CPPLINGS_CLI.root_module.include_dirs.append(
+                b.allocator,
+                include_dir,
+            );
+        }
+
+        CPPLINGS_CLI.root_module.linkLibrary(BOOST_ARTIFACT);
 
         const CPPLINGS_CLI_RUN_STEP = b.step(
             "run",
@@ -187,6 +202,7 @@ pub fn build(b: *STD.Build) !void {
                 .paths = &[_]STD.Build.LazyPath{
                     b.path("src"),
                     DEP_GTEST.path("zig-out/include"),
+                    DEP_BOOST.path("zig-out/include"),
                 },
                 .custom = null,
             },
