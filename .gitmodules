@@ -8,3 +8,6 @@
 [submodule "catch2"]
 	path = lib/catch2
 	url = git@github.com:nooneknowspeter/catch2.git
+[submodule "boost"]
+	path = lib/boost
+	url = git@github.com:nooneknowspeter/boost-libraries-zig.git
