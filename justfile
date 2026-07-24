@@ -46,3 +46,9 @@ lint:
 
 benchmark:
     hyperfine -i "zig build cli"
+
+get-header-macros:
+	zig c++ -dM -E -x c++ -v /dev/null
+
+get-headers:
+	zig c++ -E -x c++ -v /dev/null
