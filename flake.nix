@@ -74,7 +74,7 @@
           patch
           perf
           valgrind
-					opencode
+          opencode
         ];
 
         doc_pkgs = with pkgs; [
@@ -120,4 +120,3 @@
       }
     );
 }
-

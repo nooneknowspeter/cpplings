@@ -13,9 +13,7 @@
         .catch2 = .{
             .path = "./lib/catch2/",
         },
-        .boost = .{
-            .path = "./lib/boost"
-        },
+        .boost = .{ .path = "./lib/boost" },
     },
     .paths = .{
         "build.zig",

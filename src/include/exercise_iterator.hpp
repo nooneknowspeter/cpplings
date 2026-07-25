@@ -13,7 +13,7 @@ struct ExerciseIterator
     ExerciseIterator &operator=(const ExerciseIterator &) = delete;
     ExerciseIterator &operator=(ExerciseIterator &&) = default;
 
-		static std::unique_ptr<ExerciseIterator> getInstance();
+    static std::unique_ptr<ExerciseIterator> getInstance();
 
     enum class ExerciseDirectories
     {

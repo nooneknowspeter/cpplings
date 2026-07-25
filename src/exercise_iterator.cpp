@@ -169,8 +169,7 @@ void ExerciseIterator::next()
     {
         if (limit::max() == TUI::p_state->current_exercise_index)
         {
-            throw std::runtime_error(
-                std::format("{} can't go past the last exercise", limit::min()));
+            throw std::runtime_error(std::format("{} can't go past the last exercise", limit::min()));
         }
 
         if (!TUI::p_state->did_current_exercise_compile)
