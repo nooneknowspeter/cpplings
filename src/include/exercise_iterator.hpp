@@ -1,22 +1,37 @@
 #pragma once
 
+#include <memory>
+
 struct ExerciseIterator
 {
+    ExerciseIterator() = default;
+    ~ExerciseIterator() = default;
+
+    ExerciseIterator(const ExerciseIterator &) = delete;
+    ExerciseIterator(ExerciseIterator &&) = default;
+
+    ExerciseIterator &operator=(const ExerciseIterator &) = delete;
+    ExerciseIterator &operator=(ExerciseIterator &&) = default;
+
+		static std::unique_ptr<ExerciseIterator> getInstance();
+
     enum class ExerciseDirectories
     {
         Exercises,
         Solutions
     };
 
-    static void updateExerciseDirectory(ExerciseDirectories directory);
+    void updateExerciseDirectory(ExerciseDirectories directory);
 
-    static void scanForExercises();
+    void scanForExercises();
 
-    static void previous();
+    void scanForExerciseSupportFiles();
 
-    static void current();
+    void previous();
 
-    static void next();
+    void current();
 
-    static void reset();
+    void next();
+
+    void reset();
 };
