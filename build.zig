@@ -36,29 +36,65 @@ pub fn build(b: *STD.Build) !void {
 
     // cli
     {
+        const SOURCE_CORE = [_][]const u8{
+            "src/tui.cpp",
+            "src/exercise_iterator.cpp",
+            "src/file_watcher.cpp",
+            // "src/exercise_runner.cpp",
+            // "src/patch_system.cpp",
+        };
+
+        const SOURCE_MAIN = [_][]const u8{
+            "src/main.cpp",
+        };
+
+        const SOURCE_TEST = [_][]const u8{
+            "src/tests/test.cpp",
+        };
+
+        const CPPLINGS_MODULE = b.createModule(.{
+            .target = TARGET,
+            .optimize = OPTIMIZE,
+            .link_libcpp = true,
+            .link_libc = true,
+            .single_threaded = false,
+        });
+
         const CPPLINGS_CLI = b.addExecutable(.{
             .name = "cpplings_cli",
-            .root_module = b.createModule(.{
-                .target = TARGET,
-                .optimize = OPTIMIZE,
-                .link_libcpp = true,
-                .link_libc = true,
-            }),
+            .root_module = CPPLINGS_MODULE,
         });
 
         b.installArtifact(CPPLINGS_CLI);
 
-        // TODO: pass in cpp source files
-        // NOTE: exclude ./src/tests
+        const CPPLINGS_CLI_RUN_STEP = b.step(
+            "run",
+            "Run cpplings cli",
+        );
+        const TEST_OPTION = b.option(bool, "tests", "Run cpplings tests") orelse false;
+
         CPPLINGS_CLI.root_module.addCSourceFiles(.{
             .flags = &COMPILER_FLAGS,
-            .files = &[_][]const u8{
-                "src/main.cpp",
-                "src/tui.cpp",
-            },
+            .files = &SOURCE_CORE,
         });
 
+        if (TEST_OPTION) {
+            CPPLINGS_CLI.root_module.addCSourceFiles(.{
+                .flags = &COMPILER_FLAGS,
+                .files = &SOURCE_TEST,
+            });
+        } else {
+            CPPLINGS_CLI.root_module.addCSourceFiles(.{
+                .flags = &COMPILER_FLAGS,
+                .files = &SOURCE_MAIN,
+            });
+        }
+
         CPPLINGS_CLI.root_module.addIncludePath(b.path("src"));
+
+        CPPLINGS_CLI.root_module.linkLibrary(DEP_GTEST.artifact("gtest"));
+
+        CPPLINGS_CLI.root_module.linkLibrary(DEP_CATCH.artifact("Catch2"));
 
         const BOOST_ARTIFACT = DEP_BOOST.artifact("boost");
         for (BOOST_ARTIFACT.root_module.include_dirs.items) |include_dir| {
@@ -67,66 +103,19 @@ pub fn build(b: *STD.Build) !void {
                 include_dir,
             );
         }
-
         CPPLINGS_CLI.root_module.linkLibrary(BOOST_ARTIFACT);
-
-        const CPPLINGS_CLI_RUN_STEP = b.step(
-            "run",
-            "Run cpplings cli",
-        );
 
         const CPPLINGS_CLI_RUN_CMD = b.addRunArtifact(
             CPPLINGS_CLI,
         );
-        CPPLINGS_CLI_RUN_STEP.dependOn(&CPPLINGS_CLI_RUN_CMD.step);
         CPPLINGS_CLI_RUN_CMD.step.dependOn(b.getInstallStep());
+        CPPLINGS_CLI_RUN_STEP.dependOn(&CPPLINGS_CLI_RUN_CMD.step);
 
         if (b.args) |args| {
             if (args.len > 0) {
                 CPPLINGS_CLI_RUN_CMD.addArgs(args);
             }
         }
-    }
-
-    // tests
-    {
-        const CPPLINGS_CLI_TESTS = b.addExecutable(.{
-            .name = "cpplings_tests",
-            .root_module = b.createModule(.{
-                .target = TARGET,
-                .optimize = OPTIMIZE,
-                .link_libcpp = true,
-                .link_libc = true,
-                .single_threaded = true,
-            }),
-        });
-
-        b.installArtifact(CPPLINGS_CLI_TESTS);
-
-        // TODO: pass in cpp source files
-        // NOTE: only ./src/tests
-        CPPLINGS_CLI_TESTS.root_module.addCSourceFile(.{
-            .file = b.path("src/tests/test.cpp"),
-            .flags = &COMPILER_FLAGS,
-        });
-
-        CPPLINGS_CLI_TESTS.root_module.addIncludePath(b.path("src"));
-        // CPPLINGS_CLI_TESTS.root_module.linkLibrary(DEP_GTEST.artifact("gtest"));
-        CPPLINGS_CLI_TESTS.root_module.linkLibrary(DEP_CATCH.artifact("Catch2"));
-
-        const CPPLINGS_CLI_TESTS_STEP = b.step(
-            "tests",
-            "Run cpplings tests",
-        );
-
-        const CPPLINGS_CLI_TESTS_ARTIFACT = b.addRunArtifact(
-            CPPLINGS_CLI_TESTS,
-        );
-
-        CPPLINGS_CLI_TESTS_STEP.dependOn(
-            &CPPLINGS_CLI_TESTS_ARTIFACT.step,
-        );
-        CPPLINGS_CLI_TESTS_ARTIFACT.step.dependOn(b.getInstallStep());
     }
 
     // exercises
@@ -152,14 +141,14 @@ pub fn build(b: *STD.Build) !void {
                 });
 
                 CPPLINGS_EXERCISE.root_module.addIncludePath(
-                    b.path("include"),
-                );
-                CPPLINGS_EXERCISE.root_module.addIncludePath(
                     b.path("exercises"),
                 );
-                // CPPLINGS_EXERCISE.root_module.linkLibrary(
-                //     DEP_GTEST.artifact("gtest"),
-                // );
+                CPPLINGS_EXERCISE.root_module.linkLibrary(
+                    DEP_GTEST.artifact("gtest"),
+                );
+                CPPLINGS_EXERCISE.root_module.linkLibrary(
+                    DEP_CATCH.artifact("Catch2"),
+                );
                 // CPPLINGS_EXERCISE.root_module.linkLibrary(
                 //     DEP_GTEST.artifact("gtest_main"),
                 // );
@@ -206,9 +195,12 @@ pub fn build(b: *STD.Build) !void {
                     DEP_BOOST.path("zig-out/include"),
                 },
                 .custom = &[_][]const u8{
+                    "-pedantic",
                     "-D_LIBCPP_HAS_FILESYSTEM=1",
                     "-D_LIBCPP_HAS_THREADS=1",
                     "-D_LIBCPP_HAS_TIME_ZONE_DATABASE=1",
+                    "-D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_NONE",
+                    "-D_LIBCPP_HAS_MONOTONIC_CLOCK=1",
                 },
             },
         );
@@ -220,3 +212,4 @@ pub fn build(b: *STD.Build) !void {
         CFLAGS_STEP.dependOn(&cflags.step);
     }
 }
+
