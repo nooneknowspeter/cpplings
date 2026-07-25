@@ -1,3 +1,4 @@
+#include "include/exercise_iterator.hpp"
 #include "include/log.hpp"
 #include "include/tui.hpp"
 #include <algorithm>
@@ -70,10 +71,10 @@ static constexpr void runCLI([[maybe_unused]] int argc, [[maybe_unused]] char *a
         return;
     }
 
-    // TODO: run tui against solutions
     if (std::find(args.begin(), args.end(), "-s") != args.end())
     {
         Log::info("run tui against solutions");
+        TUI::run(ExerciseIterator::ExerciseDirectories::Solutions);
 
         return;
     }
