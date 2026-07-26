@@ -1,3 +1,4 @@
+#include "include/ascii.hpp"
 #include "include/exercise_iterator.hpp"
 #include "include/log.hpp"
 #include "include/tui.hpp"
@@ -14,16 +15,15 @@ namespace Documentation
 
 static const std::string MAIN{R"(
 options:
--h | --help | help -> output this help documentation
+-h -> output this help documentation
 -d -> run cpplings in debug mode
 -p [-d] -> generate patch files
 -s [-d] -> run and test cpplings against solutions dir
--c < zig | clang | gcc> [-d] -> run cpplings with a preferred compiler
 )"};
 
 static constexpr void printHelpDocumentation(std::string program_arg, std::string docs)
 {
-    std::println("{} [OPTION(S)]\n{}", program_arg, docs);
+    std::println("{}\n{} [OPTION(S)]\n{}", ASCII::ART, program_arg, docs);
 }
 
 }; // namespace Documentation
