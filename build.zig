@@ -132,12 +132,18 @@ pub fn build(b: *STD.Build) !void {
         });
 
         if (b.args) |args| {
-            if (args.len > 0) {
-                const EXERCISE_FILENAMES = args;
+            var exercise_filenames: STD.ArrayList([]const u8) = STD.ArrayList([]const u8).empty;
 
+            for (args) |arg| {
+                if (STD.mem.endsWith(u8, arg, ".cpp")) {
+                    try exercise_filenames.append(b.allocator, arg);
+                }
+            }
+
+            if (exercise_filenames.items.len > 0) {
                 CPPLINGS_EXERCISE.root_module.addCSourceFiles(.{
                     .flags = &COMPILER_FLAGS,
-                    .files = EXERCISE_FILENAMES,
+                    .files = exercise_filenames.items,
                 });
 
                 CPPLINGS_EXERCISE.root_module.addIncludePath(
