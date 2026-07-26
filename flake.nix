@@ -72,10 +72,10 @@
           hyperfine
           just
           lldb
+          opencode
           patch
           perf
           valgrind
-          opencode
         ];
 
         doc_pkgs = with pkgs; [
