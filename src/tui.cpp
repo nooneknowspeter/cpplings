@@ -9,6 +9,7 @@
 #include <memory>
 #include <mutex>
 #include <print>
+#include <stop_token>
 #include <thread>
 #include <unordered_map>
 
@@ -30,56 +31,21 @@ std::unordered_map<std::string, TUI::Commands> command_map{
     {"x", TUI::Commands::Reset},        {"q", TUI::Commands::Quit},
 };
 
-static void userInput()
+static void userInput(std::stop_token s_token)
 {
-    while (TUI::p_state->is_running)
+    while (!s_token.stop_requested())
     {
         std::string input;
-
         std::getline(std::cin, input);
 
-        std::scoped_lock lock(TUI::mutex_state);
-
-        switch (Input::command_map[input])
+        auto map_iterator{Input::command_map.find(input)};
+        if (map_iterator != command_map.end())
         {
-        case TUI::Commands::Draw:
-            break;
-
-        case TUI::Commands::Clear:
-            break;
-
-        case TUI::Commands::NextExercise:
-            Log::info("next exercise");
-            TUI::p_commands_queue->push(TUI::Commands::NextExercise);
-            break;
-
-        case TUI::Commands::PreviousExercise:
-            Log::info("previous exercise");
-            TUI::p_commands_queue->push(TUI::Commands::PreviousExercise);
-            break;
-
-        case TUI::Commands::CompileAll:
-            Log::info("compile all exercises");
-            TUI::p_commands_queue->push(TUI::Commands::CompileAll);
-            break;
-
-        case TUI::Commands::Refresh:
-            Log::info("compile current exercise");
-            TUI::p_commands_queue->push(TUI::Commands::Refresh);
-            break;
-
-        case TUI::Commands::Reset:
-            Log::info("reset exercise to previous state");
-            TUI::p_commands_queue->push(TUI::Commands::Reset);
-            break;
-
-        case TUI::Commands::Quit:
-            Log::info("quit");
-            TUI::p_commands_queue->push(TUI::Commands::Quit);
-            break;
+            Log::info("{}", map_iterator->first);
+            std::scoped_lock lock(TUI::mutex_state);
+            TUI::p_commands_queue->push(map_iterator->second);
+            TUI::cv_state.notify_one();
         }
-
-        TUI::cv_state.notify_one();
     }
 }
 
@@ -173,7 +139,6 @@ struct Render
         std::print("{}l{}: list / ", ASCII::Styles::BOLD, ASCII::Styles::CLEAR_STYLE);
         std::print("{}q{}: quit ", ASCII::Styles::BOLD, ASCII::Styles::CLEAR_STYLE);
         std::print("-> ");
-
     }
 };
 
@@ -191,21 +156,20 @@ void run(ExerciseIterator::ExerciseDirectories directory)
 
     TUI::p_commands_queue->push(TUI::Commands::CompileAll);
 
-    auto file_watcher_instance{FileWatcher::getInstance()};
-    auto file_watcher_daemon{std::thread([&file_watcher_instance] { file_watcher_instance->watch(1000); })};
-    file_watcher_daemon.detach();
-
-    auto stdin_daemon{std::thread([] { Input::userInput(); })};
-    stdin_daemon.detach();
+    std::stop_source stop_src;
+    std::stop_token s_token{stop_src.get_token()};
+    auto file_watcher_thread = std::jthread([&s_token] { FileWatcher::getInstance()->watch(s_token, 1000); });
+    auto stdin_thread = std::jthread([&s_token] { Input::userInput(s_token); });
 
     // event loop
-    while (TUI::p_state->is_running)
+    while (!s_token.stop_requested())
     {
         std::unique_lock lock(TUI::mutex_state);
         TUI::cv_state.wait_for(lock, std::chrono::milliseconds(100), [] { return !TUI::p_commands_queue->empty(); });
 
         if (TUI::p_commands_queue->empty())
         {
+            Render::draw();
             continue;
         }
 
@@ -215,7 +179,11 @@ void run(ExerciseIterator::ExerciseDirectories directory)
         {
         case TUI::Commands::Quit:
             Log::info("quitting");
+            Log::info("gracefully stop threads");
+            stop_src.request_stop();
+            Log::info("set is running to false");
             TUI::p_state->is_running = false;
+            std::terminate();
             break;
 
         case TUI::Commands::Clear:

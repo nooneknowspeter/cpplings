@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <memory>
 #include <mutex>
+#include <stop_token>
 #include <thread>
 
 std::unique_ptr<FileWatcher> FileWatcher::getInstance()
@@ -12,9 +13,9 @@ std::unique_ptr<FileWatcher> FileWatcher::getInstance()
     return std::make_unique<FileWatcher>();
 }
 
-void FileWatcher::watch(const std::uint16_t poll_ms)
+void FileWatcher::watch(std::stop_token s_token, const std::uint16_t poll_ms)
 {
-    while (TUI::p_state->is_running)
+    while (!s_token.stop_requested())
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(poll_ms));
 

@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <filesystem>
+#include <stop_token>
 
 struct FileWatcher
 {
@@ -16,7 +17,7 @@ struct FileWatcher
 
     static std::unique_ptr<FileWatcher> getInstance();
 
-    void watch(const std::uint16_t poll_ms = 1000);
+    void watch(std::stop_token s_token, const std::uint16_t poll_ms);
 
   private:
     [[maybe_unused]] std::filesystem::file_time_type m_current_exercise_prev_mod_time;
