@@ -32,8 +32,6 @@ static constexpr void runCLI([[maybe_unused]] int argc, [[maybe_unused]] char *a
 {
     std::vector<std::string> args(argv, argv + argc);
 
-    Log::configureLogger(true);
-
     if (args.size() > 3)
     {
         CLI::Documentation::printHelpDocumentation(args.at(0), CLI::Documentation::MAIN);
@@ -55,14 +53,6 @@ static constexpr void runCLI([[maybe_unused]] int argc, [[maybe_unused]] char *a
         Log::configureLogger(true);
     }
 
-    if (args.size() == 1)
-    {
-        Log::info("running tui");
-        TUI::run();
-
-        return;
-    }
-
     // TODO: run patch system
     if (std::find(args.begin(), args.end(), "-p") != args.end())
     {
@@ -78,6 +68,9 @@ static constexpr void runCLI([[maybe_unused]] int argc, [[maybe_unused]] char *a
 
         return;
     }
+
+    Log::info("running tui");
+    TUI::run();
 }
 
 } // namespace CLI
