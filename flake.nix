@@ -90,12 +90,7 @@
       {
         devShells = {
           default = pkgs.mkShell {
-            packages = [
-            ]
-            ++ fmt_pkgs
-            ++ runtime_pkgs
-            ++ dev_pkgs
-            ++ doc_pkgs;
+            packages = fmt_pkgs ++ runtime_pkgs ++ dev_pkgs ++ doc_pkgs;
 
             shellHook = ''
               ${fastfetch_cmd}
