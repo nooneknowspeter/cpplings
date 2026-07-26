@@ -64,6 +64,7 @@
 
         dev_pkgs = with pkgs; [
           # dev tools
+          act
           diffutils
           fastfetch
           gdb
