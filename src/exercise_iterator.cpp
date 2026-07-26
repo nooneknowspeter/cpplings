@@ -4,12 +4,9 @@
 #include <algorithm>
 #include <cstdint>
 #include <exception>
-#include <execution>
 #include <filesystem>
 #include <limits>
 #include <memory>
-#include <mutex>
-#include <print>
 #include <stdexcept>
 #include <system_error>
 
@@ -88,6 +85,9 @@ void ExerciseIterator::scanForExercises()
         {
             Log::info("{}", i.string());
         }
+
+        Log::info("set current exercise");
+        TUI::p_state->current_exercise = TUI::p_state->list_of_exercises.at(0);
     }
     catch (const std::exception &e)
     {
@@ -145,11 +145,12 @@ void ExerciseIterator::previous()
 
     try
     {
-        if (limit::min() == TUI::p_state->current_exercise_index)
+        if (limit::min() == TUI::p_state->current_exercise_index || TUI::p_state->completed_exercises.empty())
         {
             throw std::runtime_error(std::format("can't go past the first exercise"));
         }
 
+        TUI::p_state->completed_exercises.pop_back();
         TUI::p_state->current_exercise_index--;
         TUI::p_state->current_exercise = TUI::p_state->list_of_exercises.at(TUI::p_state->current_exercise_index);
     }
@@ -163,11 +164,9 @@ void ExerciseIterator::previous()
 
 void ExerciseIterator::next()
 {
-    using limit = std::numeric_limits<uint8_t>;
-
     try
     {
-        if (limit::max() == TUI::p_state->current_exercise_index)
+        if (TUI::p_state->list_of_exercises.size() == TUI::p_state->current_exercise_index)
         {
             throw std::runtime_error(std::format("can't go past the last exercise"));
         }
@@ -177,6 +176,7 @@ void ExerciseIterator::next()
             throw std::runtime_error(std::format("current exercise failed to compile"));
         }
 
+        TUI::p_state->completed_exercises.push_back(TUI::p_state->current_exercise);
         TUI::p_state->current_exercise_index++;
         TUI::p_state->current_exercise = TUI::p_state->list_of_exercises.at(TUI::p_state->current_exercise_index);
     }
