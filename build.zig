@@ -32,6 +32,9 @@ pub fn build(b: *STD.Build) !void {
     const DEP_BOOST = b.dependency("boost", .{
         .target = TARGET,
         .optimize = OPTIMIZE,
+
+        .filesystem = true,
+        .process = true,
     });
 
     // cli
@@ -40,7 +43,7 @@ pub fn build(b: *STD.Build) !void {
             "src/tui.cpp",
             "src/exercise_iterator.cpp",
             "src/file_watcher.cpp",
-            // "src/exercise_runner.cpp",
+            "src/exercise_runner.cpp",
             // "src/patch_system.cpp",
         };
 
