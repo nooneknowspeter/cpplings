@@ -25,8 +25,6 @@ struct ExerciseIterator
 
     void scanForExercises();
 
-    void scanForExerciseSupportFiles();
-
     void previous();
 
     void current();

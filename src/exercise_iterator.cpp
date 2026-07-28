@@ -95,50 +95,6 @@ void ExerciseIterator::scanForExercises()
     }
 }
 
-void ExerciseIterator::scanForExerciseSupportFiles()
-{
-    try
-    {
-        auto chapter_dir{TUI::p_state->current_exercise.parent_path()};
-
-        if (std::filesystem::is_empty(chapter_dir))
-        {
-            throw std::filesystem::filesystem_error("exercise chapter dir is empty", chapter_dir, std::error_code());
-        }
-
-        for (auto &entry : std::filesystem::recursive_directory_iterator(TUI::p_state->exercises_dir_path))
-        {
-            if (!entry.path().has_extension())
-            {
-                continue;
-            }
-
-            if (entry.path().extension() == std::filesystem::path(".h"))
-            {
-                continue;
-            }
-
-            if (entry.path().extension() == std::filesystem::path(".hpp"))
-            {
-                continue;
-            }
-
-            if (!entry.path().string().contains("src"))
-            {
-                continue;
-            }
-
-            Log::info("{}", entry.path().string());
-
-            TUI::p_state->list_of_chapter_support_files.emplace_back(entry.path());
-        }
-    }
-    catch (const std::exception &e)
-    {
-        Log::fatal("{}", e.what());
-    }
-}
-
 void ExerciseIterator::previous()
 {
     using limit = std::numeric_limits<std::uint8_t>;
@@ -169,6 +125,11 @@ void ExerciseIterator::next()
         if (TUI::p_state->list_of_exercises.size() == TUI::p_state->current_exercise_index)
         {
             throw std::runtime_error(std::format("can't go past the last exercise"));
+        }
+
+        if (TUI::p_state->is_current_exercise_compiling)
+        {
+            throw std::runtime_error(std::format("current exercise is compiling"));
         }
 
         if (!TUI::p_state->did_current_exercise_compile)
