@@ -55,6 +55,20 @@ struct Render
 {
     static size_t tick;
 
+    static void run(std::stop_token s_token)
+    {
+        auto current_tick{TUI::p_state->render_tick.load()};
+
+        while (!s_token.stop_requested())
+        {
+            if (current_tick != TUI::p_state->render_tick.load())
+            {
+                current_tick = TUI::p_state->render_tick.load();
+                draw();
+            }
+        }
+    }
+
     static void draw()
     {
         Log::info("clearing terminal");
@@ -159,6 +173,7 @@ void run(ExerciseIterator::ExerciseDirectories directory)
     std::stop_source stop_src;
     std::stop_token s_token{stop_src.get_token()};
     auto file_watcher_thread = std::jthread([&s_token] { FileWatcher::getInstance()->watch(s_token, 1000); });
+    auto render_thread = std::jthread([&s_token] { Render::run(s_token); });
     auto stdin_thread = std::jthread([&s_token] { Input::userInput(s_token); });
 
     // event loop
@@ -169,7 +184,7 @@ void run(ExerciseIterator::ExerciseDirectories directory)
 
         if (TUI::p_commands_queue->empty())
         {
-            Render::draw();
+            // TUI::p_state->render_tick++;
             continue;
         }
 
@@ -193,35 +208,35 @@ void run(ExerciseIterator::ExerciseDirectories directory)
 
         case TUI::Commands::Draw:
             Log::info("draw");
-            Render::draw();
+            TUI::p_state->render_tick++;
             break;
 
         case TUI::Commands::PreviousExercise:
             Log::info("previous exercise");
             exercise_iterator_instance->previous();
-            Render::draw();
+            TUI::p_state->render_tick++;
             break;
 
         case TUI::Commands::NextExercise:
             Log::info("current exercise");
             exercise_iterator_instance->next();
-            Render::draw();
+            TUI::p_state->render_tick++;
             break;
 
         case TUI::Commands::CompileAll:
             Log::info("compile all exercises");
-            Render::draw();
+            TUI::p_state->render_tick++;
             break;
 
         case TUI::Commands::Refresh:
             Log::info("refresh");
-            Render::draw();
+            TUI::p_state->render_tick++;
             break;
 
         case TUI::Commands::Reset:
             Log::info("reset exercise");
             exercise_iterator_instance->reset();
-            Render::draw();
+            TUI::p_state->render_tick++;
             break;
         }
 

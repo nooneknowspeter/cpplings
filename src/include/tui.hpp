@@ -2,6 +2,7 @@
 
 #include "include/exercise_iterator.hpp"
 #include <atomic>
+#include <cstddef>
 #include <cstdint>
 #include <filesystem>
 #include <memory>
@@ -31,6 +32,7 @@ inline std::condition_variable cv_state;
 
 struct State final
 {
+    std::atomic<std::size_t> render_tick = 0uz;
     std::atomic<bool> is_running = true;
     std::filesystem::path exercises_dir_path;
     std::vector<std::filesystem::path> list_of_exercises;
