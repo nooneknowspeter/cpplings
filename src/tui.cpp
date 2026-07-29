@@ -177,7 +177,7 @@ void run(ExerciseIterator::ExerciseDirectories directory)
     auto stdin_thread = std::jthread([&s_token] { Input::userInput(s_token); });
 
     // event loop
-    while (!s_token.stop_requested())
+    while (TUI::p_state->is_running)
     {
         std::unique_lock lock(TUI::mutex_state);
         TUI::cv_state.wait_for(lock, std::chrono::milliseconds(100), [] { return !TUI::p_commands_queue->empty(); });
@@ -212,29 +212,31 @@ void run(ExerciseIterator::ExerciseDirectories directory)
         case TUI::Commands::PreviousExercise:
             Log::info("previous exercise");
             exercise_iterator_instance->previous();
-            TUI::mutex_state.unlock();
-            TUI::cv_state.notify_all();
+            lock.unlock();
             exercise_runner_instance->compileCurrentExercise();
+            lock.lock();
             break;
 
         case TUI::Commands::NextExercise:
             Log::info("current exercise");
             exercise_iterator_instance->next();
-            TUI::mutex_state.unlock();
-            TUI::cv_state.notify_all();
+            lock.unlock();
             exercise_runner_instance->compileCurrentExercise();
+            lock.lock();
             break;
 
         case TUI::Commands::CompileAll:
             Log::info("compile all exercises");
-            TUI::mutex_state.unlock();
-            TUI::cv_state.notify_all();
+            lock.unlock();
             exercise_runner_instance->compileAllExercises();
+            lock.lock();
             break;
 
         case TUI::Commands::Refresh:
             Log::info("refresh");
+            lock.unlock();
             exercise_runner_instance->compileCurrentExercise();
+            lock.lock();
             break;
 
         case TUI::Commands::Reset:
