@@ -188,13 +188,15 @@ pub fn build(b: *STD.Build) !void {
 
     // create compile flags generator
     {
-        var cflags = COMPILE_FLAGZ.configureCompileFlags(
+        var cflags = COMPILE_FLAGZ.addCompileFlags(
             b,
             .{
+                .enable_verbose_output = false,
                 .language_variant = .cxx23,
                 .warnings = .{
-                    .Wall = true,
-                    .Werror = true,
+                    .all = true,
+                    .errors = true,
+                    .extra = false,
                 },
                 .compiler = .zigcxx,
                 .paths = &[_]STD.Build.LazyPath{
