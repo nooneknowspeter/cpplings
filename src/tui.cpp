@@ -76,7 +76,7 @@ struct Render
         Log::info("drawing");
         std::println("{}", ASCII::ART);
 
-        // TODO: print exercise runner output
+        std::println("{}\n{}", TUI::p_state->current_exercise_stdout, TUI::p_state->current_exercise_stderr);
 
         Render::compileStatus();
 

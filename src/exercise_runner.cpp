@@ -1,13 +1,11 @@
 #include "include/exercise_runner.hpp"
-#include "boost/process/v1/args.hpp"
-#include "boost/process/v2/process.hpp"
 #include "include/log.hpp"
 #include "include/tui.hpp"
 #include <boost/asio.hpp>
 #include <boost/process.hpp>
 #include <chrono>
 #include <filesystem>
-#include <initializer_list>
+#include <future>
 #include <memory>
 #include <mutex>
 #include <vector>
@@ -61,15 +59,30 @@ void scanForExerciseSupportFiles(std::filesystem::path &exercise_path)
     }
 }
 
-// TODO: add synchronization
+std::string getProcessResult(boost::asio::readable_pipe &process_pipe)
+{
+    std::string result;
+
+    boost::asio::streambuf buffer;
+    boost::system::error_code error_code;
+
+    while (boost::asio::read(process_pipe, buffer, error_code))
+    {
+        result.append(boost::asio::buffers_begin(buffer.data()), boost::asio::buffers_end(buffer.data()));
+        buffer.consume(buffer.size()); // NOTE: flushing
+    }
+
+    return result;
+}
+
 void t_compile(std::filesystem::path &exercise_path) noexcept
 {
     std::unique_lock lock(TUI::mutex_state);
     TUI::cv_state.wait_for(lock, std::chrono::milliseconds(200));
 
     TUI::p_state->is_current_exercise_compiling = true;
+    lock.unlock();
 
-    // std::scoped_lock lock(TUI::mutex_state);
     std::vector<std::string> program_args{};
     program_args.emplace_back(exercise_path.string());
 
@@ -83,14 +96,21 @@ void t_compile(std::filesystem::path &exercise_path) noexcept
 
     auto bin{boost::process::environment::find_executable("zig")};
     boost::asio::io_context process_context;
-    [[maybe_unused]] boost::process::process process(process_context.get_executor(), bin, program_args);
+    boost::asio::readable_pipe stdout_pipe{process_context};
+    boost::asio::readable_pipe stderr_pipe{process_context};
 
-    // TODO: get process stdout and stderr
+    boost::process::process process(process_context.get_executor(), bin, program_args,
+                                    boost::process::process_stdio{{}, stdout_pipe, stderr_pipe});
 
-    TUI::p_state->did_current_exercise_compile = true;
+    auto stdout_future{std::async(std::launch::async, [&stdout_pipe] { return getProcessResult(stdout_pipe); })};
+    auto stderr_future{std::async(std::launch::async, [&stderr_pipe] { return getProcessResult(stderr_pipe); })};
+    process.wait();
 
+    lock.lock();
+    TUI::p_state->current_exercise_stdout = stdout_future.get();
+    TUI::p_state->current_exercise_stderr = stderr_future.get();
+    TUI::p_state->did_current_exercise_compile = (process.exit_code() == 0);
     TUI::p_state->is_current_exercise_compiling = false;
-
     TUI::cv_state.notify_all();
 }
 
