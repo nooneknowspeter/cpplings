@@ -68,7 +68,6 @@ void t_compile(std::filesystem::path &exercise_path) noexcept
     TUI::cv_state.wait_for(lock, std::chrono::milliseconds(200));
 
     TUI::p_state->is_current_exercise_compiling = true;
-    TUI::p_state->render_tick++;
 
     // std::scoped_lock lock(TUI::mutex_state);
     std::vector<std::string> program_args{};
@@ -91,7 +90,6 @@ void t_compile(std::filesystem::path &exercise_path) noexcept
     TUI::p_state->did_current_exercise_compile = true;
 
     TUI::p_state->is_current_exercise_compiling = false;
-    TUI::p_state->render_tick++;
 
     TUI::cv_state.notify_all();
 }

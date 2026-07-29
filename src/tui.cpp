@@ -4,6 +4,7 @@
 #include "include/exercise_runner.hpp"
 #include "include/file_watcher.hpp"
 #include <chrono>
+#include <cstdint>
 #include <exception>
 #include <include/log.hpp>
 #include <iostream>
@@ -55,18 +56,14 @@ static void userInput(std::stop_token s_token)
 struct Render
 {
     static size_t tick;
+    static std::uint8_t fps;
 
     static void run(std::stop_token s_token)
     {
-        auto current_tick{TUI::p_state->render_tick.load()};
-
         while (!s_token.stop_requested())
         {
-            if (current_tick != TUI::p_state->render_tick.load())
-            {
-                current_tick = TUI::p_state->render_tick.load();
-                draw();
-            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000 / fps)); // NOTE: 60fps
+            draw();
         }
     }
 
@@ -158,6 +155,7 @@ struct Render
 };
 
 auto Render::tick{0uz};
+auto Render::fps{static_cast<std::uint8_t>(5u)};
 
 namespace Runner
 {
@@ -186,7 +184,6 @@ void run(ExerciseIterator::ExerciseDirectories directory)
 
         if (TUI::p_commands_queue->empty())
         {
-            // TUI::p_state->render_tick++;
             continue;
         }
 
@@ -210,27 +207,22 @@ void run(ExerciseIterator::ExerciseDirectories directory)
 
         case TUI::Commands::Draw:
             Log::info("draw");
-            TUI::p_state->render_tick++;
             break;
 
         case TUI::Commands::PreviousExercise:
             Log::info("previous exercise");
             exercise_iterator_instance->previous();
-            TUI::p_state->render_tick++;
             TUI::mutex_state.unlock();
             TUI::cv_state.notify_all();
             exercise_runner_instance->compileCurrentExercise();
-            TUI::p_state->render_tick++;
             break;
 
         case TUI::Commands::NextExercise:
             Log::info("current exercise");
             exercise_iterator_instance->next();
-            TUI::p_state->render_tick++;
             TUI::mutex_state.unlock();
             TUI::cv_state.notify_all();
             exercise_runner_instance->compileCurrentExercise();
-            TUI::p_state->render_tick++;
             break;
 
         case TUI::Commands::CompileAll:
@@ -238,19 +230,16 @@ void run(ExerciseIterator::ExerciseDirectories directory)
             TUI::mutex_state.unlock();
             TUI::cv_state.notify_all();
             exercise_runner_instance->compileAllExercises();
-            TUI::p_state->render_tick++;
             break;
 
         case TUI::Commands::Refresh:
             Log::info("refresh");
             exercise_runner_instance->compileCurrentExercise();
-            TUI::p_state->render_tick++;
             break;
 
         case TUI::Commands::Reset:
             Log::info("reset exercise");
             exercise_iterator_instance->reset();
-            TUI::p_state->render_tick++;
             break;
         }
 
