@@ -2,17 +2,7 @@
 
 > [!NOTE]
 >
-> This project may sound simple especially being a TUI
-> but it is hard for me when I want to write the best code possible;
-> not just for asthetics but for **maintain** ability, **scale** ability, **repair** ability
-> and that everything works well while building everything from scratch.
->
-> Achieving that standard while having a full-time job is hard therefore,
-> it will take a long time for updates to roll out.
-> Although I do use LLMs via their web clients for documentation and research purposes,
-> I refrain from using coding agents.
->
-> I am also meticulously going over resources; reading books cover to cover
+> I am meticulously going over resources; reading books cover to cover
 > before recommending as supplement learning material.
 
 **cpplings**, inspired by [Rustlings](https://github.com/rust-lang/rustlings),
