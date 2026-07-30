@@ -4,10 +4,13 @@
 #include <boost/asio.hpp>
 #include <boost/process.hpp>
 #include <chrono>
+#include <exception>
 #include <filesystem>
 #include <future>
 #include <memory>
 #include <mutex>
+#include <stdexcept>
+#include <thread>
 #include <vector>
 
 struct ProcessResult
@@ -162,7 +165,57 @@ void ExerciseRunner::compileCurrentExercise()
     compileExercise(current_exercise_path);
 }
 
-// TODO: SIMD
 void ExerciseRunner::compileAllExercises()
 {
+    auto list_of_exercises{TUI::p_state->list_of_exercises};
+    auto hardware_threads{std::thread::hardware_concurrency() == 0 ? 2 : std::thread::hardware_concurrency()};
+
+    std::vector<std::filesystem::path> completed_exercises;
+    completed_exercises.reserve(list_of_exercises.size());
+
+    for (auto i{0uz}; i < list_of_exercises.size(); i += hardware_threads)
+    {
+        auto batch_end = std::min(i + hardware_threads, list_of_exercises.size());
+        std::vector<std::future<ProcessResult>> batch;
+        batch.reserve(batch_end - i);
+
+        for (auto j{i}; j < batch_end; ++j)
+        {
+            batch.push_back(std::async(
+                std::launch::async, [&list_of_exercises, j] { return t_runCompilerProcess(list_of_exercises.at(j)); }));
+        }
+
+        for (auto &future : batch)
+        {
+            auto result = future.get();
+            if (result.did_exercise_compile)
+            {
+                completed_exercises.push_back(std::move(result.exercise_path));
+            }
+        }
+    }
+
+    {
+        std::scoped_lock lock(TUI::mutex_state);
+        TUI::p_state->completed_exercises = std::move(completed_exercises);
+
+        for (size_t i{0uz}; i < list_of_exercises.size(); ++i)
+        {
+            try
+            {
+                if (TUI::p_state->completed_exercises.at(i) != list_of_exercises.at(i))
+                {
+                    throw std::out_of_range("exercises do not match");
+                }
+            }
+            catch (...)
+            {
+                TUI::p_state->current_exercise_index = static_cast<std::uint8_t>(i);
+                TUI::p_state->current_exercise = list_of_exercises.at(i);
+                break;
+            }
+        }
+    }
+
+    compileCurrentExercise();
 }
