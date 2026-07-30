@@ -87,7 +87,9 @@ struct Render
 
     static void clear()
     {
-        std::print("{}", ASCII::Cursor::CLEAR_TERMINAL);
+        std::print("{}", ASCII::Cursor::Clear::ALL);
+        std::print("{}", ASCII::Cursor::Clear::SCROLLBACK);
+        std::print("{}", ASCII::Cursor::Position::HOME);
     }
 
   private:

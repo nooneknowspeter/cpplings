@@ -19,7 +19,18 @@ inline const std::string ART = R"(
 
 struct Cursor
 {
-    static constexpr std::string CLEAR_TERMINAL = "\x1b[2J\x1b[H";
+    struct Clear
+    {
+        static constexpr std::string BEHIND_CURSOR = "\x1b[0J";
+        static constexpr std::string INFRONT_CURSOR = "\x1b[1J";
+        static constexpr std::string ALL = "\x1b[2J";
+        static constexpr std::string SCROLLBACK = "\x1b[3J";
+    };
+
+    struct Position
+    {
+        static constexpr std::string HOME = "\x1b[H";
+    };
 };
 
 struct Styles
