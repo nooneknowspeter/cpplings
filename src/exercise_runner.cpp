@@ -78,14 +78,16 @@ std::string getProcessResult(boost::asio::readable_pipe &process_pipe)
 {
     std::string result;
 
-    boost::asio::streambuf buffer;
+    // boost::asio::streambuf buffer;
     boost::system::error_code error_code;
 
-    while (boost::asio::read(process_pipe, buffer, error_code))
-    {
-        result.append(boost::asio::buffers_begin(buffer.data()), boost::asio::buffers_end(buffer.data()));
-        buffer.consume(buffer.size()); // NOTE: flushing
-    }
+    // while (boost::asio::read(process_pipe, buffer, error_code))
+    // {
+    //     result.append(boost::asio::buffers_begin(buffer.data()), boost::asio::buffers_end(buffer.data()));
+    //     buffer.consume(buffer.size()); // NOTE: flushing
+    // }
+
+    boost::asio::read(process_pipe, boost::asio::dynamic_buffer(result), error_code);
 
     return result;
 }
@@ -114,6 +116,13 @@ ProcessResult t_runCompilerProcess(std::filesystem::path &exercise_path) noexcep
 
     boost::process::process process(process_context.get_executor(), bin, program_args,
                                     boost::process::process_stdio{{}, stdout_pipe, stderr_pipe});
+
+    // std::string stdout;
+    // std::string stderr;
+    // boost::system::error_code ec;
+    // boost::asio::read(stdout_pipe, boost::asio::dynamic_buffer(stdout), ec);
+    // boost::asio::read(stderr_pipe, boost::asio::dynamic_buffer(stderr), ec);
+    // process.wait();
 
     auto stdout_future{std::async(std::launch::async, [&stdout_pipe] { return getProcessResult(stdout_pipe); })};
     auto stderr_future{std::async(std::launch::async, [&stderr_pipe] { return getProcessResult(stderr_pipe); })};
