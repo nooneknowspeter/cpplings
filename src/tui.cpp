@@ -11,6 +11,7 @@
 #include <memory>
 #include <mutex>
 #include <print>
+#include <stdexcept>
 #include <stop_token>
 #include <thread>
 #include <unordered_map>
@@ -162,25 +163,37 @@ struct Render
 
     static void progress()
     {
-        const auto REMAINING_EXERCISES{TUI::p_state->list_of_exercises.size() -
-                                       TUI::p_state->completed_exercises.size()};
+        auto list_of_exercises{TUI::p_state->list_of_exercises};
+        auto completed_exercises{TUI::p_state->completed_exercises};
 
+        // NOTE: how it should look like
         // std::println("Progress: [{}] {}/{}", ascii_bar, TUI::p_state->current_exercise_index,
         // TUI::p_state->list_of_exercises.size());
-
         // "Progress: [{}] {}/{}" -> "Progress: [######>-----] 6/7"
         std::print("Progress: [");
 
-        for (auto completed_exercise : TUI::p_state->completed_exercises)
+        for (auto i{0uz}; i < list_of_exercises.size(); ++i)
         {
-            std::print("#");
-        }
+            try
+            {
+                if (i == TUI::p_state->current_exercise_index)
+                {
+                    std::print(">");
+                    continue;
+                }
 
-        std::print(">");
+                if (list_of_exercises.at(i) == completed_exercises.at(i))
+                {
+                    std::print("#");
+                    continue;
+                }
 
-        for (auto i{REMAINING_EXERCISES}; i > 0; --i)
-        {
-            std::print("-");
+                throw std::exception();
+            }
+            catch ([[maybe_unused]] const std::exception &e)
+            {
+                std::print("-");
+            }
         }
 
         std::println("] {}/{}", TUI::p_state->current_exercise_index.load(), TUI::p_state->list_of_exercises.size());
@@ -205,6 +218,8 @@ struct Render
 
 auto Render::tick{0uz};
 auto Render::fps{static_cast<std::uint8_t>(5u)};
+auto Render::showCurrentExerciseHint{false};
+auto Render::showExercisesList{false};
 
 namespace Runner
 {
