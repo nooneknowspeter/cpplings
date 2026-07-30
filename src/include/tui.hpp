@@ -42,7 +42,6 @@ struct State final
     std::vector<std::filesystem::path> completed_exercises;
     std::string current_exercise_stdout;
     std::string current_exercise_stderr;
-    std::vector<std::filesystem::path> list_of_chapter_support_files;
 };
 
 extern std::unique_ptr<TUI::State> p_state;

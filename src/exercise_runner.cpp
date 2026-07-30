@@ -10,15 +10,27 @@
 #include <mutex>
 #include <vector>
 
+struct ProcessResult
+{
+    std::filesystem::path exercise_path;
+    std::string stdout;
+    std::string stderr;
+    bool did_exercise_compile;
+};
+
 std::unique_ptr<ExerciseRunner> ExerciseRunner::getInstance()
 {
     return std::make_unique<ExerciseRunner>();
 }
 
-void scanForExerciseSupportFiles(std::filesystem::path &exercise_path)
+[[nodiscard]]
+std::vector<std::filesystem::path> scanForExerciseSupportFiles(std::filesystem::path &exercise_path)
 {
+    std::vector<std::filesystem::path> list_of_chapter_support_files{};
+
     try
     {
+
         auto chapter_dir{exercise_path.parent_path()};
 
         if (std::filesystem::is_empty(chapter_dir))
@@ -50,15 +62,18 @@ void scanForExerciseSupportFiles(std::filesystem::path &exercise_path)
 
             Log::info("{}", entry.path().string());
 
-            TUI::p_state->list_of_chapter_support_files.emplace_back(entry.path());
+            list_of_chapter_support_files.push_back(entry.path());
         }
     }
     catch (const std::exception &e)
     {
         Log::fatal("{}", e.what());
     }
+
+    return list_of_chapter_support_files;
 }
 
+[[nodiscard("process output must be used")]]
 std::string getProcessResult(boost::asio::readable_pipe &process_pipe)
 {
     std::string result;
@@ -75,21 +90,19 @@ std::string getProcessResult(boost::asio::readable_pipe &process_pipe)
     return result;
 }
 
-void t_compile(std::filesystem::path &exercise_path) noexcept
+[[nodiscard("process result must be used")]]
+ProcessResult t_runCompilerProcess(std::filesystem::path &exercise_path) noexcept
 {
-    std::unique_lock lock(TUI::mutex_state);
-    TUI::cv_state.wait_for(lock, std::chrono::milliseconds(200));
-
-    TUI::p_state->is_current_exercise_compiling = true;
-    lock.unlock();
-
     std::vector<std::string> program_args{};
     program_args.emplace_back(exercise_path.string());
 
-    scanForExerciseSupportFiles(exercise_path);
-    for (auto &path : TUI::p_state->list_of_chapter_support_files)
+    auto list_of_chapter_support_files{scanForExerciseSupportFiles(exercise_path)};
+    if (!list_of_chapter_support_files.empty())
     {
-        program_args.emplace_back(path.string());
+        for (auto &path : list_of_chapter_support_files)
+        {
+            program_args.emplace_back(path.string());
+        }
     }
 
     program_args.insert(program_args.begin(), "c++");
@@ -106,18 +119,38 @@ void t_compile(std::filesystem::path &exercise_path) noexcept
     auto stderr_future{std::async(std::launch::async, [&stderr_pipe] { return getProcessResult(stderr_pipe); })};
     process.wait();
 
+    return {
+        .exercise_path = exercise_path,
+        .stdout = stdout_future.get(),
+        .stderr = stderr_future.get(),
+        .did_exercise_compile = (process.exit_code() == 0),
+    };
+}
+
+void compileExercise(std::filesystem::path &exercise_path) noexcept
+{
+    std::unique_lock lock(TUI::mutex_state);
+    TUI::cv_state.wait_for(lock, std::chrono::milliseconds(200));
+
+    TUI::p_state->is_current_exercise_compiling = true;
+    lock.unlock();
+    TUI::draw();
+
+    auto compilation_result{t_runCompilerProcess(exercise_path)};
+
     lock.lock();
-    TUI::p_state->current_exercise_stdout = stdout_future.get();
-    TUI::p_state->current_exercise_stderr = stderr_future.get();
-    TUI::p_state->did_current_exercise_compile = (process.exit_code() == 0);
+    TUI::p_state->current_exercise_stdout = compilation_result.stdout;
+    TUI::p_state->current_exercise_stderr = compilation_result.stderr;
+    TUI::p_state->did_current_exercise_compile = compilation_result.did_exercise_compile;
     TUI::p_state->is_current_exercise_compiling = false;
     TUI::cv_state.notify_all();
+    TUI::draw();
 }
 
 void ExerciseRunner::compileCurrentExercise()
 {
     auto current_exercise_path{TUI::p_state->current_exercise};
-    t_compile(current_exercise_path);
+    compileExercise(current_exercise_path);
 }
 
 // TODO: SIMD
