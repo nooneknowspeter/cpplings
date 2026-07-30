@@ -165,6 +165,7 @@ namespace Runner
 void run(ExerciseIterator::ExerciseDirectories directory)
 {
     // bootstrap
+    Render::clear();
     auto exercise_iterator_instance{ExerciseIterator::getInstance()};
     exercise_iterator_instance->updateExerciseDirectory(directory);
     exercise_iterator_instance->scanForExercises();
@@ -175,8 +176,9 @@ void run(ExerciseIterator::ExerciseDirectories directory)
     std::stop_source stop_src;
     std::stop_token s_token{stop_src.get_token()};
     auto file_watcher_thread = std::jthread([&s_token] { FileWatcher::getInstance()->watch(s_token, 1000); });
-    auto render_thread = std::jthread([&s_token] { Render::run(s_token); });
+    // auto render_thread = std::jthread([&s_token] { Render::run(s_token); });
     auto stdin_thread = std::jthread([&s_token] { Input::userInput(s_token); });
+    Render::draw();
 
     // event loop
     while (TUI::p_state->is_running)
@@ -209,6 +211,7 @@ void run(ExerciseIterator::ExerciseDirectories directory)
 
         case TUI::Commands::Draw:
             Log::info("draw");
+            Render::draw();
             break;
 
         case TUI::Commands::PreviousExercise:
@@ -216,6 +219,7 @@ void run(ExerciseIterator::ExerciseDirectories directory)
             exercise_iterator_instance->previous();
             lock.unlock();
             exercise_runner_instance->compileCurrentExercise();
+            Render::draw();
             lock.lock();
             break;
 
@@ -224,6 +228,7 @@ void run(ExerciseIterator::ExerciseDirectories directory)
             exercise_iterator_instance->next();
             lock.unlock();
             exercise_runner_instance->compileCurrentExercise();
+            Render::draw();
             lock.lock();
             break;
 
@@ -231,6 +236,7 @@ void run(ExerciseIterator::ExerciseDirectories directory)
             Log::info("compile all exercises");
             lock.unlock();
             exercise_runner_instance->compileAllExercises();
+            Render::draw();
             lock.lock();
             break;
 
@@ -238,12 +244,14 @@ void run(ExerciseIterator::ExerciseDirectories directory)
             Log::info("refresh");
             lock.unlock();
             exercise_runner_instance->compileCurrentExercise();
+            Render::draw();
             lock.lock();
             break;
 
         case TUI::Commands::Reset:
             Log::info("reset exercise");
             exercise_iterator_instance->reset();
+            Render::draw();
             break;
         }
 
@@ -252,6 +260,11 @@ void run(ExerciseIterator::ExerciseDirectories directory)
 }
 
 }; // namespace Runner
+
+void TUI::draw()
+{
+    Render::draw();
+}
 
 void TUI::run(ExerciseIterator::ExerciseDirectories directory)
 {

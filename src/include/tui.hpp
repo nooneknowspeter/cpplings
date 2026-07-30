@@ -47,5 +47,6 @@ struct State final
 extern std::unique_ptr<TUI::State> p_state;
 
 void run(ExerciseIterator::ExerciseDirectories directory = ExerciseIterator::ExerciseDirectories::Exercises);
+void draw();
 
 } // namespace TUI
