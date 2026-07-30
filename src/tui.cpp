@@ -28,9 +28,10 @@ namespace Input
 {
 
 std::unordered_map<std::string, TUI::Commands> command_map{
-    {"n", TUI::Commands::NextExercise}, {"p", TUI::Commands::PreviousExercise},
-    {"c", TUI::Commands::CompileAll},   {"r", TUI::Commands::Refresh},
-    {"x", TUI::Commands::Reset},        {"q", TUI::Commands::Quit},
+    {"n", TUI::Commands::NextExercise},  {"p", TUI::Commands::PreviousExercise},
+    {"c", TUI::Commands::CompileAll},    {"r", TUI::Commands::Refresh},
+    {"x", TUI::Commands::Reset},         {"q", TUI::Commands::Quit},
+    {"l", TUI::Commands::ListExercises}, {"h", TUI::Commands::ShowHint},
 };
 
 static void userInput(std::stop_token s_token)
@@ -57,6 +58,8 @@ struct Render
 {
     static size_t tick;
     static std::uint8_t fps;
+    static bool showCurrentExerciseHint;
+    static bool showExercisesList;
 
     static void run(std::stop_token s_token)
     {
@@ -76,6 +79,16 @@ struct Render
         Log::info("drawing");
         std::println("{}", ASCII::ART);
 
+        if (showExercisesList)
+        {
+            exerciseList();
+        }
+
+        if (showCurrentExerciseHint)
+        {
+            hint();
+        }
+
         std::println("{}\n{}", TUI::p_state->current_exercise_stdout, TUI::p_state->current_exercise_stderr);
 
         Render::compileStatus();
@@ -93,6 +106,40 @@ struct Render
     }
 
   private:
+    static void exerciseList()
+    {
+        auto list_of_exercises{TUI::p_state->list_of_exercises};
+        auto completed_exercises{TUI::p_state->completed_exercises};
+
+        for (auto i{0uz}; i < list_of_exercises.size(); ++i)
+        {
+            std::print("{} -> ", list_of_exercises.at(i).stem().string());
+
+            std::print("{}", ASCII::Styles::BOLD);
+            try
+            {
+                if (list_of_exercises.at(i) == completed_exercises.at(i))
+                {
+                    std::print("Completed");
+                }
+                else
+                {
+                    throw std::out_of_range("exercise not complete");
+                }
+            }
+            catch (...)
+            {
+                std::print("Not Completed");
+            }
+
+            std::println("{}", ASCII::Styles::CLEAR_STYLE);
+        }
+    }
+
+    static void hint()
+    {
+    }
+
     static void compileStatus()
     {
         std::println("{}", ASCII::Styles::BOLD);
@@ -149,7 +196,7 @@ struct Render
         std::print("{}c{}: check all / ", ASCII::Styles::BOLD, ASCII::Styles::CLEAR_STYLE);
         std::print("{}r{}: refresh / ", ASCII::Styles::BOLD, ASCII::Styles::CLEAR_STYLE);
         std::print("{}x{}: reset / ", ASCII::Styles::BOLD, ASCII::Styles::CLEAR_STYLE);
-        std::print("{}h{}: hint / ", ASCII::Styles::BOLD, ASCII::Styles::CLEAR_STYLE);
+        // std::print("{}h{}: hint / ", ASCII::Styles::BOLD, ASCII::Styles::CLEAR_STYLE); // TODO:
         std::print("{}l{}: list / ", ASCII::Styles::BOLD, ASCII::Styles::CLEAR_STYLE);
         std::print("{}q{}: quit ", ASCII::Styles::BOLD, ASCII::Styles::CLEAR_STYLE);
         std::print("-> ");
@@ -195,6 +242,16 @@ void run(ExerciseIterator::ExerciseDirectories directory)
 
         switch (command)
         {
+        case TUI::Commands::ListExercises:
+            Render::showExercisesList = !Render::showExercisesList;
+            Render::draw();
+            break;
+
+        case TUI::Commands::ShowHint:
+            Render::showCurrentExerciseHint = !Render::showCurrentExerciseHint;
+            Render::draw();
+            break;
+
         case TUI::Commands::Quit:
             Log::info("quitting");
             Log::info("gracefully stop threads");

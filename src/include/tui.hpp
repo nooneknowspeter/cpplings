@@ -15,6 +15,8 @@ namespace TUI
 
 enum class Commands
 {
+    ListExercises,
+    ShowHint,
     NextExercise,
     PreviousExercise,
     CompileAll,
