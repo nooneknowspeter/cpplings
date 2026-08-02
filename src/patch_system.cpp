@@ -40,7 +40,7 @@ void generatePatch(std::filesystem::path patch_path, std::filesystem::path origi
     auto stdout_output{read_process_pipe.get()};
 
     std::print("{}", ASCII::Styles::BOLD);
-    if (process.exit_code() != 1)
+    if (process.exit_code() != 0)
     {
         std::println("Failed to generate patch");
         return;
