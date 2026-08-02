@@ -6,6 +6,7 @@
 #include <chrono>
 #include <cstdint>
 #include <exception>
+#include <filesystem>
 #include <include/log.hpp>
 #include <iostream>
 #include <memory>
@@ -104,6 +105,11 @@ struct Render
         std::print("{}", ASCII::Cursor::Clear::ALL);
         std::print("{}", ASCII::Cursor::Clear::SCROLLBACK);
         std::print("{}", ASCII::Cursor::Position::HOME);
+    }
+
+    static void welcome()
+    {
+        std::println("{}", ASCII::WELCOME);
     }
 
   private:
@@ -230,6 +236,23 @@ void run(ExerciseIterator::ExerciseDirectories directory)
     Render::clear();
     auto exercise_iterator_instance{ExerciseIterator::getInstance()};
     exercise_iterator_instance->scanForExercises(directory);
+
+    if (directory != ExerciseIterator::ExerciseDirectories::Solutions)
+    {
+        if (std::filesystem::exists(std::filesystem::current_path() / ".cpplings"))
+        {
+            TUI::p_state->new_user = false;
+        }
+
+        if (TUI::p_state->new_user.load())
+        {
+            Render::welcome();
+            std::string input;
+            std::getline(std::cin, input);
+            std::filesystem::create_directory(std::filesystem::current_path() / ".cpplings");
+            TUI::p_state->new_user = false;
+        }
+    }
 
     auto exercise_runner_instance{ExerciseRunner::getInstance()};
     TUI::p_commands_queue->push(TUI::Commands::CompileAll);

@@ -17,6 +17,15 @@ inline const std::string ART = R"(
      
 )";
 
+inline const std::string WELCOME = ASCII::ART + R"(
+Welcome to cpplings!
+
+We sometimes encourage you to keep trying things on a given exercise
+even after you already figured it out.
+
+Press Enter to get started.
+)";
+
 struct Cursor
 {
     struct Clear

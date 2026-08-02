@@ -35,6 +35,7 @@ inline std::condition_variable cv_state;
 struct State final
 {
     std::atomic<bool> is_running = true;
+    std::atomic<bool> new_user = true;
     std::filesystem::path exercises_dir_path;
     std::vector<std::filesystem::path> list_of_exercises;
     std::filesystem::path current_exercise;

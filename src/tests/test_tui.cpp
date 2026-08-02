@@ -5,6 +5,7 @@ TEST_CASE("State has sane defaults", "[tui]")
 {
     TUI::State state;
     REQUIRE(state.is_running.load());
+    REQUIRE(state.new_user.load());
     REQUIRE(state.current_exercise_index.load() == 0);
     REQUIRE_FALSE(state.is_current_exercise_compiling.load());
     REQUIRE_FALSE(state.did_current_exercise_compile.load());
