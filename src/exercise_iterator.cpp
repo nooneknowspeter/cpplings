@@ -71,6 +71,11 @@ void ExerciseIterator::scanForExercises(ExerciseDirectories directory)
                 continue;
             }
 
+            if (entry.path().extension() == std::filesystem::path(".rej"))
+            {
+                continue;
+            }
+
             if (entry.path().string().contains("src") || entry.path().string().contains("include"))
             {
                 continue;
