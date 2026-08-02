@@ -53,6 +53,8 @@ pub fn build(b: *STD.Build) !void {
 
         const SOURCE_TEST = [_][]const u8{
             "src/tests/test.cpp",
+            "src/tests/test_tui.cpp",
+            "src/tests/test_exercise_iterator.cpp",
         };
 
         const CPPLINGS_MODULE = b.createModule(.{
@@ -180,8 +182,12 @@ pub fn build(b: *STD.Build) !void {
         CPPLINGS_EXERCISE_ARTIFACT.step.dependOn(b.getInstallStep());
 
         if (b.args) |args| {
-            if (args.len > 0) {
-                CPPLINGS_EXERCISE_ARTIFACT.addArgs(args);
+            for (args) |arg| {
+                if (STD.mem.endsWith(u8, arg, ".cpp")) {
+                    continue;
+                }
+
+                CPPLINGS_EXERCISE_ARTIFACT.addArg(arg);
             }
         }
     }
