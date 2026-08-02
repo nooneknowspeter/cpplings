@@ -1,8 +1,10 @@
 #include "include/ascii.hpp"
 #include "include/exercise_iterator.hpp"
 #include "include/log.hpp"
+#include "include/patch_system.hpp"
 #include "include/tui.hpp"
 #include <algorithm>
+#include <memory>
 #include <print>
 #include <string>
 #include <vector>
@@ -53,10 +55,12 @@ static constexpr void runCLI([[maybe_unused]] int argc, [[maybe_unused]] char *a
         Log::configureLogger(true);
     }
 
-    // TODO: run patch system
     if (std::find(args.begin(), args.end(), "-p") != args.end())
     {
         Log::info("run patch system");
+
+        TUI::p_state = std::make_unique<TUI::State>();
+        PatchSystem::generatePatches();
 
         return;
     }

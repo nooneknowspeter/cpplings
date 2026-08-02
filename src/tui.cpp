@@ -229,8 +229,7 @@ void run(ExerciseIterator::ExerciseDirectories directory)
     // bootstrap
     Render::clear();
     auto exercise_iterator_instance{ExerciseIterator::getInstance()};
-    exercise_iterator_instance->updateExerciseDirectory(directory);
-    exercise_iterator_instance->scanForExercises();
+    exercise_iterator_instance->scanForExercises(directory);
 
     auto exercise_runner_instance{ExerciseRunner::getInstance()};
     TUI::p_commands_queue->push(TUI::Commands::CompileAll);
@@ -322,8 +321,11 @@ void run(ExerciseIterator::ExerciseDirectories directory)
 
         case TUI::Commands::Reset:
             Log::info("reset exercise");
+            lock.unlock();
             exercise_iterator_instance->reset();
+            exercise_runner_instance->compileCurrentExercise();
             Render::draw();
+            lock.lock();
             break;
         }
 

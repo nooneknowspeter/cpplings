@@ -1,5 +1,6 @@
 #include "include/exercise_iterator.hpp"
 #include "include/log.hpp"
+#include "include/patch_system.hpp"
 #include "include/tui.hpp"
 #include <algorithm>
 #include <cstdint>
@@ -15,46 +16,43 @@ std::unique_ptr<ExerciseIterator> ExerciseIterator::getInstance()
     return std::make_unique<ExerciseIterator>();
 }
 
-void ExerciseIterator::updateExerciseDirectory(ExerciseDirectories directory = ExerciseDirectories::Exercises)
+std::filesystem::path ExerciseIterator::getExerciseDirectory(
+    ExerciseDirectories directory = ExerciseDirectories::Exercises)
 {
     std::filesystem::path cwd{std::filesystem::current_path()};
 
-    try
-    {
-        std::filesystem::path exercises_dir_path{cwd / "exercises"};
+    std::filesystem::path exercises_dir_path{cwd / "exercises"};
 
-        if (directory == ExerciseDirectories::Solutions)
-        {
-            exercises_dir_path = cwd / "solutions";
-        }
-
-        if (!std::filesystem::exists(exercises_dir_path))
-        {
-            throw std::filesystem::filesystem_error("exercises directory does not exist", exercises_dir_path,
-                                                    std::error_code());
-        }
-
-        TUI::p_state->exercises_dir_path = exercises_dir_path;
-    }
-    catch (const std::exception &e)
+    if (directory == ExerciseDirectories::Solutions)
     {
-        Log::fatal("{}", e.what());
+        exercises_dir_path = cwd / "solutions";
     }
-    catch (...)
+
+    if (!std::filesystem::exists(exercises_dir_path))
     {
-        Log::fatal("unknown error");
+        throw std::filesystem::filesystem_error("exercises directory does not exist", exercises_dir_path,
+                                                std::error_code());
     }
+
+    return exercises_dir_path;
 }
 
-void ExerciseIterator::scanForExercises()
+void ExerciseIterator::scanForExercises(ExerciseDirectories directory)
 {
     try
     {
-        if (std::filesystem::is_empty(TUI::p_state->exercises_dir_path))
+        auto exercise_dir{getExerciseDirectory(directory)};
+
+        if (std::filesystem::is_empty(exercise_dir))
         {
-            throw std::filesystem::filesystem_error("exercises dir is empty", TUI::p_state->exercises_dir_path,
-                                                    std::error_code());
+            throw std::filesystem::filesystem_error("exercises dir is empty", exercise_dir, std::error_code());
         }
+        else
+        {
+            TUI::p_state->exercises_dir_path = exercise_dir;
+        }
+
+        TUI::p_state->list_of_exercises.clear();
 
         for (auto &entry : std::filesystem::recursive_directory_iterator(TUI::p_state->exercises_dir_path))
         {
@@ -64,6 +62,11 @@ void ExerciseIterator::scanForExercises()
             }
 
             if (entry.path().extension() == std::filesystem::path(".md"))
+            {
+                continue;
+            }
+
+            if (entry.path().extension() == std::filesystem::path(".patch"))
             {
                 continue;
             }
@@ -152,4 +155,6 @@ void ExerciseIterator::next()
 void ExerciseIterator::reset()
 {
     Log::info("reset current exercise");
+
+    PatchSystem::patch(TUI::p_state->current_exercise);
 }

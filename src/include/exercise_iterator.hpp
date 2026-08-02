@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <memory>
 
 struct ExerciseIterator
@@ -21,13 +22,11 @@ struct ExerciseIterator
         Solutions
     };
 
-    void updateExerciseDirectory(ExerciseDirectories directory);
+    static std::filesystem::path getExerciseDirectory(ExerciseDirectories directory);
 
-    void scanForExercises();
+    void scanForExercises(ExerciseDirectories directory);
 
     void previous();
-
-    void current();
 
     void next();
 

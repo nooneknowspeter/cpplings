@@ -44,7 +44,7 @@ pub fn build(b: *STD.Build) !void {
             "src/exercise_iterator.cpp",
             "src/file_watcher.cpp",
             "src/exercise_runner.cpp",
-            // "src/patch_system.cpp",
+            "src/patch_system.cpp",
         };
 
         const SOURCE_MAIN = [_][]const u8{
