@@ -1,6 +1,7 @@
 #include "include/exercise_runner.hpp"
 #include "include/log.hpp"
 #include "include/tui.hpp"
+#include "include/util.hpp"
 #include <boost/asio.hpp>
 #include <boost/process.hpp>
 #include <chrono>
@@ -76,25 +77,6 @@ std::vector<std::filesystem::path> scanForExerciseSupportFiles(std::filesystem::
     return list_of_chapter_support_files;
 }
 
-[[nodiscard("process output must be used")]]
-std::string getProcessResult(boost::asio::readable_pipe &process_pipe)
-{
-    std::string result;
-
-    // boost::asio::streambuf buffer;
-    boost::system::error_code error_code;
-
-    // while (boost::asio::read(process_pipe, buffer, error_code))
-    // {
-    //     result.append(boost::asio::buffers_begin(buffer.data()), boost::asio::buffers_end(buffer.data()));
-    //     buffer.consume(buffer.size()); // NOTE: flushing
-    // }
-
-    boost::asio::read(process_pipe, boost::asio::dynamic_buffer(result), error_code);
-
-    return result;
-}
-
 [[nodiscard("process result must be used")]]
 ProcessResult t_runCompilerProcess(std::filesystem::path &exercise_path) noexcept
 {
@@ -116,19 +98,13 @@ ProcessResult t_runCompilerProcess(std::filesystem::path &exercise_path) noexcep
     boost::asio::io_context process_context;
     boost::asio::readable_pipe stdout_pipe{process_context};
     boost::asio::readable_pipe stderr_pipe{process_context};
+    boost::system::error_code error_code;
 
     boost::process::process process(process_context.get_executor(), bin, program_args,
                                     boost::process::process_stdio{{}, stdout_pipe, stderr_pipe});
 
-    // std::string stdout;
-    // std::string stderr;
-    // boost::system::error_code ec;
-    // boost::asio::read(stdout_pipe, boost::asio::dynamic_buffer(stdout), ec);
-    // boost::asio::read(stderr_pipe, boost::asio::dynamic_buffer(stderr), ec);
-    // process.wait();
-
-    auto stdout_future{std::async(std::launch::async, [&stdout_pipe] { return getProcessResult(stdout_pipe); })};
-    auto stderr_future{std::async(std::launch::async, [&stderr_pipe] { return getProcessResult(stderr_pipe); })};
+    auto stdout_future{util::getProcessResult(stdout_pipe, error_code)};
+    auto stderr_future{util::getProcessResult(stderr_pipe, error_code)};
     process.wait();
 
     return {
