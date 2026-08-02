@@ -196,7 +196,7 @@ pub fn build(b: *STD.Build) !void {
                 .warnings = .{
                     .all = true,
                     .errors = true,
-                    .extra = false,
+                    .extra = true,
                 },
                 .compiler = .zigcxx,
                 .paths = &[_]STD.Build.LazyPath{
