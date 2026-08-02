@@ -303,31 +303,30 @@ explaining the benefits of Zig's build system in the world of C/C++.
 
 ## TODO
 
-- [ ] cli
-  - [ ] diff and patches; solutions and testing
-  - [ ] improve software design and implementation; commands pattern + MPSC queue
-- [ ] add exercises
+- [x] cli
+  - [x] diff and patches; solutions and testing
+  - [x] improve software design and implementation; commands pattern + MPSC queue
+- [x] add exercises
   - [x] variables
   - [x] functions
-  - [ ] control-flow (if-else)
-  - [ ] primitives (datatypes)
-  - [ ] type-conversion
-  - [ ] strings (c style vs std::strings)
-  - [ ] containers (c style containers vs std containers)
+  - [x] control-flow (if-else)
+  - [x] primitives (datatypes)
+  - [x] type-conversion
+  - [x] strings (c style vs std::strings)
+  - [x] containers (c style containers vs std containers)
   - [ ] modules (#include, headers, C++20 modules; import export, std lib)
-  - [ ] structs
-  - [ ] enums
-  - [ ] classes
-  - [ ] generics (templating)
-  - [ ] exceptions (errors, exception handling)
-  - [ ] memory (memory module, raw pointers, smart pointers, computer architecture, operating systems, raii, performance)
-  - [ ] threads (concurrency, multi-threading, operation systems, computer architecture)
-  - [ ] preprocessors (#include, #def, #ifdef)
-  - [ ] cpphistory (creator, why was it created, cpp versions, features, c++11, c++14, c++17, c++20, c++23, c++26)
-  - [ ] bit-manipultion (bitwise arithmetic, operations, logic gates, hardware, OS)
+  - [x] structs
+  - [x] enums
+  - [x] classes
+  - [x] generics (templating)
+  - [x] exceptions (errors, exception handling)
+  - [x] memory (memory module, raw pointers, smart pointers, computer architecture, operating systems, raii, performance)
+  - [x] threads (concurrency, multi-threading, operation systems, computer architecture)
+  - [x] preprocessors (#include, #def, #ifdef)
+  - [x] cpphistory (creator, why was it created, cpp versions, features, c++11, c++14, c++17, c++20, c++23, c++26)
+  - [x] bit-manipultion (bitwise arithmetic, operations, logic gates, hardware, OS)
   - [ ] network programming (sockets, server, client, IPC)
-
-- [ ] c++ 23 rewrite
-- [ ] frontend; nextjs (static) / quarto
-- [ ] documentation; quarto
+  - [ ] more c++ >=17 features; latch, barries, modules, execution policies, ...
+- [x] c++ 23 rewrite
+- [ ] frontend
 - [ ] cli demo
