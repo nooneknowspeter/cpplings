@@ -21,3 +21,6 @@ zig-pkg/
 
 # local state
 .cpplings/
+
+/.quarto/
+**/*.quarto_ipynb

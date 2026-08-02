@@ -1,0 +1,18 @@
+project:
+  type: website
+  output-dir: _output
+  preview:
+    port: 4000
+    browser: true
+
+website:
+  title: "cpplings"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+
+format:
+  html:
+    toc: true
+    embed-resources: true

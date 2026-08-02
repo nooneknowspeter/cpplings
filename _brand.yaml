@@ -1,0 +1,20 @@
+meta:
+  name: nooneknows
+  link: soon
+
+color:
+  background: black
+  foreground: white
+  primary: "#aa0000"
+  secondary: "#666666"
+  tertiary: "#520000"
+
+typography:
+  fonts:
+    - family: Fira Sans
+      source: google
+    - family: Fira Code
+      source: google
+  base: Fira Code
+  headings: Fira Code
+  monospace: Fira Code
