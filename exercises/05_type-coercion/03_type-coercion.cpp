@@ -13,7 +13,9 @@
 // https://www.learncpp.com/cpp-tutorial/type-deduction-with-auto/
 // https://www.learncpp.com/cpp-tutorial/constexpr-variables/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_approx.hpp>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // TODO: Use auto to deduce the type of a value.
 // Return the result of adding an int and a double.
@@ -36,17 +38,16 @@ constexpr int SQUARED_TEN = square(10);
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(TypeCoercion, TypeCoercion03)
+TEST_CASE("TypeCoercion TypeCoercion03")
 {
-    ASSERT_DOUBLE_EQ(addWithAuto(3, 4.5), 7.5);
+    REQUIRE(addWithAuto(3, 4.5) == Catch::Approx(7.5));
 
-    ASSERT_EQ(square(5), 25);
-    ASSERT_EQ(square(-3), 9);
-    ASSERT_EQ(square(0), 0);
+    REQUIRE(square(5) == 25);
+    REQUIRE(square(-3) == 9);
+    REQUIRE(square(0) == 0);
 
-    ASSERT_EQ(SQUARED_TEN, 100);
+    REQUIRE(SQUARED_TEN == 100);
 }

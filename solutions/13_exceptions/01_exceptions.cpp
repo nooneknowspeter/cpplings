@@ -15,7 +15,9 @@
 //
 // https://www.learncpp.com/cpp-tutorial/intro-to-exceptions/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_approx.hpp>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <stdexcept>
 
 // TODO: Implement a function that divides two numbers.
@@ -42,16 +44,15 @@ int getElement(const int *arr, int size, int index)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Exceptions, Exceptions01)
+TEST_CASE("Exceptions Exceptions01")
 {
-    ASSERT_DOUBLE_EQ(divide(10.0, 2.0), 5.0);
-    ASSERT_DOUBLE_EQ(divide(7.0, 3.0), 2.3333333333333335);
+    REQUIRE(divide(10.0, 2.0) == Catch::Approx(5.0));
+    REQUIRE(divide(7.0, 3.0) == Catch::Approx(2.3333333333333335));
 
     int arr[] = {1, 2, 3, 4, 5};
-    ASSERT_EQ(getElement(arr, 5, 0), 1);
-    ASSERT_EQ(getElement(arr, 5, 4), 5);
+    REQUIRE(getElement(arr, 5, 0) == 1);
+    REQUIRE(getElement(arr, 5, 4) == 5);
 }

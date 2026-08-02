@@ -16,7 +16,8 @@
 //
 // https://www.learncpp.com/cpp-tutorial/enum-classes/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // TODO: Create an enum class for Days of the week.
 enum class Day
@@ -50,17 +51,16 @@ Day nextDay(Day day)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Enums, Enums01)
+TEST_CASE("Enums Enums01")
 {
-    ASSERT_TRUE(isWeekday(Day::Monday));
-    ASSERT_TRUE(isWeekday(Day::Friday));
-    ASSERT_FALSE(isWeekday(Day::Saturday));
-    ASSERT_FALSE(isWeekday(Day::Sunday));
+    REQUIRE(isWeekday(Day::Monday));
+    REQUIRE(isWeekday(Day::Friday));
+    REQUIRE_FALSE(isWeekday(Day::Saturday));
+    REQUIRE_FALSE(isWeekday(Day::Sunday));
 
-    ASSERT_EQ(nextDay(Day::Monday), Day::Tuesday);
-    ASSERT_EQ(nextDay(Day::Sunday), Day::Monday);
+    REQUIRE(nextDay(Day::Monday) == Day::Tuesday);
+    REQUIRE(nextDay(Day::Sunday) == Day::Monday);
 }

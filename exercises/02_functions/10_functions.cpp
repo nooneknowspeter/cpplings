@@ -1,6 +1,7 @@
 // https://www.learncpp.com/cpp-tutorial/variadic-functions/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // Variadic templates are the modern, type-safe alternative to C-style va_list.
 //
@@ -46,14 +47,13 @@ template <typename T, typename... Args> T sum(T first, Args... args)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Functions, Functions10)
+TEST_CASE("Functions Functions10")
 {
-    ASSERT_EQ(sum(1, 2, 3), 6);
-    ASSERT_EQ(sum(1, 2, 3, 4, 5), 15);
-    ASSERT_EQ(sum(10), 10);
-    ASSERT_EQ(sum(1.5, 2.5, 3.0), 7.0);
+    REQUIRE(sum(1, 2, 3) == 6);
+    REQUIRE(sum(1, 2, 3, 4, 5) == 15);
+    REQUIRE(sum(10) == 10);
+    REQUIRE(sum(1.5, 2.5, 3.0) == 7.0);
 }

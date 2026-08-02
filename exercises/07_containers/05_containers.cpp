@@ -17,7 +17,8 @@
 //
 // https://www.learncpp.com/cpp-tutorial/stdunordered_map/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -58,25 +59,24 @@ bool mapsEqual(const std::unordered_map<std::string, int> &a, const std::unorder
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Containers, Containers05)
+TEST_CASE("Containers Containers05")
 {
     std::vector<std::string> words = {"a", "b", "a", "c", "b", "a"};
     auto freq = wordFrequency(words);
-    ASSERT_EQ(freq["a"], 3);
-    ASSERT_EQ(freq["b"], 2);
-    ASSERT_EQ(freq["c"], 1);
+    REQUIRE(freq["a"] == 3);
+    REQUIRE(freq["b"] == 2);
+    REQUIRE(freq["c"] == 1);
 
     std::vector<int> v = {1, 2, 3, 2, 1};
     auto unique = uniqueElements(v);
-    ASSERT_EQ(unique.size(), 3);
+    REQUIRE(unique.size() == 3);
 
     std::unordered_map<std::string, int> m1 = {{"a", 1}, {"b", 2}};
     std::unordered_map<std::string, int> m2 = {{"b", 2}, {"a", 1}};
     std::unordered_map<std::string, int> m3 = {{"a", 1}, {"b", 3}};
-    ASSERT_TRUE(mapsEqual(m1, m2));
-    ASSERT_FALSE(mapsEqual(m1, m3));
+    REQUIRE(mapsEqual(m1, m2));
+    REQUIRE_FALSE(mapsEqual(m1, m3));
 }

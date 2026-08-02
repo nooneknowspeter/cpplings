@@ -18,7 +18,8 @@
 // https://www.learncpp.com/cpp-tutorial/introduction-to-objects-and-variables/
 // https://www.learncpp.com/cpp-tutorial/variable-assignment-and-initialization/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // TODO: Add the missing module for printing
 #include <iostream>

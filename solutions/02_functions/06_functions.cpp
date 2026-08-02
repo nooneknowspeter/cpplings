@@ -17,7 +17,8 @@
 // https://www.learncpp.com/cpp-tutorial/function-overload-differentiation/
 // https://www.learncpp.com/cpp-tutorial/function-overload-resolution-and-ambiguous-matches/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // A function that adds two integers.
 int add(int x, int y)
@@ -41,13 +42,12 @@ double add(double x, double y)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Functions, Functions06)
+TEST_CASE("Functions Functions06")
 {
-    ASSERT_EQ(add(1, 1), 2);
-    ASSERT_EQ(add(5.0f, 5.0f), 10.0f);
-    ASSERT_EQ(add(100.555555, 100.555555), 201.11111);
+    REQUIRE(add(1, 1) == 2);
+    REQUIRE(add(5.0f, 5.0f) == 10.0f);
+    REQUIRE(add(100.555555, 100.555555) == 201.11111);
 }

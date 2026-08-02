@@ -19,8 +19,10 @@
 // https://www.learncpp.com/cpp-tutorial/introduction-to-fundamental-data-types/
 // https://www.learncpp.com/cpp-tutorial/floating-point-numbers/
 
+#include <catch2/catch_approx.hpp>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <cstdint>
-#include <gtest/gtest.h>
 
 // TODO: Declare an int variable named 'age' with value 25.
 int age = 25;
@@ -37,14 +39,13 @@ auto quantity = 42;
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Primitives, Primitives01)
+TEST_CASE("Primitives Primitives01")
 {
-    ASSERT_EQ(age, 25);
-    ASSERT_DOUBLE_EQ(price, 19.99);
-    ASSERT_EQ(MAX_SIZE, 100);
-    ASSERT_EQ(quantity, 42);
+    REQUIRE(age == 25);
+    REQUIRE(price == Catch::Approx(19.99));
+    REQUIRE(MAX_SIZE == 100);
+    REQUIRE(quantity == 42);
 }

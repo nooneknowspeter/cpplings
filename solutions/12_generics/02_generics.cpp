@@ -20,7 +20,9 @@
 //
 // https://www.learncpp.com/cpp-tutorial/class-templates/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_approx.hpp>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // A simple generic pair class.
 template <typename T, typename U> class Pair
@@ -69,24 +71,23 @@ template <typename T> class Box
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Generics, Generics02)
+TEST_CASE("Generics Generics02")
 {
     Pair<int, std::string> p(42, "hello");
-    ASSERT_EQ(p.getFirst(), 42);
-    ASSERT_EQ(p.getSecond(), "hello");
+    REQUIRE(p.getFirst() == 42);
+    REQUIRE(p.getSecond() == "hello");
 
     Pair<double, char> p2(3.14, 'c');
-    ASSERT_DOUBLE_EQ(p2.getFirst(), 3.14);
-    ASSERT_EQ(p2.getSecond(), 'c');
+    REQUIRE(p2.getFirst() == Catch::Approx(3.14));
+    REQUIRE(p2.getSecond() == 'c');
 
     Box<int> emptyBox;
-    ASSERT_TRUE(emptyBox.isEmpty());
+    REQUIRE(emptyBox.isEmpty());
 
     Box<int> fullBox(42);
-    ASSERT_FALSE(fullBox.isEmpty());
-    ASSERT_EQ(fullBox.getValue(), 42);
+    REQUIRE_FALSE(fullBox.isEmpty());
+    REQUIRE(fullBox.getValue() == 42);
 }

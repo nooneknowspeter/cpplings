@@ -18,7 +18,8 @@
 //
 // https://www.learncpp.com/cpp-tutorial/fold-expressions/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <iostream>
 
 // TODO: Implement sum using a unary left fold expression.
@@ -55,21 +56,20 @@ template <typename... Args> bool anyTrue(Args... args)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Generics, Generics03)
+TEST_CASE("Generics Generics03")
 {
-    ASSERT_EQ(sum(1, 2, 3, 4, 5), 15);
-    ASSERT_EQ(sum(1), 1);
-    ASSERT_EQ(sum(1.5, 2.5, 3.0), 7.0);
+    REQUIRE(sum(1, 2, 3, 4, 5) == 15);
+    REQUIRE(sum(1) == 1);
+    REQUIRE(sum(1.5, 2.5, 3.0) == 7.0);
 
-    ASSERT_TRUE(allPositive(1, 2, 3));
-    ASSERT_FALSE(allPositive(1, -2, 3));
-    ASSERT_TRUE(allPositive(5));
+    REQUIRE(allPositive(1, 2, 3));
+    REQUIRE_FALSE(allPositive(1, -2, 3));
+    REQUIRE(allPositive(5));
 
-    ASSERT_TRUE(anyTrue(false, true, false));
-    ASSERT_FALSE(anyTrue(false, false, false));
-    ASSERT_TRUE(anyTrue(true));
+    REQUIRE(anyTrue(false, true, false));
+    REQUIRE_FALSE(anyTrue(false, false, false));
+    REQUIRE(anyTrue(true));
 }

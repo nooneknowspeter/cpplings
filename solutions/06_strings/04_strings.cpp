@@ -20,7 +20,8 @@
 //
 // https://www.learncpp.com/cpp-tutorial/stdstring_view/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <string>
 #include <string_view>
 
@@ -67,21 +68,20 @@ std::string replaceAll(std::string_view sv, char oldChar, char newChar)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Strings, Strings04)
+TEST_CASE("Strings Strings04")
 {
-    ASSERT_EQ(stringViewToString("hello"), "hello");
-    ASSERT_EQ(stringViewToString(""), "");
+    REQUIRE(stringViewToString("hello") == "hello");
+    REQUIRE(stringViewToString("") == "");
 
-    ASSERT_EQ(trim("  hello  "), "hello");
-    ASSERT_EQ(trim("hello"), "hello");
-    ASSERT_EQ(trim("   "), "");
-    ASSERT_EQ(trim("\t\ntest\t\n"), "test");
+    REQUIRE(trim("  hello  ") == "hello");
+    REQUIRE(trim("hello") == "hello");
+    REQUIRE(trim("   ") == "");
+    REQUIRE(trim("\t\ntest\t\n") == "test");
 
-    ASSERT_EQ(replaceAll("hello world", 'l', 'L'), "heLLo worLd");
-    ASSERT_EQ(replaceAll("aaa", 'a', 'b'), "bbb");
-    ASSERT_EQ(replaceAll("no changes", 'x', 'y'), "no changes");
+    REQUIRE(replaceAll("hello world", 'l', 'L') == "heLLo worLd");
+    REQUIRE(replaceAll("aaa", 'a', 'b') == "bbb");
+    REQUIRE(replaceAll("no changes", 'x', 'y') == "no changes");
 }

@@ -16,7 +16,8 @@
 //
 // https://www.learncpp.com/cpp-tutorial/multithreading/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <mutex>
 #include <thread>
 #include <vector>
@@ -41,11 +42,10 @@ int getCounter()
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Threads, Threads01)
+TEST_CASE("Threads Threads01")
 {
     counter = 0;
 
@@ -60,5 +60,5 @@ TEST(Threads, Threads01)
         t.join();
     }
 
-    ASSERT_EQ(getCounter(), 10);
+    REQUIRE(getCounter() == 10);
 }

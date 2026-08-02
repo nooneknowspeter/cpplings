@@ -1,6 +1,6 @@
---- patches/solutions/02_functions/02_functions.cpp	2026-03-17 15:26:59.196802975 -0400
-+++ exercises/02_functions/02_functions.cpp	2026-03-13 23:19:24.725666031 -0400
-@@ -1,41 +1,6 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/02_functions.cpp	2026-08-02 12:14:17.128412236 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/02_functions.cpp	2026-08-02 12:27:15.710050378 -0400
+@@ -1,47 +1,6 @@
 -// The function return a value and the value's datatype must be the same
 -// as the function's return type.
 +// https://www.learncpp.com/cpp-tutorial/void-functions-non-value-returning-functions/
@@ -8,7 +8,10 @@
 -// https://www.learncpp.com/cpp-tutorial/function-return-values-value-returning-functions/
 -// https://www.learncpp.com/cpp-tutorial/introduction-to-function-parameters-and-arguments/
  
--#include <gtest/gtest.h>
+-#include <catch2/catch_session.hpp>
+-#include <catch2/catch_test_macros.hpp>
+-#include <iostream>
+-#include <sstream>
 -#include <string>
 -
 -// TODO: Add the missing keyword.
@@ -26,21 +29,24 @@
 -}
 -
 -int main(int argc, char **argv)
--{
++void function02()
+ {
 -    // TODO: call the bar function
 -    bar();
 -
 -    std::cout << "\n\n" << "Testing output begins here\n--------------------------" << "\n";
--    testing::InitGoogleTest(&argc, argv);
--    return RUN_ALL_TESTS();
+-    return Catch::Session().run(argc, argv);
 -}
 -
--TEST(Variables, Variables04)
-+void function02()
- {
--    testing::internal::CaptureStdout();
+-TEST_CASE("Variables Variables04")
+-{
+-    std::stringstream buffer;
+-    std::streambuf *old = std::cout.rdbuf(buffer.rdbuf());
+-
 -    bar();
--    std::string stdout{testing::internal::GetCapturedStdout()};
--    ASSERT_EQ(bar(), 5);
--    ASSERT_EQ(stdout, "baz=5");
+-
+-    std::cout.rdbuf(old);
+-    std::string output{buffer.str()};
+-    REQUIRE(bar() == 5);
+-    REQUIRE(output == "baz=5");
  }

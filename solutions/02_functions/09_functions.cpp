@@ -18,9 +18,10 @@
 //
 // https://www.learncpp.com/cpp-tutorial/ellipsis-and-why-to-avoid-them/
 
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <cstdarg>
 #include <cstdio>
-#include <gtest/gtest.h>
 
 // Calculates the sum of integers using va_list.
 // The first argument specifies how many integers follow.
@@ -51,13 +52,12 @@ void printFormatted(const char *format, ...)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Functions, Functions09)
+TEST_CASE("Functions Functions09")
 {
-    ASSERT_EQ(sumInts(3, 1, 2, 3), 6);
-    ASSERT_EQ(sumInts(5, 1, 2, 3, 4, 5), 15);
-    ASSERT_EQ(sumInts(1, 42), 42);
+    REQUIRE(sumInts(3, 1, 2, 3) == 6);
+    REQUIRE(sumInts(5, 1, 2, 3, 4, 5) == 15);
+    REQUIRE(sumInts(1, 42) == 42);
 }

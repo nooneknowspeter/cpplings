@@ -16,7 +16,8 @@
 //
 // https://www.learncpp.com/cpp-tutorial/header-files/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // TODO: Create a function declaration for add.
 // The implementation is in src/math_utils.cpp
@@ -24,13 +25,12 @@ int add(int a, int b);
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Headers, Headers01)
+TEST_CASE("Headers Headers01")
 {
-    ASSERT_EQ(add(2, 3), 5);
-    ASSERT_EQ(add(-1, 1), 0);
-    ASSERT_EQ(add(0, 0), 0);
+    REQUIRE(add(2, 3) == 5);
+    REQUIRE(add(-1, 1) == 0);
+    REQUIRE(add(0, 0) == 0);
 }

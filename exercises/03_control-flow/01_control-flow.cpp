@@ -15,7 +15,8 @@
 // https://www.learncpp.com/cpp-tutorial/if-statements-and-blocks/
 // https://www.learncpp.com/cpp-tutorial/if-else-statements/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // TODO: Implement a function that returns a grade letter based on a score.
 // - 90-100: return 'A'
@@ -67,19 +68,18 @@ int checkNumber(int num)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(ControlFlow, ControlFlow01)
+TEST_CASE("ControlFlow ControlFlow01")
 {
-    ASSERT_EQ(getGrade(95), 'A');
-    ASSERT_EQ(getGrade(85), 'B');
-    ASSERT_EQ(getGrade(75), 'C');
-    ASSERT_EQ(getGrade(65), 'D');
-    ASSERT_EQ(getGrade(55), 'F');
+    REQUIRE(getGrade(95) == 'A');
+    REQUIRE(getGrade(85) == 'B');
+    REQUIRE(getGrade(75) == 'C');
+    REQUIRE(getGrade(65) == 'D');
+    REQUIRE(getGrade(55) == 'F');
 
-    ASSERT_EQ(checkNumber(5), 1);
-    ASSERT_EQ(checkNumber(-3), -1);
-    ASSERT_EQ(checkNumber(0), 0);
+    REQUIRE(checkNumber(5) == 1);
+    REQUIRE(checkNumber(-3) == -1);
+    REQUIRE(checkNumber(0) == 0);
 }

@@ -19,7 +19,8 @@
 //
 // https://www.learncpp.com/cpp-tutorial/stdmap/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <map>
 #include <string>
 
@@ -60,20 +61,19 @@ std::map<std::string, int> wordCount(const std::vector<std::string> &words)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Containers, Containers03)
+TEST_CASE("Containers Containers03")
 {
     auto phonebook = createPhonebook();
-    ASSERT_EQ(phonebook.size(), 3);
-    ASSERT_EQ(lookup(phonebook, "Alice"), 123);
-    ASSERT_EQ(lookup(phonebook, "Unknown"), -1);
+    REQUIRE(phonebook.size() == 3);
+    REQUIRE(lookup(phonebook, "Alice") == 123);
+    REQUIRE(lookup(phonebook, "Unknown") == -1);
 
     std::vector<std::string> words = {"apple", "banana", "apple", "cherry", "banana", "apple"};
     auto counts = wordCount(words);
-    ASSERT_EQ(counts["apple"], 3);
-    ASSERT_EQ(counts["banana"], 2);
-    ASSERT_EQ(counts["cherry"], 1);
+    REQUIRE(counts["apple"] == 3);
+    REQUIRE(counts["banana"] == 2);
+    REQUIRE(counts["cherry"] == 1);
 }

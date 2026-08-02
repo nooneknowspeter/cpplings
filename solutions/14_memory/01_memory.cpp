@@ -15,7 +15,8 @@
 //
 // https://www.learncpp.com/cpp-tutorial/introduction-to-smart-pointers/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <memory>
 
 // TODO: Create a function that returns a unique_ptr to an int with value 42.
@@ -38,22 +39,21 @@ std::shared_ptr<int> createShared()
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Memory, Memory01)
+TEST_CASE("Memory Memory01")
 {
     auto ptr = createValue();
-    ASSERT_EQ(*ptr, 42);
+    REQUIRE(*ptr == 42);
 
     auto ptr2 = createValue();
-    ASSERT_EQ(extractValue(std::move(ptr2)), 42);
+    REQUIRE(extractValue(std::move(ptr2)) == 42);
 
     auto shared = createShared();
-    ASSERT_EQ(*shared, 100);
-    ASSERT_EQ(shared.use_count(), 1);
+    REQUIRE(*shared == 100);
+    REQUIRE(shared.use_count() == 1);
 
     auto shared2 = shared;
-    ASSERT_EQ(shared.use_count(), 2);
+    REQUIRE(shared.use_count() == 2);
 }

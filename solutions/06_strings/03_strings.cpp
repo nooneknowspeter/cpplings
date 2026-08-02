@@ -30,7 +30,8 @@
 //
 // https://www.learncpp.com/cpp-tutorial/stdstring_view/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <string>
 #include <string_view>
 
@@ -83,23 +84,22 @@ int countWords(std::string_view sv)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Strings, Strings03)
+TEST_CASE("Strings Strings03")
 {
-    ASSERT_EQ(firstWord("hello world"), "hello");
-    ASSERT_EQ(firstWord("single"), "single");
-    ASSERT_EQ(firstWord(""), "");
+    REQUIRE(firstWord("hello world") == "hello");
+    REQUIRE(firstWord("single") == "single");
+    REQUIRE(firstWord("") == "");
 
-    ASSERT_TRUE(startsWith("hello", "he"));
-    ASSERT_TRUE(startsWith("hello", "hello"));
-    ASSERT_FALSE(startsWith("hello", "world"));
-    ASSERT_FALSE(startsWith("", "anything"));
+    REQUIRE(startsWith("hello", "he"));
+    REQUIRE(startsWith("hello", "hello"));
+    REQUIRE_FALSE(startsWith("hello", "world"));
+    REQUIRE_FALSE(startsWith("", "anything"));
 
-    ASSERT_EQ(countWords("hello world"), 2);
-    ASSERT_EQ(countWords("one two three four"), 4);
-    ASSERT_EQ(countWords("single"), 1);
-    ASSERT_EQ(countWords(""), 0);
+    REQUIRE(countWords("hello world") == 2);
+    REQUIRE(countWords("one two three four") == 4);
+    REQUIRE(countWords("single") == 1);
+    REQUIRE(countWords("") == 0);
 }

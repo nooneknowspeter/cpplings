@@ -1,6 +1,6 @@
---- patches/solutions/03_control-flow/01_control-flow.cpp	2026-03-18 21:11:39.299631296 -0400
-+++ exercises/03_control-flow/01_control-flow.cpp	2026-03-18 21:11:07.644572370 -0400
-@@ -4,26 +4,25 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/03_control-flow/01_control-flow.cpp	2026-08-02 12:12:43.793579050 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/03_control-flow/01_control-flow.cpp	2026-08-02 12:27:15.717123742 -0400
+@@ -4,19 +4,13 @@
  // Control flow statements allow you to execute code conditionally
  // or repeatedly. The most basic is the if statement.
  //
@@ -26,8 +26,9 @@
  //
  // https://www.learncpp.com/cpp-tutorial/if-statements-and-blocks/
  // https://www.learncpp.com/cpp-tutorial/if-else-statements/
- 
- #include <gtest/gtest.h>
+@@ -24,7 +18,12 @@
+ #include <catch2/catch_session.hpp>
+ #include <catch2/catch_test_macros.hpp>
  
 -// Returns a grade letter based on the numeric score.
 +// TODO: Implement a function that returns a grade letter based on a score.
@@ -39,7 +40,7 @@
  char getGrade(int score)
  {
      if (score >= 90)
-@@ -48,8 +47,8 @@
+@@ -49,8 +48,8 @@
      }
  }
  

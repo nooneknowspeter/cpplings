@@ -15,7 +15,8 @@
 //
 // https://www.learncpp.com/cpp-tutorial/arithmetic-conversions/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // TODO: Implement a function that safely converts a char to an int.
 // This is a widening conversion (char -> int), no data loss.
@@ -41,20 +42,19 @@ bool isWholeNumber(double d)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(TypeCoercion, TypeCoercion02)
+TEST_CASE("TypeCoercion TypeCoercion02")
 {
-    ASSERT_EQ(charToInt('A'), 65);
-    ASSERT_EQ(charToInt('0'), 48);
+    REQUIRE(charToInt('A') == 65);
+    REQUIRE(charToInt('0') == 48);
 
-    ASSERT_EQ(intToChar(65), 'A');
-    ASSERT_EQ(intToChar(97), 'a');
+    REQUIRE(intToChar(65) == 'A');
+    REQUIRE(intToChar(97) == 'a');
 
-    ASSERT_TRUE(isWholeNumber(5.0));
-    ASSERT_TRUE(isWholeNumber(-3.0));
-    ASSERT_FALSE(isWholeNumber(5.5));
-    ASSERT_FALSE(isWholeNumber(-3.7));
+    REQUIRE(isWholeNumber(5.0));
+    REQUIRE(isWholeNumber(-3.0));
+    REQUIRE_FALSE(isWholeNumber(5.5));
+    REQUIRE_FALSE(isWholeNumber(-3.7));
 }

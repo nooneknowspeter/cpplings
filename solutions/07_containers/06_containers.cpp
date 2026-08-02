@@ -28,7 +28,8 @@
 //
 // https://www.learncpp.com/cpp-tutorial/stdlist/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <list>
 
 // Removes all even numbers from a list.
@@ -94,22 +95,21 @@ std::list<int> mergeSortedLists(const std::list<int> &a, const std::list<int> &b
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Containers, Containers06)
+TEST_CASE("Containers Containers06")
 {
     std::list<int> l1 = {1, 2, 3, 4, 5, 6};
     std::list<int> evensRemoved = {1, 3, 5};
-    ASSERT_EQ(removeEvens(l1), evensRemoved);
+    REQUIRE(removeEvens(l1) == evensRemoved);
 
     std::list<int> l2 = {1, 2, 3};
     std::list<int> reversed = {3, 2, 1};
-    ASSERT_EQ(reverseList(l2), reversed);
+    REQUIRE(reverseList(l2) == reversed);
 
     std::list<int> a = {1, 3, 5};
     std::list<int> b = {2, 4, 6};
     std::list<int> merged = {1, 2, 3, 4, 5, 6};
-    ASSERT_EQ(mergeSortedLists(a, b), merged);
+    REQUIRE(mergeSortedLists(a, b) == merged);
 }

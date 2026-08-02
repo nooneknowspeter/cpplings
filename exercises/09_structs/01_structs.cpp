@@ -11,8 +11,10 @@
 //
 // https://www.learncpp.com/cpp-tutorial/structs/
 
+#include <catch2/catch_approx.hpp>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <cmath>
-#include <gtest/gtest.h>
 
 // TODO: Create a Point struct with x and y coordinates (both int).
 struct Point
@@ -31,19 +33,18 @@ double distance(const Point &a, const Point &b)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Structs, Structs01)
+TEST_CASE("Structs Structs01")
 {
     Point p1 = {0, 0};
     Point p2 = {3, 4};
 
-    ASSERT_EQ(p1.x, 0);
-    ASSERT_EQ(p1.y, 0);
-    ASSERT_EQ(p2.x, 3);
-    ASSERT_EQ(p2.y, 4);
+    REQUIRE(p1.x == 0);
+    REQUIRE(p1.y == 0);
+    REQUIRE(p2.x == 3);
+    REQUIRE(p2.y == 4);
 
-    ASSERT_DOUBLE_EQ(distance(p1, p2), 5.0);
+    REQUIRE(distance(p1, p2) == Catch::Approx(5.0));
 }

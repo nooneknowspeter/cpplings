@@ -1,4 +1,7 @@
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include <iostream>
+#include <sstream>
 #include <string>
 
 void variables04()
@@ -16,14 +19,17 @@ int main(int argc, char **argv)
     variables04();
 
     std::cout << "\n\n" << "Testing output begins here\n--------------------------" << "\n";
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Variables, Variables04)
+TEST_CASE("Variables Variables04")
 {
-    testing::internal::CaptureStdout();
+    std::stringstream buffer;
+    std::streambuf *old = std::cout.rdbuf(buffer.rdbuf());
+
     variables04();
-    std::string stdout{testing::internal::GetCapturedStdout()};
-    ASSERT_EQ(stdout, "baz=5");
+
+    std::cout.rdbuf(old);
+    std::string output{buffer.str()};
+    REQUIRE(output == "baz=5");
 }

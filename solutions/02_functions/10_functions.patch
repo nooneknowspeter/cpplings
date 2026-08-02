@@ -1,68 +1,80 @@
---- patches/solutions/02_functions/10_functions.cpp	2026-03-18 21:09:34.402200624 -0400
-+++ exercises/02_functions/10_functions.cpp	2026-03-18 21:08:41.173085805 -0400
-@@ -2,53 +2,36 @@
- // even after you already figured it out.
- //
- // std::forward is used in variadic templates to perfectly forward arguments.
--// Perfect forwarding allows arguments to be passed to another function
--// while preserving their original value category (lvalue or rvalue).
-+// It preserves the value category (lvalue/rvalue) of the original argument.
- //
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/10_functions.cpp	2026-08-02 12:12:43.769026075 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/10_functions.cpp	2026-08-02 12:27:15.716238780 -0400
+@@ -1,51 +1,48 @@
+-// TODO: We sometimes encourage you to keep trying things on a given exercise
+-// even after you already figured it out.
+-//
++// https://www.learncpp.com/cpp-tutorial/variadic-functions/
++
++#include <catch2/catch_session.hpp>
++#include <catch2/catch_test_macros.hpp>
++
+ // Variadic templates are the modern, type-safe alternative to C-style va_list.
+-// They use '...' syntax to accept any number of arguments of any type.
+-//
 -// Key concepts:
--// - Lvalue: has an address, can appear on left side of assignment (e.g., variables)
--// - Rvalue: temporary values, can only appear on right side (e.g., literals)
--// - std::move() converts lvalue to rvalue
--// - std::forward<T>() preserves the original value category based on T
--//
--// When to use std::forward:
--// - In template functions that forward arguments
--// - When implementing wrapper functions or adapters
--// - In factory functions (like std::make_pair, std::make_unique)
--//
--// std::decay_t<T> removes references and cv-qualifiers,
--// useful for getting the underlying type for storage.
-+// When combined with variadic templates, std::forward enables:
-+// - Perfect forwarding: arguments passed to a function are forwarded with their
-+//   original value category to another function
-+// - Avoids unnecessary copies
+-// - typename... Args: template parameter pack (holds types)
+-// - Args... args: function parameter pack (holds values)
+-// - sizeof...(args): returns number of arguments in the pack
+-// - Recursion: base case handles single arg, recursive case handles rest
  //
- // https://www.learncpp.com/cpp-tutorial/perfect-forwarding/
+ // PROS OF VARIADIC TEMPLATES:
+ // - Type-safe: no implicit conversions
+-// - Works with any type (int, double, std::string, custom types)
++// - Works with any type (not just integers)
+ // - IDE support: autocomplete and type checking
+-// - No runtime overhead: templates resolved at compile time
++// - No runtime overhead: templates are resolved at compile time
+ // - Works with references, classes, and custom types
+ //
+ // CONS OF VARIADIC TEMPLATES:
+-// - More complex syntax than simple functions
+-// - Slower compile times due to template instantiation
++// - More complex syntax
++// - Slower compile times
+ // - Cannot directly pass to C-style variadic functions
+ // - Requires recursive template instantiation
+ //
+-// COMPARISON WITH C-STYLE va_list (exercise 09):
+-// - va_list: simple syntax, not type-safe, limited types
+-// - Variadic templates: complex syntax, fully type-safe, any type
+-//
+-// https://www.learncpp.com/cpp-tutorial/variadic-functions/
+-
+-#include <catch2/catch_session.hpp>
+-#include <catch2/catch_test_macros.hpp>
++// PROS OF C-STYLE va_list:
++// - Simple syntax for basic cases
++// - Faster compile times
++// - Can interoperate with C code
++// - Easy to use with printf-style functions
++//
++// CONS OF C-STYLE va_list:
++// - Not type-safe
++// - Only works with fundamental types (int, double, etc.)
++// - No IDE support or autocomplete
++// - Undefined behavior if types don't match
  
- #include <gtest/gtest.h>
- #include <utility>
- 
--// Simple wrapper that forwards the argument
--// T&& is a forwarding reference (can bind to lvalue or rvalue)
-+// TODO: Implement a wrapper function that perfectly forwards arguments.
-+// Use std::forward to preserve lvalue/rvalue semantics.
- template <typename T> T wrapper(T arg)
+-// Base case: single argument - just return it
+-// This terminates the recursion.
++// Base case: single argument - just return it.
+ template <typename T> T sum(T value)
  {
--    // When called with an lvalue, arg is a copy
--    // When called with an rvalue, arg is moved (if T supports move)
-     return arg;
+     return value;
  }
  
--// Factory function that perfectly forwards arguments to std::pair constructor
--// T1&& and T2&& are forwarding references
--template <typename T1, typename T2>
--auto createPair(T1 &&first, T2 &&second) -> std::pair<std::decay_t<T1>, std::decay_t<T2>>
-+// TODO: Create a function 'createPair' that uses std::forward
-+// to perfectly forward arguments to std::make_pair.
-+template <typename T1, typename T2> auto createPair(T1 &&first, T2 &&second)
+-// Recursive case: add first argument to sum of rest
+-// typename... Args is a template parameter pack (holds types)
+-// Args... args is a function parameter pack (holds values)
++// TODO: Implement the recursive case for sum.
++// The function should add the first argument to the sum of the rest.
++// Hint: Use template parameter packs (typename... Args) and recursion.
+ template <typename T, typename... Args> T sum(T first, Args... args)
  {
--    // std::forward<T1>(first) preserves the value category:
--    // - If first was passed an lvalue, forward keeps it as lvalue
--    // - If first was passed an rvalue, forward keeps it as rvalue
-     return std::pair<std::decay_t<T1>, std::decay_t<T2>>(std::forward<T1>(first), std::forward<T2>(second));
+-    // Recursively call sum with remaining arguments
+-    return first + sum(args...);
++    // TODO: Return first + sum(args...)
++    return 0; // Replace this
  }
  
--// Generic processor that forwards to wrapper
--// Demonstrates perfect forwarding in a callback scenario
-+// TODO: Implement a 'process' function that forwards to another function.
-+// Use std::forward to maintain the original argument category.
- template <typename T> void process(T &&value)
- {
--    // Forward the value to wrapper while preserving its category
-     wrapper(std::forward<T>(value));
- }
- 
+ int main(int argc, char *argv[])

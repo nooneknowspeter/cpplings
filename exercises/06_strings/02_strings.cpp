@@ -15,7 +15,8 @@
 // https://www.learncpp.com/cpp-tutorial/stdstring-construction-and-destruction/
 // https://www.learncpp.com/cpp-tutorial/stdstring-character-access-and-conversion-to-cstyle/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <string>
 
 // TODO: Implement a function that reverses a std::string.
@@ -62,22 +63,21 @@ bool isPalindrome(const std::string &str)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Strings, Strings02)
+TEST_CASE("Strings Strings02")
 {
-    ASSERT_EQ(reverseString("hello"), "olleh");
-    ASSERT_EQ(reverseString("a"), "a");
-    ASSERT_EQ(reverseString("racecar"), "racecar");
+    REQUIRE(reverseString("hello") == "olleh");
+    REQUIRE(reverseString("a") == "a");
+    REQUIRE(reverseString("racecar") == "racecar");
 
-    ASSERT_EQ(countChar("hello", 'l'), 2);
-    ASSERT_EQ(countChar("banana", 'a'), 3);
-    ASSERT_EQ(countChar("test", 'x'), 0);
+    REQUIRE(countChar("hello", 'l') == 2);
+    REQUIRE(countChar("banana", 'a') == 3);
+    REQUIRE(countChar("test", 'x') == 0);
 
-    ASSERT_TRUE(isPalindrome("racecar"));
-    ASSERT_TRUE(isPalindrome("a"));
-    ASSERT_TRUE(isPalindrome("noon"));
-    ASSERT_FALSE(isPalindrome("hello"));
+    REQUIRE(isPalindrome("racecar"));
+    REQUIRE(isPalindrome("a"));
+    REQUIRE(isPalindrome("noon"));
+    REQUIRE_FALSE(isPalindrome("hello"));
 }

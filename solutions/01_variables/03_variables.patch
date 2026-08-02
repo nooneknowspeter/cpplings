@@ -1,5 +1,5 @@
---- patches/solutions/01_variables/03_variables.cpp	2026-03-17 15:26:59.196802975 -0400
-+++ exercises/01_variables/03_variables.cpp	2026-03-13 23:19:24.725666031 -0400
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/01_variables/03_variables.cpp	2026-07-26 14:29:38.088567174 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/01_variables/03_variables.cpp	2026-08-02 12:27:15.707429356 -0400
 @@ -1,28 +0,0 @@
 -// Besides the variable data types, C++ has a few more
 -// keywords for declaring the type of variable before

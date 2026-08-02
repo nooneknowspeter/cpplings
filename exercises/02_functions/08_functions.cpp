@@ -20,7 +20,8 @@
 // https://www.learncpp.com/cpp-tutorial/introduction-to-lambdas-anonymous-functions/
 // https://www.learncpp.com/cpp-tutorial/lambda-captures/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <vector>
 
 // TODO: Create a lambda named 'isEven' that returns true if a number is even.
@@ -33,26 +34,25 @@ auto doubleIt = [](int n) { return n * 2; };
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Functions, Functions08)
+TEST_CASE("Functions Functions08")
 {
-    ASSERT_TRUE(isEven(2));
-    ASSERT_TRUE(isEven(4));
-    ASSERT_FALSE(isEven(3));
-    ASSERT_FALSE(isEven(5));
+    REQUIRE(isEven(2));
+    REQUIRE(isEven(4));
+    REQUIRE_FALSE(isEven(3));
+    REQUIRE_FALSE(isEven(5));
 
-    ASSERT_EQ(doubleIt(5), 10);
-    ASSERT_EQ(doubleIt(0), 0);
-    ASSERT_EQ(doubleIt(-3), -6);
+    REQUIRE(doubleIt(5) == 10);
+    REQUIRE(doubleIt(0) == 0);
+    REQUIRE(doubleIt(-3) == -6);
 }
 
-TEST(Functions, Functions08_Capture)
+TEST_CASE("Functions Functions08_Capture")
 {
     // TODO: Create a lambda that captures 'multiplier' by value.
     const int multiplier = 3;
     auto multiplyByGlobal = [=](int n) { return n * multiplier; };
-    ASSERT_EQ(multiplyByGlobal(4), 12);
+    REQUIRE(multiplyByGlobal(4) == 12);
 }

@@ -17,7 +17,8 @@
 //
 // https://www.learncpp.com/cpp-tutorial/header-files/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // TODO: Define a macro SQUARE that squares a number.
 #define SQUARE(x) ((x) * (x))
@@ -30,18 +31,17 @@
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Preprocessors, Preprocessors01)
+TEST_CASE("Preprocessors Preprocessors01")
 {
-    ASSERT_EQ(SQUARE(5), 25);
-    ASSERT_EQ(SQUARE(-3), 9);
+    REQUIRE(SQUARE(5) == 25);
+    REQUIRE(SQUARE(-3) == 9);
 
-    ASSERT_EQ(MAX(3, 5), 5);
-    ASSERT_EQ(MAX(10, 2), 10);
+    REQUIRE(MAX(3, 5) == 5);
+    REQUIRE(MAX(10, 2) == 10);
 
-    ASSERT_TRUE(IS_EVEN(4));
-    ASSERT_FALSE(IS_EVEN(5));
+    REQUIRE(IS_EVEN(4));
+    REQUIRE_FALSE(IS_EVEN(5));
 }

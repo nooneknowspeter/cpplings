@@ -25,7 +25,8 @@
 //
 // https://www.learncpp.com/cpp-tutorial/vector-capacity-and-stack-behavior/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <vector>
 
 // Returns the sum of all elements in a vector.
@@ -66,21 +67,20 @@ std::vector<int> reverseVector(const std::vector<int> &v)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Containers, Containers01)
+TEST_CASE("Containers Containers01")
 {
     std::vector<int> v1 = {1, 2, 3, 4, 5};
-    ASSERT_EQ(sumVector(v1), 15);
-    ASSERT_EQ(sumVector({}), 0);
-    ASSERT_EQ(sumVector({10}), 10);
+    REQUIRE(sumVector(v1) == 15);
+    REQUIRE(sumVector({}) == 0);
+    REQUIRE(sumVector({10}) == 10);
 
     std::vector<int> v2 = {3, 7, 2, 9, 4};
-    ASSERT_EQ(findMax(v2), 9);
+    REQUIRE(findMax(v2) == 9);
 
     std::vector<int> v3 = {1, 2, 3};
     std::vector<int> expected = {3, 2, 1};
-    ASSERT_EQ(reverseVector(v3), expected);
+    REQUIRE(reverseVector(v3) == expected);
 }

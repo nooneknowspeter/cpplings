@@ -21,7 +21,9 @@
 //
 // https://www.learncpp.com/cpp-tutorial/switch-statements/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include <string>
 
 // TODO: Implement a function that returns the number of days in a month.
 // Use a switch statement.
@@ -90,19 +92,18 @@ const char *getDayOfWeek(int day)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(ControlFlow, ControlFlow02)
+TEST_CASE("ControlFlow ControlFlow02")
 {
-    ASSERT_EQ(getDaysInMonth(1), 31);
-    ASSERT_EQ(getDaysInMonth(2), 28);
-    ASSERT_EQ(getDaysInMonth(4), 30);
-    ASSERT_EQ(getDaysInMonth(12), 31);
-    ASSERT_EQ(getDaysInMonth(0), -1);
+    REQUIRE(getDaysInMonth(1) == 31);
+    REQUIRE(getDaysInMonth(2) == 28);
+    REQUIRE(getDaysInMonth(4) == 30);
+    REQUIRE(getDaysInMonth(12) == 31);
+    REQUIRE(getDaysInMonth(0) == -1);
 
-    ASSERT_STREQ(getDayOfWeek(1), "Monday");
-    ASSERT_STREQ(getDayOfWeek(7), "Sunday");
-    ASSERT_STREQ(getDayOfWeek(0), "Invalid");
+    REQUIRE(std::string(getDayOfWeek(1)) == "Monday");
+    REQUIRE(std::string(getDayOfWeek(7)) == "Sunday");
+    REQUIRE(std::string(getDayOfWeek(0)) == "Invalid");
 }

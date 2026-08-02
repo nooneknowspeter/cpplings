@@ -15,8 +15,10 @@
 //
 // https://www.learncpp.com/cpp-tutorial/void-functions-non-value-returning-functions/
 
-#include "gtest/gtest.h"
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 
@@ -53,15 +55,18 @@ int main(int argc, char **argv)
     voidFunction(true, 5);
 
     std::cout << "\n\n" << "Testing output begins here\n--------------------------" << "\n";
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Functions, Functions03)
+TEST_CASE("Functions Functions03")
 {
-    testing::internal::CaptureStdout();
+    std::stringstream buffer;
+    std::streambuf *old = std::cout.rdbuf(buffer.rdbuf());
+
     // TODO: Call the function and pass in the approriate arguments.
     voidFunction(true, 5);
-    std::string stdout{testing::internal::GetCapturedStdout()};
-    ASSERT_EQ(stdout, "This is a void function!");
+
+    std::cout.rdbuf(old);
+    std::string output{buffer.str()};
+    REQUIRE(output == "This is a void function!");
 }

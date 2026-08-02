@@ -1,6 +1,6 @@
---- patches/solutions/03_control-flow/03_control-flow.cpp	2026-03-18 21:11:54.124113578 -0400
-+++ exercises/03_control-flow/03_control-flow.cpp	2026-03-18 21:11:20.835018541 -0400
-@@ -1,29 +1,27 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/03_control-flow/03_control-flow.cpp	2026-08-02 12:12:43.789129342 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/03_control-flow/03_control-flow.cpp	2026-08-02 12:27:15.718629194 -0400
+@@ -1,20 +1,17 @@
  // TODO: We sometimes encourage you to keep trying things on a given exercise
  // even after you already figured it out.
  //
@@ -29,8 +29,9 @@
  //
  // https://www.learncpp.com/cpp-tutorial/while-statements/
  // https://www.learncpp.com/cpp-tutorial/do-while-statements/
- 
- #include <gtest/gtest.h>
+@@ -22,9 +19,10 @@
+ #include <catch2/catch_session.hpp>
+ #include <catch2/catch_test_macros.hpp>
  
 -// Calculates factorial using a while loop.
 +// TODO: Implement a function that calculates the factorial of a number
@@ -41,7 +42,7 @@
  int factorial(int n)
  {
      int result = 1;
-@@ -35,8 +33,10 @@
+@@ -36,8 +34,10 @@
      return result;
  }
  
@@ -54,7 +55,7 @@
  int countDigits(int n)
  {
      int count = 0;
-@@ -48,7 +48,8 @@
+@@ -49,7 +49,8 @@
      return count;
  }
  

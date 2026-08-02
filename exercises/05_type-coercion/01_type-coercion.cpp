@@ -17,7 +17,9 @@
 // https://www.learncpp.com/cpp-tutorial/implicit-type-conversion-coercion/
 // https://www.learncpp.com/cpp-tutorial/explicit-type-conversion-casting/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_approx.hpp>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // TODO: Implement a function that adds an int and a double.
 // Return the result as a double (implicit conversion of int to double).
@@ -56,22 +58,21 @@ int roundToInt(double d)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(TypeCoercion, TypeCoercion01)
+TEST_CASE("TypeCoercion TypeCoercion01")
 {
-    ASSERT_DOUBLE_EQ(addIntDouble(5, 3.5), 8.5);
-    ASSERT_DOUBLE_EQ(addIntDouble(10, 2.0), 12.0);
+    REQUIRE(addIntDouble(5, 3.5) == Catch::Approx(8.5));
+    REQUIRE(addIntDouble(10, 2.0) == Catch::Approx(12.0));
 
-    ASSERT_DOUBLE_EQ(divideInts(10, 4), 2.5);
-    ASSERT_DOUBLE_EQ(divideInts(7, 2), 3.5);
+    REQUIRE(divideInts(10, 4) == Catch::Approx(2.5));
+    REQUIRE(divideInts(7, 2) == Catch::Approx(3.5));
 
-    ASSERT_EQ(truncateToInt(3.7), 3);
-    ASSERT_EQ(truncateToInt(3.2), 3);
+    REQUIRE(truncateToInt(3.7) == 3);
+    REQUIRE(truncateToInt(3.2) == 3);
 
-    ASSERT_EQ(roundToInt(3.7), 4);
-    ASSERT_EQ(roundToInt(3.2), 3);
-    ASSERT_EQ(roundToInt(-3.7), -4);
+    REQUIRE(roundToInt(3.7) == 4);
+    REQUIRE(roundToInt(3.2) == 3);
+    REQUIRE(roundToInt(-3.7) == -4);
 }

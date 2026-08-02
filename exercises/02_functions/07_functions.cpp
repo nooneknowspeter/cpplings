@@ -3,8 +3,10 @@
 //
 // https://www.learncpp.com/cpp-tutorial/recursion/
 
-#include "gtest/gtest.h"
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <iostream>
+#include <sstream>
 #include <string>
 
 // TODO: Implement the recursive fibonacci function.
@@ -21,13 +23,13 @@ int fibonacci(int n)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Functions, Functions07)
+TEST_CASE("Functions Functions07")
 {
-    testing::internal::CaptureStdout();
+    std::stringstream buffer;
+    std::streambuf *old = std::cout.rdbuf(buffer.rdbuf());
 
     for (int n = 0; n <= 10; ++n)
     {
@@ -40,9 +42,10 @@ TEST(Functions, Functions07)
         std::cout << fibonacci(n) << ", ";
     }
 
-    std::string stdout{testing::internal::GetCapturedStdout()};
+    std::cout.rdbuf(old);
+    std::string output{buffer.str()};
 
-    ASSERT_EQ(stdout, "0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55,...\n");
+    REQUIRE(output == "0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55,...\n");
 
-    std::cout << "\n" << stdout << "\n";
+    std::cout << "\n" << output << "\n";
 }

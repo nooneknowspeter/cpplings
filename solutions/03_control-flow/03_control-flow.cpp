@@ -19,7 +19,8 @@
 // https://www.learncpp.com/cpp-tutorial/while-statements/
 // https://www.learncpp.com/cpp-tutorial/do-while-statements/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // Calculates factorial using a while loop.
 // factorial(5) = 5 * 4 * 3 * 2 * 1 = 120
@@ -63,22 +64,21 @@ int sumToN(int n)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(ControlFlow, ControlFlow03)
+TEST_CASE("ControlFlow ControlFlow03")
 {
-    ASSERT_EQ(factorial(5), 120);
-    ASSERT_EQ(factorial(0), 1);
-    ASSERT_EQ(factorial(1), 1);
-    ASSERT_EQ(factorial(10), 3628800);
+    REQUIRE(factorial(5) == 120);
+    REQUIRE(factorial(0) == 1);
+    REQUIRE(factorial(1) == 1);
+    REQUIRE(factorial(10) == 3628800);
 
-    ASSERT_EQ(countDigits(12345), 5);
-    ASSERT_EQ(countDigits(0), 1);
-    ASSERT_EQ(countDigits(9), 1);
+    REQUIRE(countDigits(12345) == 5);
+    REQUIRE(countDigits(0) == 1);
+    REQUIRE(countDigits(9) == 1);
 
-    ASSERT_EQ(sumToN(5), 15);
-    ASSERT_EQ(sumToN(10), 55);
-    ASSERT_EQ(sumToN(1), 1);
+    REQUIRE(sumToN(5) == 15);
+    REQUIRE(sumToN(10) == 55);
+    REQUIRE(sumToN(1) == 1);
 }

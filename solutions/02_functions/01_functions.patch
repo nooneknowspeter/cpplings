@@ -1,6 +1,6 @@
---- patches/solutions/02_functions/01_functions.cpp	2026-03-17 15:26:59.196802975 -0400
-+++ exercises/02_functions/01_functions.cpp	2026-03-13 23:19:24.725666031 -0400
-@@ -1,58 +1,22 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/01_functions.cpp	2026-08-02 12:12:43.760349634 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/01_functions.cpp	2026-08-02 12:27:15.708950530 -0400
+@@ -1,58 +1,28 @@
 -// TODO: We sometimes encourage you to keep trying things on a given exercise
 -// even after you already figured it out.
  //
@@ -29,7 +29,8 @@
  // https://www.learncpp.com/cpp-tutorial/function-return-values-value-returning-functions/
 -// https://www.learncpp.com/cpp-tutorial/why-functions-are-useful-and-how-to-use-them-effectively/
  
- #include <gtest/gtest.h>
+ #include <catch2/catch_session.hpp>
+ #include <catch2/catch_test_macros.hpp>
  #include <iostream>
  
 -// TODO: Create the function signature.
@@ -45,21 +46,24 @@
  }
  
 -int main(int argc, char **argv)
--{
++TEST_CASE("Functions Function01")
+ {
 -    // TODO: Call the function and pass in an appropriate parameter.
 -    f(10);
 -
 -    std::cout << "\n\n" << "Testing output begins here\n--------------------------" << "\n";
--    testing::InitGoogleTest(&argc, argv);
--    return RUN_ALL_TESTS();
--}
--
- TEST(Functions, Function01)
+-    return Catch::Session().run(argc, argv);
++    REQUIRE(function01(0) == 1);
++    REQUIRE(function01(1) == 2);
++    REQUIRE(function01(2) == 3);
+ }
+ 
+-TEST_CASE("Functions Function01")
++int main(int argc, char *argv[])
  {
--    ASSERT_EQ(f(0), 1);
--    ASSERT_EQ(f(1), 2);
--    ASSERT_EQ(f(2), 3);
-+    ASSERT_EQ(function01(0), 1);
-+    ASSERT_EQ(function01(1), 2);
-+    ASSERT_EQ(function01(2), 3);
- };
+-    REQUIRE(f(0) == 1);
+-    REQUIRE(f(1) == 2);
+-    REQUIRE(f(2) == 3);
+-};
++    return Catch::Session().run(argc, argv);
++}

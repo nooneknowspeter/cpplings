@@ -14,8 +14,9 @@
 // https://www.learncpp.com/cpp-tutorial/c-style-strings/
 // https://www.learncpp.com/cpp-tutorial/stdstring-overview/
 
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <cstring>
-#include <gtest/gtest.h>
 #include <string>
 
 // TODO: Implement a function that returns the length of a C-string.
@@ -66,21 +67,20 @@ char *cstringConcat(const char *s1, const char *s2)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Strings, Strings01)
+TEST_CASE("Strings Strings01")
 {
-    ASSERT_EQ(cstringLength("hello"), 5);
-    ASSERT_EQ(cstringLength(""), 0);
-    ASSERT_EQ(cstringLength("A"), 1);
+    REQUIRE(cstringLength("hello") == 5);
+    REQUIRE(cstringLength("") == 0);
+    REQUIRE(cstringLength("A") == 1);
 
-    ASSERT_EQ(cstringCompare("apple", "banana"), -1);
-    ASSERT_EQ(cstringCompare("hello", "hello"), 0);
-    ASSERT_EQ(cstringCompare("zebra", "apple"), 1);
+    REQUIRE(cstringCompare("apple", "banana") == -1);
+    REQUIRE(cstringCompare("hello", "hello") == 0);
+    REQUIRE(cstringCompare("zebra", "apple") == 1);
 
     char *concat = cstringConcat("hello", "world");
-    ASSERT_STREQ(concat, "helloworld");
+    REQUIRE(std::string(concat) == "helloworld");
     delete[] concat;
 }

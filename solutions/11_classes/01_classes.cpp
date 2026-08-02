@@ -17,7 +17,8 @@
 //
 // https://www.learncpp.com/cpp-tutorial/classes-and-class-members/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // TODO: Create a Counter class with:
 // - A private int member 'count'
@@ -46,19 +47,18 @@ class Counter
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Classes, Classes01)
+TEST_CASE("Classes Classes01")
 {
     Counter c;
-    ASSERT_EQ(c.getCount(), 0);
+    REQUIRE(c.getCount() == 0);
 
     c.increment();
-    ASSERT_EQ(c.getCount(), 1);
+    REQUIRE(c.getCount() == 1);
 
     c.increment();
     c.increment();
-    ASSERT_EQ(c.getCount(), 3);
+    REQUIRE(c.getCount() == 3);
 }

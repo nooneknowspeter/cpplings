@@ -16,9 +16,11 @@
 // https://www.learncpp.com/cpp-tutorial/fundamental-data-types/
 // https://www.learncpp.com/cpp-tutorial/unsigned-integers-and-why-to-avoid-them/
 
+#include <catch2/catch_approx.hpp>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <climits>
 #include <cstdint>
-#include <gtest/gtest.h>
 
 // TODO: Implement a function that calculates the sum of two unsigned 32-bit integers.
 // Handle overflow by returning the maximum value if overflow occurs.
@@ -48,19 +50,18 @@ double celsiusToFahrenheit(double celsius)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Primitives, Primitives03)
+TEST_CASE("Primitives Primitives03")
 {
-    ASSERT_EQ(addUint32(1, 2), 3);
-    ASSERT_EQ(addUint32(UINT32_MAX, 1), UINT32_MAX);
+    REQUIRE(addUint32(1, 2) == 3);
+    REQUIRE(addUint32(UINT32_MAX, 1) == UINT32_MAX);
 
-    ASSERT_FALSE(hasOverflow(50, 50));
-    ASSERT_TRUE(hasOverflow(100, 50));
-    ASSERT_TRUE(hasOverflow(-100, -50));
+    REQUIRE_FALSE(hasOverflow(50, 50));
+    REQUIRE(hasOverflow(100, 50));
+    REQUIRE(hasOverflow(-100, -50));
 
-    ASSERT_DOUBLE_EQ(celsiusToFahrenheit(0.0), 32.0);
-    ASSERT_DOUBLE_EQ(celsiusToFahrenheit(100.0), 212.0);
+    REQUIRE(celsiusToFahrenheit(0.0) == Catch::Approx(32.0));
+    REQUIRE(celsiusToFahrenheit(100.0) == Catch::Approx(212.0));
 }

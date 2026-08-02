@@ -1,6 +1,6 @@
---- patches/solutions/05_type-coercion/03_type-coercion.cpp	2026-03-18 21:13:52.452682791 -0400
-+++ exercises/05_type-coercion/03_type-coercion.cpp	2026-03-18 21:13:30.046042492 -0400
-@@ -2,41 +2,36 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/05_type-coercion/03_type-coercion.cpp	2026-08-02 12:12:43.808003249 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/05_type-coercion/03_type-coercion.cpp	2026-08-02 12:27:15.722950673 -0400
+@@ -2,20 +2,13 @@
  // even after you already figured it out.
  //
  // Type deduction with auto:
@@ -27,8 +27,9 @@
  //
  // https://www.learncpp.com/cpp-tutorial/type-deduction-with-auto/
  // https://www.learncpp.com/cpp-tutorial/constexpr-variables/
- 
- #include <gtest/gtest.h>
+@@ -24,21 +17,23 @@
+ #include <catch2/catch_test_macros.hpp>
+ #include <catch2/catch_approx.hpp>
  
 -// Adds values and returns the result.
 -// Type is deduced as double (the wider type).

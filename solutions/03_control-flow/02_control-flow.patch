@@ -1,6 +1,6 @@
---- patches/solutions/03_control-flow/02_control-flow.cpp	2026-03-18 21:11:46.980882248 -0400
-+++ exercises/03_control-flow/02_control-flow.cpp	2026-03-18 21:11:14.927819614 -0400
-@@ -1,25 +1,33 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/03_control-flow/02_control-flow.cpp	2026-08-02 12:13:09.826148624 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/03_control-flow/02_control-flow.cpp	2026-08-02 12:27:15.717955097 -0400
+@@ -1,18 +1,23 @@
  // TODO: We sometimes encourage you to keep trying things on a given exercise
  // even after you already figured it out.
  //
@@ -34,7 +34,9 @@
  //
  // https://www.learncpp.com/cpp-tutorial/switch-statements/
  
- #include <gtest/gtest.h>
+@@ -20,8 +25,11 @@
+ #include <catch2/catch_test_macros.hpp>
+ #include <string>
  
 -// Returns the number of days in a given month.
 -// Uses switch for cleaner code than if-else chains.
@@ -46,7 +48,7 @@
  int getDaysInMonth(int month)
  {
      switch (month)
-@@ -53,8 +61,10 @@
+@@ -55,8 +63,10 @@
      }
  }
  

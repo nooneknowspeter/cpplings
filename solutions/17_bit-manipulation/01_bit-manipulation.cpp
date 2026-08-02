@@ -18,7 +18,8 @@
 //
 // https://www.learncpp.com/cpp-tutorial/bitwise-operators/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // TODO: Implement a function that sets the nth bit of a number.
 int setBit(int num, int n)
@@ -46,21 +47,20 @@ bool isBitSet(int num, int n)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(BitManipulation, BitManipulation01)
+TEST_CASE("BitManipulation BitManipulation01")
 {
-    ASSERT_EQ(setBit(0, 0), 1);
-    ASSERT_EQ(setBit(4, 1), 6);
+    REQUIRE(setBit(0, 0) == 1);
+    REQUIRE(setBit(4, 1) == 6);
 
-    ASSERT_EQ(clearBit(7, 0), 6);
-    ASSERT_EQ(clearBit(8, 3), 0);
+    REQUIRE(clearBit(7, 0) == 6);
+    REQUIRE(clearBit(8, 3) == 0);
 
-    ASSERT_EQ(toggleBit(5, 0), 4);
-    ASSERT_EQ(toggleBit(4, 0), 5);
+    REQUIRE(toggleBit(5, 0) == 4);
+    REQUIRE(toggleBit(4, 0) == 5);
 
-    ASSERT_TRUE(isBitSet(5, 0));
-    ASSERT_FALSE(isBitSet(5, 1));
+    REQUIRE(isBitSet(5, 0));
+    REQUIRE_FALSE(isBitSet(5, 1));
 }

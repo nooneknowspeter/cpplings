@@ -1,6 +1,6 @@
---- patches/solutions/04_primitives/02_primitives.cpp	2026-03-18 21:12:50.248865776 -0400
-+++ exercises/04_primitives/02_primitives.cpp	2026-03-18 21:12:26.864149445 -0400
-@@ -13,31 +13,28 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/04_primitives/02_primitives.cpp	2026-08-02 12:13:16.770758599 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/04_primitives/02_primitives.cpp	2026-08-02 12:27:15.720717199 -0400
+@@ -13,33 +13,30 @@
  // - Stored as ASCII value
  // - Use single quotes for char literals: 'A', '5', '\n'
  //
@@ -13,7 +13,9 @@
  // https://www.learncpp.com/cpp-tutorial/char/
  
 -#include <cctype>
- #include <gtest/gtest.h>
+ #include <catch2/catch_session.hpp>
+ #include <catch2/catch_test_macros.hpp>
+ #include <string>
  
 -// Checks if a character is a vowel (case-insensitive).
 +// TODO: Implement a function that checks if a character is a vowel.

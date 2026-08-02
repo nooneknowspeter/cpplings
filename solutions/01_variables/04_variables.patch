@@ -1,7 +1,10 @@
---- patches/solutions/01_variables/04_variables.cpp	2026-03-17 15:26:59.196802975 -0400
-+++ exercises/01_variables/04_variables.cpp	2026-03-13 23:19:24.725666031 -0400
-@@ -1,29 +1,5 @@
--#include <gtest/gtest.h>
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/01_variables/04_variables.cpp	2026-08-02 12:14:10.816343757 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/01_variables/04_variables.cpp	2026-08-02 12:27:15.708683606 -0400
+@@ -1,35 +1,5 @@
+-#include <catch2/catch_session.hpp>
+-#include <catch2/catch_test_macros.hpp>
+-#include <iostream>
+-#include <sstream>
 -#include <string>
 +int x;
  
@@ -20,14 +23,17 @@
 -    variables04();
 -
 -    std::cout << "\n\n" << "Testing output begins here\n--------------------------" << "\n";
--    testing::InitGoogleTest(&argc, argv);
--    return RUN_ALL_TESTS();
+-    return Catch::Session().run(argc, argv);
 -}
 -
--TEST(Variables, Variables04)
+-TEST_CASE("Variables Variables04")
 -{
--    testing::internal::CaptureStdout();
+-    std::stringstream buffer;
+-    std::streambuf *old = std::cout.rdbuf(buffer.rdbuf());
+-
 -    variables04();
--    std::string stdout{testing::internal::GetCapturedStdout()};
--    ASSERT_EQ(stdout, "baz=5");
+-
+-    std::cout.rdbuf(old);
+-    std::string output{buffer.str()};
+-    REQUIRE(output == "baz=5");
  }

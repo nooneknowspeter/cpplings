@@ -1,6 +1,6 @@
---- patches/solutions/02_functions/06_functions.cpp	2026-03-18 21:09:04.544032740 -0400
-+++ exercises/02_functions/06_functions.cpp	2026-03-18 21:08:20.217211017 -0400
-@@ -4,36 +4,26 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/06_functions.cpp	2026-08-02 12:12:43.764408261 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/06_functions.cpp	2026-08-02 12:27:15.710823501 -0400
+@@ -4,15 +4,6 @@
  // C++ allows multiple functions to have the same name,
  // this technique is called function overloading.
  //
@@ -16,8 +16,9 @@
  // https://www.learncpp.com/cpp-tutorial/introduction-to-function-overloading/
  // https://www.learncpp.com/cpp-tutorial/function-overload-differentiation/
  // https://www.learncpp.com/cpp-tutorial/function-overload-resolution-and-ambiguous-matches/
- 
- #include <gtest/gtest.h>
+@@ -20,21 +11,20 @@
+ #include <catch2/catch_session.hpp>
+ #include <catch2/catch_test_macros.hpp>
  
 -// A function that adds two integers.
 +// TODO: Implement the add function for integers.

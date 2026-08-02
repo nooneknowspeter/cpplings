@@ -1,6 +1,6 @@
---- patches/solutions/02_functions/08_functions.cpp	2026-03-18 21:10:26.051117152 -0400
-+++ exercises/02_functions/08_functions.cpp	2026-03-18 21:10:38.014543442 -0400
-@@ -17,23 +17,18 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/08_functions.cpp	2026-08-02 12:12:43.762599416 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/08_functions.cpp	2026-08-02 12:27:15.711950560 -0400
+@@ -17,11 +17,6 @@
  // [&] - capture everything by reference
  // [x, &y] - capture x by value, y by reference
  //
@@ -12,7 +12,8 @@
  // https://www.learncpp.com/cpp-tutorial/introduction-to-lambdas-anonymous-functions/
  // https://www.learncpp.com/cpp-tutorial/lambda-captures/
  
- #include <gtest/gtest.h>
+@@ -29,12 +24,12 @@
+ #include <catch2/catch_test_macros.hpp>
  #include <vector>
  
 -// Lambda that checks if a number is even.
@@ -30,10 +31,10 @@
  int main(int argc, char *argv[])
 @@ -56,7 +51,7 @@
  
- TEST(Functions, Functions08_Capture)
+ TEST_CASE("Functions Functions08_Capture")
  {
 -    // Lambda with capture by value [=].
 +    // TODO: Create a lambda that captures 'multiplier' by value.
      const int multiplier = 3;
      auto multiplyByGlobal = [=](int n) { return n * multiplier; };
-     ASSERT_EQ(multiplyByGlobal(4), 12);
+     REQUIRE(multiplyByGlobal(4) == 12);

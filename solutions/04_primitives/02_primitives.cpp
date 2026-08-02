@@ -21,8 +21,10 @@
 // https://www.learncpp.com/cpp-tutorial/boolean-values/
 // https://www.learncpp.com/cpp-tutorial/char/
 
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <cctype>
-#include <gtest/gtest.h>
+#include <string>
 
 // Checks if a character is a vowel (case-insensitive).
 bool isVowel(char c)
@@ -45,22 +47,21 @@ const char *boolToString(bool b)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Primitives, Primitives02)
+TEST_CASE("Primitives Primitives02")
 {
-    ASSERT_TRUE(isVowel('a'));
-    ASSERT_TRUE(isVowel('E'));
-    ASSERT_FALSE(isVowel('b'));
-    ASSERT_FALSE(isVowel('Z'));
+    REQUIRE(isVowel('a'));
+    REQUIRE(isVowel('E'));
+    REQUIRE_FALSE(isVowel('b'));
+    REQUIRE_FALSE(isVowel('Z'));
 
-    ASSERT_TRUE(isDigit('5'));
-    ASSERT_TRUE(isDigit('0'));
-    ASSERT_FALSE(isDigit('a'));
-    ASSERT_FALSE(isDigit('#'));
+    REQUIRE(isDigit('5'));
+    REQUIRE(isDigit('0'));
+    REQUIRE_FALSE(isDigit('a'));
+    REQUIRE_FALSE(isDigit('#'));
 
-    ASSERT_STREQ(boolToString(true), "true");
-    ASSERT_STREQ(boolToString(false), "false");
+    REQUIRE(std::string(boolToString(true)) == "true");
+    REQUIRE(std::string(boolToString(false)) == "false");
 }

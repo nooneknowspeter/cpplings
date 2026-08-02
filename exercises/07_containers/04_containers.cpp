@@ -19,7 +19,8 @@
 //
 // https://www.learncpp.com/cpp-tutorial/stdset/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <set>
 
 // TODO: Implement a function that checks if a set contains an element.
@@ -57,22 +58,21 @@ std::set<int> setUnion(const std::set<int> &a, const std::set<int> &b)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Containers, Containers04)
+TEST_CASE("Containers Containers04")
 {
     std::set<int> s = {1, 2, 3, 4, 5};
 
-    ASSERT_TRUE(contains(s, 3));
-    ASSERT_FALSE(contains(s, 10));
+    REQUIRE(contains(s, 3));
+    REQUIRE_FALSE(contains(s, 10));
 
     std::set<int> a = {1, 2, 3};
     std::set<int> b = {2, 3, 4};
     std::set<int> intersection = {2, 3};
-    ASSERT_EQ(setIntersection(a, b), intersection);
+    REQUIRE(setIntersection(a, b) == intersection);
 
     std::set<int> unionSet = {1, 2, 3, 4};
-    ASSERT_EQ(setUnion(a, b), unionSet);
+    REQUIRE(setUnion(a, b) == unionSet);
 }

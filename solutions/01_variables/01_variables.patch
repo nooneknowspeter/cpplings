@@ -1,6 +1,6 @@
---- patches/solutions/01_variables/01_variables.cpp	2026-03-17 15:26:59.196802975 -0400
-+++ exercises/01_variables/01_variables.cpp	2026-03-13 23:19:24.725666031 -0400
-@@ -6,36 +6,21 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/01_variables/01_variables.cpp	2026-08-02 12:12:43.811791908 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/01_variables/01_variables.cpp	2026-08-02 12:27:15.706726269 -0400
+@@ -6,37 +6,21 @@
  // datatype variableName = value;
  //
  // Using the first example is called Direct List Initialization.
@@ -17,7 +17,8 @@
  // https://www.learncpp.com/cpp-tutorial/introduction-to-objects-and-variables/
  // https://www.learncpp.com/cpp-tutorial/variable-assignment-and-initialization/
  
--#include <gtest/gtest.h>
+-#include <catch2/catch_session.hpp>
+-#include <catch2/catch_test_macros.hpp>
 -
  // TODO: Add the missing module for printing
  #include <iostream>

@@ -1,6 +1,6 @@
---- patches/solutions/06_strings/01_strings.cpp	2026-03-18 21:15:09.750779480 -0400
-+++ exercises/06_strings/01_strings.cpp	2026-03-18 21:14:29.367704974 -0400
-@@ -1,32 +1,25 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/06_strings/01_strings.cpp	2026-08-02 12:12:43.771624883 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/06_strings/01_strings.cpp	2026-08-02 12:27:15.724097185 -0400
+@@ -1,33 +1,26 @@
  // TODO: We sometimes encourage you to keep trying things on a given exercise
  // even after you already figured it out.
  //
@@ -35,7 +35,8 @@
 +// https://www.learncpp.com/cpp-tutorial/stdstring-overview/
  
  #include <cstring>
- #include <gtest/gtest.h>
+ #include <catch2/catch_session.hpp>
+ #include <catch2/catch_test_macros.hpp>
  #include <string>
  
 -// Returns the length of a C-string (manual implementation).
@@ -44,7 +45,7 @@
  int cstringLength(const char *str)
  {
      int length = 0;
-@@ -37,8 +30,8 @@
+@@ -38,8 +31,8 @@
      return length;
  }
  
@@ -55,7 +56,7 @@
  int cstringCompare(const char *s1, const char *s2)
  {
      while (*s1 && *s2 && *s1 == *s2)
-@@ -49,7 +42,8 @@
+@@ -50,7 +43,8 @@
      return *s1 - *s2;
  }
  

@@ -18,7 +18,8 @@
 // https://www.learncpp.com/cpp-tutorial/range-based-for-statements/
 
 #include <array>
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <vector>
 
 // TODO: Implement a function that calculates the sum of all numbers
@@ -74,21 +75,20 @@ int sumVector(const std::vector<int> &vec)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(ControlFlow, ControlFlow04)
+TEST_CASE("ControlFlow ControlFlow04")
 {
-    ASSERT_EQ(sumToN(5), 15);
-    ASSERT_EQ(sumToN(10), 55);
+    REQUIRE(sumToN(5) == 15);
+    REQUIRE(sumToN(10) == 55);
 
     int arr[] = {3, 7, 2, 9, 4};
-    ASSERT_EQ(findMax(arr, 5), 9);
+    REQUIRE(findMax(arr, 5) == 9);
 
-    ASSERT_EQ(reverseString("hello"), "olleh");
-    ASSERT_EQ(reverseString("a"), "a");
+    REQUIRE(reverseString("hello") == "olleh");
+    REQUIRE(reverseString("a") == "a");
 
     std::vector<int> vec = {1, 2, 3, 4, 5};
-    ASSERT_EQ(sumVector(vec), 15);
+    REQUIRE(sumVector(vec) == 15);
 }

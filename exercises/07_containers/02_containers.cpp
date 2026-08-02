@@ -17,8 +17,9 @@
 // https://www.learncpp.com/cpp-tutorial/stdarray/
 
 #include <array>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <cstddef>
-#include <gtest/gtest.h>
 
 // TODO: Implement a function that sums all elements in a std::array.
 int sumArray(const std::array<int, 5> &arr)
@@ -58,18 +59,17 @@ std::array<int, 5> doubleArray(const std::array<int, 5> &arr)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Containers, Containers02)
+TEST_CASE("Containers Containers02")
 {
     std::array<int, 5> arr = {1, 2, 3, 4, 5};
-    ASSERT_EQ(sumArray(arr), 15);
+    REQUIRE(sumArray(arr) == 15);
 
-    ASSERT_EQ(findInArray(arr, 3), 2);
-    ASSERT_EQ(findInArray(arr, 6), -1);
+    REQUIRE(findInArray(arr, 3) == 2);
+    REQUIRE(findInArray(arr, 6) == -1);
 
     std::array<int, 5> doubled = {2, 4, 6, 8, 10};
-    ASSERT_EQ(doubleArray(arr), doubled);
+    REQUIRE(doubleArray(arr) == doubled);
 }

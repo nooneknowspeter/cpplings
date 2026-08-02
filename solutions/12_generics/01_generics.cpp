@@ -21,7 +21,8 @@
 //
 // https://www.learncpp.com/cpp-tutorial/function-templates/
 
-#include <gtest/gtest.h>
+#include <catch2/catch_session.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 // Returns the maximum of two values.
 template <typename T> T maximum(T a, T b)
@@ -49,22 +50,21 @@ template <typename T> T absolute(T value)
 
 int main(int argc, char *argv[])
 {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    return Catch::Session().run(argc, argv);
 }
 
-TEST(Generics, Generics01)
+TEST_CASE("Generics Generics01")
 {
-    ASSERT_EQ(maximum(5, 10), 10);
-    ASSERT_EQ(maximum(3.14, 2.71), 3.14);
-    ASSERT_EQ(maximum('a', 'z'), 'z');
+    REQUIRE(maximum(5, 10) == 10);
+    REQUIRE(maximum(3.14, 2.71) == 3.14);
+    REQUIRE(maximum('a', 'z') == 'z');
 
     int x = 5, y = 10;
     swap(x, y);
-    ASSERT_EQ(x, 10);
-    ASSERT_EQ(y, 5);
+    REQUIRE(x == 10);
+    REQUIRE(y == 5);
 
-    ASSERT_EQ(absolute(-5), 5);
-    ASSERT_EQ(absolute(5), 5);
-    ASSERT_EQ(absolute(-3.14), 3.14);
+    REQUIRE(absolute(-5) == 5);
+    REQUIRE(absolute(5) == 5);
+    REQUIRE(absolute(-3.14) == 3.14);
 }
