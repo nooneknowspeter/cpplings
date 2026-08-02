@@ -24,3 +24,8 @@ void variables01()
 
     std::cout << x;
 }
+
+int main()
+{
+    variables01();
+}

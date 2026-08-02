@@ -4,3 +4,8 @@
 void function02()
 {
 }
+
+int main()
+{
+    function02();
+}

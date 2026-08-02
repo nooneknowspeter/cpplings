@@ -7,3 +7,8 @@ void variables02()
 
     std::cout << x;
 }
+
+int main()
+{
+    variables02();
+}

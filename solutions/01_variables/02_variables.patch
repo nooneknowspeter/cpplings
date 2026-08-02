@@ -1,6 +1,6 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/01_variables/02_variables.cpp	2026-07-26 14:29:38.088567174 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/01_variables/02_variables.cpp	2026-08-02 12:27:15.707429356 -0400
-@@ -1,21 +1,9 @@
+--- solutions/01_variables/02_variables.cpp	2026-07-26 14:29:38.088567174 -0400
++++ exercises/01_variables/02_variables.cpp	2026-08-02 16:36:22.718119073 -0400
+@@ -1,18 +1,11 @@
 -// A variable's type must be declared before
 -// the variable's name.
 -//
@@ -17,10 +17,7 @@
      int x{5};
  
 -    std::cout << "x=" << x;
--}
--
--int main()
--{
--    variables02();
 +    std::cout << x;
  }
+ 
+ int main()

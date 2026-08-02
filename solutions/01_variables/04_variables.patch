@@ -1,6 +1,6 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/01_variables/04_variables.cpp	2026-08-02 12:14:10.816343757 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/01_variables/04_variables.cpp	2026-08-02 12:27:15.708683606 -0400
-@@ -1,35 +1,5 @@
+--- solutions/01_variables/04_variables.cpp	2026-08-02 13:49:54.791094054 -0400
++++ exercises/01_variables/04_variables.cpp	2026-08-02 16:36:23.230124996 -0400
+@@ -1,35 +1,10 @@
 -#include <catch2/catch_session.hpp>
 -#include <catch2/catch_test_macros.hpp>
 -#include <iostream>
@@ -24,14 +24,15 @@
 -
 -    std::cout << "\n\n" << "Testing output begins here\n--------------------------" << "\n";
 -    return Catch::Session().run(argc, argv);
--}
--
+ }
+ 
 -TEST_CASE("Variables Variables04")
--{
++int main()
+ {
 -    std::stringstream buffer;
 -    std::streambuf *old = std::cout.rdbuf(buffer.rdbuf());
 -
--    variables04();
+     variables04();
 -
 -    std::cout.rdbuf(old);
 -    std::string output{buffer.str()};

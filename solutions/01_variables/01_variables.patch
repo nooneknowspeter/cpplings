@@ -1,6 +1,6 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/01_variables/01_variables.cpp	2026-08-02 12:12:43.811791908 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/01_variables/01_variables.cpp	2026-08-02 12:27:15.706726269 -0400
-@@ -6,37 +6,21 @@
+--- solutions/01_variables/01_variables.cpp	2026-08-02 13:49:54.791094054 -0400
++++ exercises/01_variables/01_variables.cpp	2026-08-02 16:36:22.245113600 -0400
+@@ -6,34 +6,23 @@
  // datatype variableName = value;
  //
  // Using the first example is called Direct List Initialization.
@@ -34,10 +34,7 @@
 -
 -    std::cout << "direct list initialization -> " << "x{" << x << "}" << "\n";
 -    std::cout << "classic way -> " << "y" << "=" << y;
--}
--
--int main()
--{
--    variables01();
 +    std::cout << x;
  }
+ 
+ int main()

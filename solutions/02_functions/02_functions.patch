@@ -1,6 +1,6 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/02_functions.cpp	2026-08-02 12:14:17.128412236 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/02_functions.cpp	2026-08-02 12:27:15.710050378 -0400
-@@ -1,47 +1,6 @@
+--- solutions/02_functions/02_functions.cpp	2026-08-02 13:49:54.791094054 -0400
++++ exercises/02_functions/02_functions.cpp	2026-08-02 16:36:23.703130469 -0400
+@@ -1,47 +1,11 @@
 -// The function return a value and the value's datatype must be the same
 -// as the function's return type.
 +// https://www.learncpp.com/cpp-tutorial/void-functions-non-value-returning-functions/
@@ -17,7 +17,8 @@
 -// TODO: Add the missing keyword.
 -// NOTE: Use the rest of the code as reference to determine which datatype needs to be returned.
 -int bar()
--{
++void function02()
+ {
 -    // TODO: Change the line below to fix the compiler error.
 -    // NOTE: Use the test case as reference.
 -    int baz{5};
@@ -26,10 +27,10 @@
 -    std::cout << "baz=" << baz;
 -
 -    return baz;
--}
--
+ }
+ 
 -int main(int argc, char **argv)
-+void function02()
++int main()
  {
 -    // TODO: call the bar function
 -    bar();
@@ -49,4 +50,5 @@
 -    std::string output{buffer.str()};
 -    REQUIRE(bar() == 5);
 -    REQUIRE(output == "baz=5");
++    function02();
  }
