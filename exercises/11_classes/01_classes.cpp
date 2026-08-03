@@ -29,7 +29,6 @@ class Counter
 {
     int count;
 
-  public:
     Counter() : count(0)
     {
     }

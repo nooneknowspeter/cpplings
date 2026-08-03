@@ -38,7 +38,7 @@ std::set<int> setIntersection(const std::set<int> &a, const std::set<int> &b)
     {
         if (b.find(val) != b.end())
         {
-            result.insert(val);
+            result.insert();
         }
     }
     return result;

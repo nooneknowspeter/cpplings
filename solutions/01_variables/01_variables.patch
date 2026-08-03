@@ -1,6 +1,6 @@
---- solutions/01_variables/01_variables.cpp	2026-08-02 13:49:54.791094054 -0400
-+++ exercises/01_variables/01_variables.cpp	2026-08-02 16:36:22.245113600 -0400
-@@ -6,34 +6,23 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/01_variables/01_variables.cpp	2026-08-03 11:03:45.075214364 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/01_variables/01_variables.cpp	2026-08-03 11:03:45.035213889 -0400
+@@ -9,34 +9,22 @@
  // datatype variableName = value;
  //
  // Using the first example is called Direct List Initialization.
@@ -21,7 +21,7 @@
 -#include <catch2/catch_test_macros.hpp>
 -
  // TODO: Add the missing module for printing
- #include <iostream>
+-#include <iostream>
  
  void variables01()
  {

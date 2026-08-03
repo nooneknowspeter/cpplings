@@ -1,0 +1,11 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/16_preprocessors/01_preprocessors.cpp	2026-08-02 13:49:54.793094080 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/16_preprocessors/01_preprocessors.cpp	2026-08-03 10:40:00.239228004 -0400
+@@ -21,8 +21,6 @@
+ #include <catch2/catch_test_macros.hpp>
+ 
+ // TODO: Define a macro SQUARE that squares a number.
+-#define SQUARE(x) ((x) * (x))
+-
+ // TODO: Define a macro MAX that returns the maximum of two values.
+ #define MAX(a, b) ((a) > (b) ? (a) : (b))
+ 

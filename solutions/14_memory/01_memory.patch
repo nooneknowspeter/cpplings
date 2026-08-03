@@ -1,0 +1,11 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/14_memory/01_memory.cpp	2026-08-02 13:49:54.793094080 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/14_memory/01_memory.cpp	2026-08-03 10:39:45.903985523 -0400
+@@ -20,7 +20,7 @@
+ #include <memory>
+ 
+ // TODO: Create a function that returns a unique_ptr to an int with value 42.
+-std::unique_ptr<int> createValue()
++std::_<int> createValue()
+ {
+     return std::make_unique<int>(42);
+ }

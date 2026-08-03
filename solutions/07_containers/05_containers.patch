@@ -1,5 +1,5 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/07_containers/05_containers.cpp	2026-08-02 12:12:43.801138686 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/07_containers/05_containers.cpp	2026-08-02 12:27:15.729932362 -0400
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/07_containers/05_containers.cpp	2026-08-03 11:15:56.362036699 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/07_containers/05_containers.cpp	2026-08-03 11:15:55.830030044 -0400
 @@ -1,25 +1,19 @@
  // TODO: We sometimes encourage you to keep trying things on a given exercise
  // even after you already figured it out.
@@ -35,16 +35,20 @@
  //
  // https://www.learncpp.com/cpp-tutorial/stdunordered_map/
  
-@@ -28,7 +22,7 @@
- #include <unordered_map>
+@@ -30,10 +24,10 @@
  #include <unordered_set>
+ #include <vector>
  
 -// Counts word frequencies using unordered_map.
 +// TODO: Implement a function that counts word frequencies using unordered_map.
  std::unordered_map<std::string, int> wordFrequency(const std::vector<std::string> &words)
  {
-     std::unordered_map<std::string, int> freq;
-@@ -39,13 +33,13 @@
+-    std::unordered_map<std::string, int> freq;
++    std::unordered_map<std::string> freq;
+     for (const std::string &word : words)
+     {
+         freq[word]++;
+@@ -41,13 +35,13 @@
      return freq;
  }
  

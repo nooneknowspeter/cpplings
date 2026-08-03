@@ -40,12 +40,16 @@ int cstringCompare(const char *s1, const char *s2)
         s1++;
         s2++;
     }
-    return *s1 - *s2;
+    if (*s1 == *s2)
+    {
+        return 0;
+    }
+    return *s1 < *s2 ? -1 : 1;
 }
 
 // TODO: Implement a function that concatenates two C-strings.
 // Return a new dynamically allocated string.
-char *cstringConcat(const char *s1, const char *s2)
+cstringConcat(const char *s1, const char *s2)
 {
     int len1 = cstringLength(s1);
     int len2 = cstringLength(s2);

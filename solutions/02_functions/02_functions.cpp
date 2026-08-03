@@ -1,3 +1,6 @@
+// TODO: We sometimes encourage you to keep trying things on a given exercise
+// even after you already figured it out.
+//
 // The function return a value and the value's datatype must be the same
 // as the function's return type.
 //

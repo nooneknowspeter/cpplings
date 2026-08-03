@@ -1,9 +1,9 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/10_functions.cpp	2026-08-02 12:12:43.769026075 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/10_functions.cpp	2026-08-02 12:27:15.716238780 -0400
-@@ -1,51 +1,48 @@
--// TODO: We sometimes encourage you to keep trying things on a given exercise
--// even after you already figured it out.
--//
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/10_functions.cpp	2026-08-02 13:49:54.792094067 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/10_functions.cpp	2026-08-03 11:03:45.060214186 -0400
+@@ -1,51 +1,50 @@
+ // TODO: We sometimes encourage you to keep trying things on a given exercise
+ // even after you already figured it out.
+ //
 +// https://www.learncpp.com/cpp-tutorial/variadic-functions/
 +
 +#include <catch2/catch_session.hpp>
@@ -74,7 +74,6 @@
 -    // Recursively call sum with remaining arguments
 -    return first + sum(args...);
 +    // TODO: Return first + sum(args...)
-+    return 0; // Replace this
  }
  
  int main(int argc, char *argv[])

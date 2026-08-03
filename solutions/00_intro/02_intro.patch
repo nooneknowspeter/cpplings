@@ -1,0 +1,11 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/00_intro/02_intro.cpp	2026-07-29 14:45:45.255358572 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/00_intro/02_intro.cpp	2026-08-03 10:38:49.445008618 -0400
+@@ -21,7 +21,7 @@
+ void message()
+ {
+     // TODO: Fix the line of code to print "Hello World!" to the console.
+-    std::cout << "Hello World!";
++    std::_ << "Hello World!";
+ }
+ 
+ int main()

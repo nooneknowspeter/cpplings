@@ -18,6 +18,7 @@
 
 #include <catch2/catch_session.hpp>
 #include <catch2/catch_test_macros.hpp>
+#include <cctype>
 #include <string>
 
 // TODO: Implement a function that checks if a character is a vowel.
@@ -39,7 +40,7 @@ bool isDigit(char c)
 // Return "true" if b is true, "false" otherwise.
 const char *boolToString(bool b)
 {
-    return b ? "true" : "false";
+    b ? "true" : "false";
 }
 
 int main(int argc, char *argv[])

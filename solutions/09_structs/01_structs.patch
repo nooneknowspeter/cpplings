@@ -1,0 +1,11 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/09_structs/01_structs.cpp	2026-08-02 13:49:54.793094080 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/09_structs/01_structs.cpp	2026-08-03 10:39:30.708726102 -0400
+@@ -26,7 +26,7 @@
+ // TODO: Create a function that calculates the distance between two points.
+ double distance(const Point &a, const Point &b)
+ {
+-    int dx = b.x - a.x;
++    int dx = b._ - a.x;
+     int dy = b.y - a.y;
+     return std::sqrt(dx * dx + dy * dy);
+ }

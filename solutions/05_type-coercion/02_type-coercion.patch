@@ -1,5 +1,5 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/05_type-coercion/02_type-coercion.cpp	2026-08-02 12:12:43.808832467 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/05_type-coercion/02_type-coercion.cpp	2026-08-02 12:27:15.722724795 -0400
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/05_type-coercion/02_type-coercion.cpp	2026-08-02 13:49:54.792094067 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/05_type-coercion/02_type-coercion.cpp	2026-08-03 10:39:15.398462153 -0400
 @@ -1,40 +1,39 @@
  // TODO: We sometimes encourage you to keep trying things on a given exercise
  // even after you already figured it out.
@@ -41,9 +41,10 @@
  }
  
 -// Converts int to char (narrowing, may lose data).
+-char intToChar(int i)
 +// TODO: Implement a function that converts an int to a char.
 +// This is a narrowing conversion - use static_cast to make it explicit.
- char intToChar(int i)
++intToChar(int i)
  {
      return static_cast<char>(i);
  }

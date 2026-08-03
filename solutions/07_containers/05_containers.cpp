@@ -25,8 +25,10 @@
 
 #include <catch2/catch_session.hpp>
 #include <catch2/catch_test_macros.hpp>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 // Counts word frequencies using unordered_map.
 std::unordered_map<std::string, int> wordFrequency(const std::vector<std::string> &words)

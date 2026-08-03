@@ -1,0 +1,11 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/extras_cpp-history/01_cpp-history.cpp	2026-08-03 11:03:45.093214577 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/extras_cpp-history/01_cpp-history.cpp	2026-08-03 11:03:45.064214233 -0400
+@@ -24,7 +24,7 @@
+     {
+         if (!hasRead)
+         {
+-            throw std::runtime_error("Please view the code of this exercise before proceeding.");
++            throw runtime_error("Please view the code of this exercise before proceeding.");
+         }
+     }
+     catch (std::exception &e)

@@ -20,7 +20,7 @@
 #include <string>
 
 // TODO: Implement a function that reverses a std::string.
-std::string reverseString(const std::string &str)
+reverseString(const std::string &str)
 {
     std::string result;
     for (int i = str.length() - 1; i >= 0; i--)

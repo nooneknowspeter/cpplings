@@ -1,5 +1,5 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/07_containers/02_containers.cpp	2026-08-02 12:12:43.798505283 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/07_containers/02_containers.cpp	2026-08-02 12:27:15.727718742 -0400
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/07_containers/02_containers.cpp	2026-08-02 13:49:54.793094080 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/07_containers/02_containers.cpp	2026-08-03 10:39:23.555603107 -0400
 @@ -1,25 +1,18 @@
  // TODO: We sometimes encourage you to keep trying things on a given exercise
  // even after you already figured it out.
@@ -36,8 +36,8 @@
  // https://www.learncpp.com/cpp-tutorial/stdarray/
  
 @@ -28,7 +21,7 @@
- #include <catch2/catch_session.hpp>
  #include <catch2/catch_test_macros.hpp>
+ #include <cstddef>
  
 -// Sums all elements in a std::array.
 +// TODO: Implement a function that sums all elements in a std::array.
@@ -55,7 +55,7 @@
  int findInArray(const std::array<int, 5> &arr, int target)
  {
      for (int i = 0; i < 5; i++)
-@@ -53,7 +46,7 @@
+@@ -53,10 +46,10 @@
      return -1;
  }
  
@@ -63,4 +63,8 @@
 +// TODO: Implement a function that doubles each element in an array.
  std::array<int, 5> doubleArray(const std::array<int, 5> &arr)
  {
-     std::array<int, 5> result;
+-    std::array<int, 5> result;
++    std::array<int> result;
+     for (int i = 0; i < 5; i++)
+     {
+         result[i] = arr[i] * 2;

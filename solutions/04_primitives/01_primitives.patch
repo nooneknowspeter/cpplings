@@ -1,5 +1,5 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/04_primitives/01_primitives.cpp	2026-08-02 12:12:43.755713690 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/04_primitives/01_primitives.cpp	2026-08-02 12:27:15.720057845 -0400
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/04_primitives/01_primitives.cpp	2026-08-02 13:49:54.792094067 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/04_primitives/01_primitives.cpp	2026-08-03 10:39:12.731415905 -0400
 @@ -14,14 +14,7 @@
  // - double: typically 64 bits, ~15 significant digits
  // - long double: even more precision
@@ -18,11 +18,12 @@
  // https://www.learncpp.com/cpp-tutorial/floating-point-numbers/
 @@ -31,16 +24,17 @@
  #include <catch2/catch_test_macros.hpp>
- #include <catch2/catch_approx.hpp>
+ #include <cstdint>
  
 -// Integer variable storing age.
+-int age = 25;
 +// TODO: Declare an int variable named 'age' with value 25.
- int age = 25;
++age = 25;
  
 -// Double variable storing a price.
 +// TODO: Declare a double variable named 'price' with value 19.99.

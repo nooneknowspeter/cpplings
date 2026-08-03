@@ -1,3 +1,7 @@
+// TODO: We sometimes encourage you to keep trying things on a given exercise
+// even after you already figured it out.
+//
+
 #include <iostream>
 
 void splashScreen()
@@ -15,6 +19,8 @@ void splashScreen()
 
 int main()
 {
-    splashScreen();
+
+    // TODO: call the proper function
+    spalshscreen();
     return 0;
 }

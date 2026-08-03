@@ -1,3 +1,6 @@
+// TODO: We sometimes encourage you to keep trying things on a given exercise
+// even after you already figured it out.
+//
 // Initializing and assignment of variables in C++ is as follows:
 // datatype variableName{value};
 //
@@ -15,7 +18,6 @@
 // https://www.learncpp.com/cpp-tutorial/variable-assignment-and-initialization/
 
 // TODO: Add the missing module for printing
-#include <iostream>
 
 void variables01()
 {

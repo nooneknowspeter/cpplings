@@ -25,7 +25,7 @@
 #include <cstdint>
 
 // TODO: Declare an int variable named 'age' with value 25.
-int age = 25;
+age = 25;
 
 // TODO: Declare a double variable named 'price' with value 19.99.
 double price = 19.99;

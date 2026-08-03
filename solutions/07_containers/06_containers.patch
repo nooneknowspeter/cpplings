@@ -1,5 +1,5 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/07_containers/06_containers.cpp	2026-08-02 12:12:43.804502650 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/07_containers/06_containers.cpp	2026-08-02 12:27:15.730611407 -0400
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/07_containers/06_containers.cpp	2026-08-02 13:49:54.793094080 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/07_containers/06_containers.cpp	2026-08-03 10:39:26.171648155 -0400
 @@ -3,28 +3,21 @@
  //
  // std::list is a doubly-linked list.
@@ -48,7 +48,7 @@
  std::list<int> removeEvens(const std::list<int> &lst)
  {
      std::list<int> result;
-@@ -46,7 +39,7 @@
+@@ -46,18 +39,18 @@
      return result;
  }
  
@@ -57,7 +57,11 @@
  std::list<int> reverseList(const std::list<int> &lst)
  {
      std::list<int> result;
-@@ -57,7 +50,7 @@
+     for (int num : lst)
+     {
+-        result.push_front(num);
++        result.push_front();
+     }
      return result;
  }
  

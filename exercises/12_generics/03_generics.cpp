@@ -26,7 +26,7 @@
 // (... + args) adds all arguments together.
 template <typename... Args> auto sum(Args... args)
 {
-    return (... + args);
+    return (+args);
 }
 
 // TODO: Implement printAll using a unary left fold.

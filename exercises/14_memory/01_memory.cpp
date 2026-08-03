@@ -20,7 +20,7 @@
 #include <memory>
 
 // TODO: Create a function that returns a unique_ptr to an int with value 42.
-std::unique_ptr<int> createValue()
+std::_<int> createValue()
 {
     return std::make_unique<int>(42);
 }

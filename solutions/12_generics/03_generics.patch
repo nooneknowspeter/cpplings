@@ -1,5 +1,5 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/12_generics/03_generics.cpp	2026-08-02 12:12:43.814072160 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/12_generics/03_generics.cpp	2026-08-02 12:27:15.733117950 -0400
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/12_generics/03_generics.cpp	2026-08-02 13:49:54.793094080 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/12_generics/03_generics.cpp	2026-08-03 10:39:36.739829367 -0400
 @@ -1,28 +1,20 @@
  // TODO: We sometimes encourage you to keep trying things on a given exercise
  // even after you already figured it out.
@@ -48,18 +48,19 @@
 +// (... + args) adds all arguments together.
  template <typename... Args> auto sum(Args... args)
  {
-     return (... + args);
- }
- 
--// Prints all arguments using comma fold.
--// The comma operator evaluates left, then right, returns right.
+-    return (... + args);
++    return (+ args);
++}
++
 +// TODO: Implement printAll using a unary left fold.
 +// Print all arguments separated by spaces.
 +void printValue(int value)
 +{
 +    std::cout << value << " ";
-+}
-+
+ }
+ 
+-// Prints all arguments using comma fold.
+-// The comma operator evaluates left, then right, returns right.
  template <typename T, typename... Args> void printAll(T first, Args... args)
  {
      std::cout << first << " ";

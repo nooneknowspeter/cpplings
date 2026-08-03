@@ -26,7 +26,7 @@
 
 // TODO: Create a lambda named 'isEven' that returns true if a number is even.
 // The lambda should take an int parameter and return a bool.
-auto isEven = [](int n) -> bool { return n % 2 == 0; };
+auto isEven = [](int n) -> _ { return n % 2 == 0; };
 
 // TODO: Create a lambda named 'doubleIt' that doubles a number.
 // Use the 'auto' keyword for the return type inference.

@@ -11,7 +11,7 @@ int main()
 }
 
 // TODO: Fix the function to fix the compile error.
-int add(int x, int y)
+float add(int x, int y)
 {
     return x + y;
 }

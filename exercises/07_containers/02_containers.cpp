@@ -49,7 +49,7 @@ int findInArray(const std::array<int, 5> &arr, int target)
 // TODO: Implement a function that doubles each element in an array.
 std::array<int, 5> doubleArray(const std::array<int, 5> &arr)
 {
-    std::array<int, 5> result;
+    std::array<int> result;
     for (int i = 0; i < 5; i++)
     {
         result[i] = arr[i] * 2;

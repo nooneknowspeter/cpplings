@@ -24,7 +24,7 @@
 
 // TODO: Add the function datatype and name.
 // Add two parameters, one that takes in a boolean and the other a float.
-void voidFunction(bool isTruthy, float randomValue)
+voidFunction(bool isTruthy, float randomValue)
 {
     try
     {

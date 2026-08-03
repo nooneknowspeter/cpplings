@@ -29,7 +29,7 @@ int counter = 0;
 // Use a mutex to protect the shared resource.
 void incrementSafely()
 {
-    std::lock_guard<std::mutex> lock(mtx);
+    std::_ lock(mtx);
     counter++;
 }
 

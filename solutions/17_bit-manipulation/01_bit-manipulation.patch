@@ -1,0 +1,11 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/17_bit-manipulation/01_bit-manipulation.cpp	2026-08-02 13:49:54.793094080 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/17_bit-manipulation/01_bit-manipulation.cpp	2026-08-03 10:39:47.691015869 -0400
+@@ -22,7 +22,7 @@
+ #include <catch2/catch_test_macros.hpp>
+ 
+ // TODO: Implement a function that sets the nth bit of a number.
+-int setBit(int num, int n)
++setBit(int num, int n)
+ {
+     return num | (1 << n);
+ }

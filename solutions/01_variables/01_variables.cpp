@@ -1,3 +1,6 @@
+// TODO: We sometimes encourage you to keep trying things on a given exercise
+// even after you already figured it out.
+//
 // Initializing and assignment of variables in C++ is as follows:
 // datatype variableName{value};
 //

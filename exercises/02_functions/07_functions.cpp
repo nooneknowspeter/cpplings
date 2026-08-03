@@ -11,7 +11,7 @@
 
 // TODO: Implement the recursive fibonacci function.
 // NOTE: Use the test case as reference.
-int fibonacci(int n)
+fibonacci(int n)
 {
     if (n == 0 || n == 1)
     {

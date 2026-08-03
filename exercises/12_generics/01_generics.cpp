@@ -17,7 +17,7 @@
 
 // TODO: Implement a template function that returns the maximum of two values.
 // Use if-else or the ternary operator.
-template <typename T> T maximum(T a, T b)
+template <typename T> maximum(T a, T b)
 {
     return (a > b) ? a : b;
 }

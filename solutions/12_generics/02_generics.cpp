@@ -23,6 +23,7 @@
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_session.hpp>
 #include <catch2/catch_test_macros.hpp>
+#include <string>
 
 // A simple generic pair class.
 template <typename T, typename U> class Pair

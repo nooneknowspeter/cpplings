@@ -29,6 +29,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <map>
 #include <string>
+#include <vector>
 
 // Creates a simple phonebook.
 std::map<std::string, int> createPhonebook()

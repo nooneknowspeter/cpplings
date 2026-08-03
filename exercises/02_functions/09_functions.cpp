@@ -1,3 +1,6 @@
+// TODO: We sometimes encourage you to keep trying things on a given exercise
+// even after you already figured it out.
+//
 // https://www.learncpp.com/cpp-tutorial/ellipsis-and-why-to-avoid-them/
 
 #include <catch2/catch_session.hpp>
@@ -14,7 +17,6 @@
 int sumInts(int count, ...)
 {
     // TODO: Implement this function
-    return 0;
 }
 
 // TODO (optional): Implement printFormatted using va_list.

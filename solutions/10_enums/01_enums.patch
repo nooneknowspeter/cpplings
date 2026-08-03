@@ -1,0 +1,11 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/10_enums/01_enums.cpp	2026-08-02 13:49:54.793094080 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/10_enums/01_enums.cpp	2026-08-03 10:39:31.330736770 -0400
+@@ -34,7 +34,7 @@
+ // TODO: Create a function that checks if a day is a weekday.
+ bool isWeekday(Day day)
+ {
+-    return day == Day::Monday || day == Day::Tuesday || day == Day::Wednesday || day == Day::Thursday ||
++    return day == Day::_ || day == Day::Tuesday || day == Day::Wednesday || day == Day::Thursday ||
+            day == Day::Friday;
+ }
+ 

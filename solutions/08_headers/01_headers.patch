@@ -1,0 +1,11 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/08_headers/01_headers.cpp	2026-08-02 13:49:54.793094080 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/08_headers/01_headers.cpp	2026-08-03 10:39:30.200717386 -0400
+@@ -21,7 +21,7 @@
+ 
+ // TODO: Create a function declaration for add.
+ // The implementation is in src/math_utils.cpp
+-int add(int a, int b);
++add(int a, int b);
+ 
+ int main(int argc, char *argv[])
+ {

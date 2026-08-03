@@ -43,7 +43,7 @@ bool hasOverflow(int8_t a, int8_t b)
 
 // TODO: Implement a function that converts Celsius to Fahrenheit.
 // Formula: F = C * 9/5 + 32
-double celsiusToFahrenheit(double celsius)
+celsiusToFahrenheit(double celsius)
 {
     return celsius * 9.0 / 5.0 + 32.0;
 }

@@ -1,0 +1,10 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/11_classes/01_classes.cpp	2026-08-02 13:49:54.793094080 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/11_classes/01_classes.cpp	2026-08-03 10:39:31.915746801 -0400
+@@ -29,7 +29,6 @@
+ {
+     int count;
+ 
+-  public:
+     Counter() : count(0)
+     {
+     }

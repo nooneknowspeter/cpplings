@@ -24,6 +24,7 @@
 #include <array>
 #include <catch2/catch_session.hpp>
 #include <catch2/catch_test_macros.hpp>
+#include <string>
 #include <vector>
 
 // Calculates sum of integers from 1 to n using a for loop.

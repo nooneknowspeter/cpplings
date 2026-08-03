@@ -1,5 +1,5 @@
-//
-//
+// TODO: We sometimes encourage you to keep trying things on a given exercise
+// even after you already figured it out.
 //
 // https://www.learncpp.com/cpp-tutorial/introduction-to-functions/
 // https://www.learncpp.com/cpp-tutorial/function-return-values-value-returning-functions/
@@ -12,7 +12,8 @@ int function01(int x)
 {
     int y{x + 1};
 
-    return y;
+    // TODO: Return the value of y.
+    y;
 }
 
 TEST_CASE("Functions Function01")

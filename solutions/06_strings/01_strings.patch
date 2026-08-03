@@ -1,5 +1,5 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/06_strings/01_strings.cpp	2026-08-02 12:12:43.771624883 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/06_strings/01_strings.cpp	2026-08-02 12:27:15.724097185 -0400
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/06_strings/01_strings.cpp	2026-08-03 10:49:34.309681285 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/06_strings/01_strings.cpp	2026-08-03 10:49:35.272694058 -0400
 @@ -1,33 +1,26 @@
  // TODO: We sometimes encourage you to keep trying things on a given exercise
  // even after you already figured it out.
@@ -34,9 +34,9 @@
  // https://www.learncpp.com/cpp-tutorial/c-style-strings/
 +// https://www.learncpp.com/cpp-tutorial/stdstring-overview/
  
- #include <cstring>
  #include <catch2/catch_session.hpp>
  #include <catch2/catch_test_macros.hpp>
+ #include <cstring>
  #include <string>
  
 -// Returns the length of a C-string (manual implementation).
@@ -56,13 +56,15 @@
  int cstringCompare(const char *s1, const char *s2)
  {
      while (*s1 && *s2 && *s1 == *s2)
-@@ -50,7 +43,8 @@
-     return *s1 - *s2;
+@@ -54,8 +47,9 @@
+     return *s1 < *s2 ? -1 : 1;
  }
  
 -// Concatenates two C-strings and returns a new dynamically allocated string.
+-char *cstringConcat(const char *s1, const char *s2)
 +// TODO: Implement a function that concatenates two C-strings.
 +// Return a new dynamically allocated string.
- char *cstringConcat(const char *s1, const char *s2)
++cstringConcat(const char *s1, const char *s2)
  {
      int len1 = cstringLength(s1);
+     int len2 = cstringLength(s2);

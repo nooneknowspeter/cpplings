@@ -21,7 +21,7 @@
 
 // TODO: Create a function declaration for add.
 // The implementation is in src/math_utils.cpp
-int add(int a, int b);
+add(int a, int b);
 
 int main(int argc, char *argv[])
 {

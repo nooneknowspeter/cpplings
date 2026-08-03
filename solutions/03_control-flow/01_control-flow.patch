@@ -1,5 +1,5 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/03_control-flow/01_control-flow.cpp	2026-08-02 12:12:43.793579050 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/03_control-flow/01_control-flow.cpp	2026-08-02 12:27:15.717123742 -0400
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/03_control-flow/01_control-flow.cpp	2026-08-02 13:49:54.792094067 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/03_control-flow/01_control-flow.cpp	2026-08-03 10:39:07.829330688 -0400
 @@ -4,19 +4,13 @@
  // Control flow statements allow you to execute code conditionally
  // or repeatedly. The most basic is the if statement.
@@ -26,7 +26,7 @@
  //
  // https://www.learncpp.com/cpp-tutorial/if-statements-and-blocks/
  // https://www.learncpp.com/cpp-tutorial/if-else-statements/
-@@ -24,7 +18,12 @@
+@@ -24,10 +18,15 @@
  #include <catch2/catch_session.hpp>
  #include <catch2/catch_test_macros.hpp>
  
@@ -39,7 +39,11 @@
 +// - below 60: return 'F'
  char getGrade(int score)
  {
-     if (score >= 90)
+-    if (score >= 90)
++    if (score = 90)
+     {
+         return 'A';
+     }
 @@ -49,8 +48,8 @@
      }
  }

@@ -1,5 +1,5 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/03_control-flow/04_control-flow.cpp	2026-08-02 12:12:43.795984290 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/03_control-flow/04_control-flow.cpp	2026-08-02 12:27:15.718950632 -0400
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/03_control-flow/04_control-flow.cpp	2026-08-03 11:15:58.612064840 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/03_control-flow/04_control-flow.cpp	2026-08-03 11:15:58.013057349 -0400
 @@ -1,22 +1,18 @@
  // TODO: We sometimes encourage you to keep trying things on a given exercise
  // even after you already figured it out.
@@ -33,8 +33,8 @@
  //
  // https://www.learncpp.com/cpp-tutorial/for-statements/
  // https://www.learncpp.com/cpp-tutorial/range-based-for-statements/
-@@ -26,7 +22,8 @@
- #include <catch2/catch_test_macros.hpp>
+@@ -27,18 +23,20 @@
+ #include <string>
  #include <vector>
  
 -// Calculates sum of integers from 1 to n using a for loop.
@@ -43,7 +43,11 @@
  int sumToN(int n)
  {
      int sum = 0;
-@@ -37,7 +34,8 @@
+-    for (int i = 1; i <= n; i++)
++    for (int i = 1; i = n; i++)
+     {
+         sum += i;
+     }
      return sum;
  }
  
@@ -53,7 +57,7 @@
  int findMax(const int *arr, int size)
  {
      int max = arr[0];
-@@ -51,7 +49,8 @@
+@@ -52,7 +50,8 @@
      return max;
  }
  
@@ -63,7 +67,7 @@
  std::string reverseString(const std::string &str)
  {
      std::string result;
-@@ -62,7 +61,8 @@
+@@ -63,7 +62,8 @@
      return result;
  }
  

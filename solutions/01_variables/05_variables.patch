@@ -1,0 +1,11 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/01_variables/05_variables.cpp	2026-07-26 14:29:38.088567174 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/01_variables/05_variables.cpp	2026-08-03 10:38:52.193057013 -0400
+@@ -10,7 +10,7 @@
+ {
+     // TODO: Infer the datatype using the "auto" keyword.
+     // Assign a "truthy" value to compile.
+-    auto doesAutoWork{true};
++    doesAutoWork{true};
+ 
+     std::cout << "doesAutoWork? -> " << doesAutoWork;
+ 

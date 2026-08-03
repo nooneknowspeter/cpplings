@@ -10,7 +10,7 @@ int main()
 {
     // TODO: Infer the datatype using the "auto" keyword.
     // Assign a "truthy" value to compile.
-    auto doesAutoWork{true};
+    doesAutoWork{true};
 
     std::cout << "doesAutoWork? -> " << doesAutoWork;
 

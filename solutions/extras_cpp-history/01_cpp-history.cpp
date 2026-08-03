@@ -1,3 +1,6 @@
+// TODO: We sometimes encourage you to keep trying things on a given exercise
+// even after you already figured it out.
+//
 // C++ has changed over the years; many features and fixes.
 // Below are references to learn the changes made to C++ from learncpp.com.
 //

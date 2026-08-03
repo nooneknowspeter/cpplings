@@ -25,7 +25,7 @@
 
 // TODO: Implement a function that returns the first word of a string_view.
 // A word is separated by whitespace.
-std::string_view firstWord(std::string_view sv)
+firstWord(std::string_view sv)
 {
     size_t pos = sv.find(' ');
     if (pos == std::string_view::npos)

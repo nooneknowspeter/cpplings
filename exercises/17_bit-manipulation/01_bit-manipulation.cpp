@@ -22,7 +22,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 // TODO: Implement a function that sets the nth bit of a number.
-int setBit(int num, int n)
+setBit(int num, int n)
 {
     return num | (1 << n);
 }

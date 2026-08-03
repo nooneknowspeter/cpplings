@@ -1,6 +1,9 @@
---- solutions/01_variables/02_variables.cpp	2026-07-26 14:29:38.088567174 -0400
-+++ exercises/01_variables/02_variables.cpp	2026-08-02 16:36:22.718119073 -0400
-@@ -1,18 +1,11 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/01_variables/02_variables.cpp	2026-08-03 11:03:45.078214399 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/01_variables/02_variables.cpp	2026-08-03 11:03:45.039213937 -0400
+@@ -1,21 +1,14 @@
+ // TODO: We sometimes encourage you to keep trying things on a given exercise
+ // even after you already figured it out.
+ //
 -// A variable's type must be declared before
 -// the variable's name.
 -//
@@ -13,8 +16,9 @@
  void variables02()
  {
 -    // TODO: Add a missing type and value.
+-    int x{5};
 +    // TODO: Add the missing keyword
-     int x{5};
++    x{5};
  
 -    std::cout << "x=" << x;
 +    std::cout << x;

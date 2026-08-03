@@ -23,6 +23,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <map>
 #include <string>
+#include <vector>
 
 // TODO: Implement a function that creates a simple phonebook map.
 // Return a map with: "Alice" -> 123, "Bob" -> 456, "Charlie" -> 789.
@@ -39,7 +40,7 @@ std::map<std::string, int> createPhonebook()
 // Return the number if found, or -1 if not found.
 int lookup(const std::map<std::string, int> &phonebook, const std::string &name)
 {
-    auto it = phonebook.find(name);
+    auto it = phonebook.find();
     if (it != phonebook.end())
     {
         return it->second;

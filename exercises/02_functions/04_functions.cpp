@@ -45,5 +45,5 @@
 int main(int argc, char *argv[])
 {
     // TODO: Print out the argc and argv.
-    std::cout << "Number of arguments: " << argc << "\n" << "Arguments: " << *argv << std::endl;
+    std::_ << "Number of arguments: " << argc << "\n" << "Arguments: " << *argv << std::endl;
 }

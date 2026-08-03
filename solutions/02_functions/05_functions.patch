@@ -1,0 +1,11 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/05_functions.cpp	2026-07-26 14:29:38.088765124 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/05_functions.cpp	2026-08-03 10:38:58.783172705 -0400
+@@ -11,7 +11,7 @@
+ }
+ 
+ // TODO: Fix the function to fix the compile error.
+-int add(int x, int y)
++float add(int x, int y)
+ {
+     return x + y;
+ }

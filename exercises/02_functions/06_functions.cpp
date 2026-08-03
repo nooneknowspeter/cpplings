@@ -19,7 +19,7 @@ int add(int x, int y)
 }
 
 // TODO: Implement the add function for floats.
-float add(float x, float y)
+add(float x, float y)
 {
     return x + y;
 }

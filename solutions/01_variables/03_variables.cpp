@@ -1,3 +1,6 @@
+// TODO: We sometimes encourage you to keep trying things on a given exercise
+// even after you already figured it out.
+//
 // Besides the variable data types, C++ has a few more
 // keywords for declaring the type of variable before
 // decalaring the variable's data type.

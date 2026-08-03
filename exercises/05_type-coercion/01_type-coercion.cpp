@@ -32,7 +32,7 @@ double addIntDouble(int a, double b)
 // Use explicit casting: static_cast<double>(value)
 double divideInts(int a, int b)
 {
-    return static_cast<double>(a) / static_cast<double>(b);
+    return static_cast<>(a) / static_cast<double>(b);
 }
 
 // TODO: Implement a function that truncates a double to an int.

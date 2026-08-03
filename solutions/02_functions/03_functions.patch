@@ -1,0 +1,11 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/03_functions.cpp	2026-08-02 13:49:54.791094054 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/03_functions.cpp	2026-08-03 10:38:57.446149274 -0400
+@@ -24,7 +24,7 @@
+ 
+ // TODO: Add the function datatype and name.
+ // Add two parameters, one that takes in a boolean and the other a float.
+-void voidFunction(bool isTruthy, float randomValue)
++voidFunction(bool isTruthy, float randomValue)
+ {
+     try
+     {

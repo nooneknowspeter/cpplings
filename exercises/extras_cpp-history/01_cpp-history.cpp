@@ -1,3 +1,6 @@
+// TODO: We sometimes encourage you to keep trying things on a given exercise
+// even after you already figured it out.
+//
 // C++ has changed over the years; many features and fixes.
 // Below are references to learn the changes made to C++ from learncpp.com.
 //
@@ -21,7 +24,7 @@ int main()
     {
         if (!hasRead)
         {
-            throw std::runtime_error("Please view the code of this exercise before proceeding.");
+            throw runtime_error("Please view the code of this exercise before proceeding.");
         }
     }
     catch (std::exception &e)

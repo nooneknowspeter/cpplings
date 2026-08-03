@@ -1,6 +1,6 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/06_strings/02_strings.cpp	2026-08-02 12:12:43.773963736 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/06_strings/02_strings.cpp	2026-08-02 12:27:15.724770343 -0400
-@@ -1,35 +1,25 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/06_strings/02_strings.cpp	2026-08-02 13:49:54.792094067 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/06_strings/02_strings.cpp	2026-08-03 10:39:20.792555446 -0400
+@@ -1,36 +1,26 @@
  // TODO: We sometimes encourage you to keep trying things on a given exercise
  // even after you already figured it out.
  //
@@ -42,10 +42,12 @@
  #include <string>
  
 -// Reverses a std::string.
+-std::string reverseString(const std::string &str)
 +// TODO: Implement a function that reverses a std::string.
- std::string reverseString(const std::string &str)
++reverseString(const std::string &str)
  {
      std::string result;
+     for (int i = str.length() - 1; i >= 0; i--)
 @@ -40,7 +30,7 @@
      return result;
  }

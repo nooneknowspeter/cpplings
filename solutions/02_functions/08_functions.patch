@@ -1,5 +1,5 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/08_functions.cpp	2026-08-02 12:12:43.762599416 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/08_functions.cpp	2026-08-02 12:27:15.711950560 -0400
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/08_functions.cpp	2026-08-02 13:49:54.792094067 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/08_functions.cpp	2026-08-03 10:39:00.791207856 -0400
 @@ -17,11 +17,6 @@
  // [&] - capture everything by reference
  // [x, &y] - capture x by value, y by reference
@@ -18,9 +18,10 @@
  
 -// Lambda that checks if a number is even.
 -// [] means no captures, (int n) is the parameter, -> bool is explicit return.
+-auto isEven = [](int n) -> bool { return n % 2 == 0; };
 +// TODO: Create a lambda named 'isEven' that returns true if a number is even.
 +// The lambda should take an int parameter and return a bool.
- auto isEven = [](int n) -> bool { return n % 2 == 0; };
++auto isEven = [](int n) -> _ { return n % 2 == 0; };
  
 -// Lambda that doubles a number.
 -// Return type is inferred as int.

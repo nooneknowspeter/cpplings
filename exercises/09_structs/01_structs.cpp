@@ -26,7 +26,7 @@ struct Point
 // TODO: Create a function that calculates the distance between two points.
 double distance(const Point &a, const Point &b)
 {
-    int dx = b.x - a.x;
+    int dx = b._ - a.x;
     int dy = b.y - a.y;
     return std::sqrt(dx * dx + dy * dy);
 }

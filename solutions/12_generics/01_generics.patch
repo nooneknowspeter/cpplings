@@ -1,5 +1,5 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/12_generics/01_generics.cpp	2026-08-02 12:12:43.816094943 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/12_generics/01_generics.cpp	2026-08-02 12:27:15.731520031 -0400
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/12_generics/01_generics.cpp	2026-08-02 13:49:54.793094080 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/12_generics/01_generics.cpp	2026-08-03 10:39:32.581758214 -0400
 @@ -1,36 +1,28 @@
  // TODO: We sometimes encourage you to keep trying things on a given exercise
  // even after you already figured it out.
@@ -34,9 +34,10 @@
  #include <catch2/catch_test_macros.hpp>
  
 -// Returns the maximum of two values.
+-template <typename T> T maximum(T a, T b)
 +// TODO: Implement a template function that returns the maximum of two values.
 +// Use if-else or the ternary operator.
- template <typename T> T maximum(T a, T b)
++template <typename T> maximum(T a, T b)
  {
      return (a > b) ? a : b;
  }

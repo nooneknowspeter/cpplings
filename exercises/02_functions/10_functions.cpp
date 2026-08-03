@@ -1,3 +1,6 @@
+// TODO: We sometimes encourage you to keep trying things on a given exercise
+// even after you already figured it out.
+//
 // https://www.learncpp.com/cpp-tutorial/variadic-functions/
 
 #include <catch2/catch_session.hpp>
@@ -42,7 +45,6 @@ template <typename T> T sum(T value)
 template <typename T, typename... Args> T sum(T first, Args... args)
 {
     // TODO: Return first + sum(args...)
-    return 0; // Replace this
 }
 
 int main(int argc, char *argv[])

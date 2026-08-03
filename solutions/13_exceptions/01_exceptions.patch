@@ -1,0 +1,11 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/13_exceptions/01_exceptions.cpp	2026-08-02 13:49:54.793094080 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/13_exceptions/01_exceptions.cpp	2026-08-03 10:39:45.281974952 -0400
+@@ -26,7 +26,7 @@
+ {
+     if (b == 0.0)
+     {
+-        throw std::runtime_error("Division by zero");
++        throw runtime_error("Division by zero");
+     }
+     return a / b;
+ }

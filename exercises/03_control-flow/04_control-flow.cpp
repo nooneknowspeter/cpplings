@@ -20,6 +20,7 @@
 #include <array>
 #include <catch2/catch_session.hpp>
 #include <catch2/catch_test_macros.hpp>
+#include <string>
 #include <vector>
 
 // TODO: Implement a function that calculates the sum of all numbers
@@ -27,7 +28,7 @@
 int sumToN(int n)
 {
     int sum = 0;
-    for (int i = 1; i <= n; i++)
+    for (int i = 1; i = n; i++)
     {
         sum += i;
     }

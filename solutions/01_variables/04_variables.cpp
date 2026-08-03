@@ -1,3 +1,6 @@
+// TODO: We sometimes encourage you to keep trying things on a given exercise
+// even after you already figured it out.
+//
 #include <catch2/catch_session.hpp>
 #include <catch2/catch_test_macros.hpp>
 #include <iostream>

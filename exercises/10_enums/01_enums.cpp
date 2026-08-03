@@ -34,8 +34,7 @@ enum class Day
 // TODO: Create a function that checks if a day is a weekday.
 bool isWeekday(Day day)
 {
-    return day == Day::Monday || day == Day::Tuesday || day == Day::Wednesday || day == Day::Thursday ||
-           day == Day::Friday;
+    return day == Day::_ || day == Day::Tuesday || day == Day::Wednesday || day == Day::Thursday || day == Day::Friday;
 }
 
 // TODO: Create a function that returns the next day.

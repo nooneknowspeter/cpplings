@@ -14,6 +14,7 @@
 
 #include <catch2/catch_session.hpp>
 #include <catch2/catch_test_macros.hpp>
+#include <cctype>
 #include <string>
 #include <string_view>
 
@@ -26,7 +27,7 @@ std::string stringViewToString(std::string_view sv)
 
 // TODO: Implement a function that trims whitespace from both ends of a string_view.
 // Return a new string (not a view) with the trimmed result.
-std::string trim(std::string_view sv)
+trim(std::string_view sv)
 {
     size_t start = 0;
     size_t end = sv.length();

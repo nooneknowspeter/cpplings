@@ -1,5 +1,5 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/07_functions.cpp	2026-08-02 12:14:05.022280922 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/07_functions.cpp	2026-08-02 12:27:15.711617762 -0400
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/07_functions.cpp	2026-08-02 13:49:54.791094054 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/07_functions.cpp	2026-08-03 10:38:59.897192212 -0400
 @@ -1,22 +1,6 @@
  // TODO: We sometimes encourage you to keep trying things on a given exercise
  // even after you already figured it out.
@@ -30,9 +30,10 @@
 -// The recursive fibonacci function.
 -// Base case: when n is 0 or 1, return n itself.
 -// Recursive case: return the sum of the previous two fibonacci numbers.
+-int fibonacci(int n)
 +// TODO: Implement the recursive fibonacci function.
 +// NOTE: Use the test case as reference.
- int fibonacci(int n)
++fibonacci(int n)
  {
 -    // Base case: fibonacci(0) = 0, fibonacci(1) = 1
      if (n == 0 || n == 1)

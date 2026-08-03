@@ -19,7 +19,7 @@
 
 // TODO: Use auto to deduce the type of a value.
 // Return the result of adding an int and a double.
-auto addWithAuto(int a, double b)
+addWithAuto(int a, double b)
 {
     auto result = a + b;
     return result;

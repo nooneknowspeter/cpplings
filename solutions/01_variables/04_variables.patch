@@ -1,12 +1,16 @@
---- solutions/01_variables/04_variables.cpp	2026-08-02 13:49:54.791094054 -0400
-+++ exercises/01_variables/04_variables.cpp	2026-08-02 16:36:23.230124996 -0400
-@@ -1,35 +1,10 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/01_variables/04_variables.cpp	2026-08-03 11:03:45.086214494 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/01_variables/04_variables.cpp	2026-08-03 11:03:45.046214020 -0400
+@@ -1,38 +1,14 @@
+ // TODO: We sometimes encourage you to keep trying things on a given exercise
+ // even after you already figured it out.
+ //
 -#include <catch2/catch_session.hpp>
 -#include <catch2/catch_test_macros.hpp>
 -#include <iostream>
 -#include <sstream>
 -#include <string>
-+int x;
++// TODO: Add the missing variable type.
++x;
  
  void variables04()
  {

@@ -26,7 +26,7 @@
 // - below 60: return 'F'
 char getGrade(int score)
 {
-    if (score >= 90)
+    if (score = 90)
     {
         return 'A';
     }

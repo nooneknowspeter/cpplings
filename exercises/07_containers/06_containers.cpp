@@ -45,7 +45,7 @@ std::list<int> reverseList(const std::list<int> &lst)
     std::list<int> result;
     for (int num : lst)
     {
-        result.push_front(num);
+        result.push_front();
     }
     return result;
 }

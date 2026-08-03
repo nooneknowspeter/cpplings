@@ -1,5 +1,5 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/06_functions.cpp	2026-08-02 12:12:43.764408261 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/06_functions.cpp	2026-08-02 12:27:15.710823501 -0400
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/06_functions.cpp	2026-08-02 13:49:54.791094054 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/06_functions.cpp	2026-08-03 10:38:59.356182740 -0400
 @@ -4,15 +4,6 @@
  // C++ allows multiple functions to have the same name,
  // this technique is called function overloading.
@@ -31,8 +31,9 @@
 -// A function that adds two floats.
 -// The compiler knows this is different from add(int, int)
 -// because the parameter types are different.
+-float add(float x, float y)
 +// TODO: Implement the add function for floats.
- float add(float x, float y)
++add(float x, float y)
  {
      return x + y;
  }

@@ -1,5 +1,5 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/05_type-coercion/03_type-coercion.cpp	2026-08-02 12:12:43.808003249 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/05_type-coercion/03_type-coercion.cpp	2026-08-02 12:27:15.722950673 -0400
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/05_type-coercion/03_type-coercion.cpp	2026-08-02 13:49:54.792094067 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/05_type-coercion/03_type-coercion.cpp	2026-08-03 10:39:16.321478141 -0400
 @@ -2,20 +2,13 @@
  // even after you already figured it out.
  //
@@ -28,14 +28,15 @@
  // https://www.learncpp.com/cpp-tutorial/type-deduction-with-auto/
  // https://www.learncpp.com/cpp-tutorial/constexpr-variables/
 @@ -24,21 +17,23 @@
+ #include <catch2/catch_session.hpp>
  #include <catch2/catch_test_macros.hpp>
- #include <catch2/catch_approx.hpp>
  
 -// Adds values and returns the result.
 -// Type is deduced as double (the wider type).
+-auto addWithAuto(int a, double b)
 +// TODO: Use auto to deduce the type of a value.
 +// Return the result of adding an int and a double.
- auto addWithAuto(int a, double b)
++addWithAuto(int a, double b)
  {
      auto result = a + b;
      return result;

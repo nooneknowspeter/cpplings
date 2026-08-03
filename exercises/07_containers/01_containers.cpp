@@ -51,7 +51,7 @@ int findMax(const std::vector<int> &v)
 // TODO: Implement a function that reverses a vector.
 std::vector<int> reverseVector(const std::vector<int> &v)
 {
-    std::vector<int> result;
+    std::vector result;
     for (int i = v.size() - 1; i >= 0; i--)
     {
         result.push_back(v[i]);

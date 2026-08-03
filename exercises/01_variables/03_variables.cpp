@@ -1,3 +1,6 @@
+// TODO: We sometimes encourage you to keep trying things on a given exercise
+// even after you already figured it out.
+//
 // Besides the variable data types, C++ has a few more
 // keywords for declaring the type of variable before
 // decalaring the variable's data type.
@@ -14,7 +17,7 @@
 void variables03()
 {
     // TODO: Declare a constant variable with a value and then print it out to stdout.
-    const int FOO{5};
+    int FOO{5};
 
     std::cout << FOO;
 

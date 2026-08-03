@@ -1,5 +1,5 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/05_type-coercion/01_type-coercion.cpp	2026-08-02 12:12:43.809936894 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/05_type-coercion/01_type-coercion.cpp	2026-08-02 12:27:15.722044223 -0400
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/05_type-coercion/01_type-coercion.cpp	2026-08-02 13:49:54.792094067 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/05_type-coercion/01_type-coercion.cpp	2026-08-03 10:39:14.663449416 -0400
 @@ -8,15 +8,11 @@
  // - Usually widening (small type -> large type)
  // - int to double, char to int, etc.
@@ -22,8 +22,8 @@
  // https://www.learncpp.com/cpp-tutorial/implicit-type-conversion-coercion/
  // https://www.learncpp.com/cpp-tutorial/explicit-type-conversion-casting/
 @@ -25,27 +21,29 @@
+ #include <catch2/catch_session.hpp>
  #include <catch2/catch_test_macros.hpp>
- #include <catch2/catch_approx.hpp>
  
 -// Adds an int and a double.
 -// The int is implicitly converted to double for the addition.
@@ -40,7 +40,8 @@
 +// Use explicit casting: static_cast<double>(value)
  double divideInts(int a, int b)
  {
-     return static_cast<double>(a) / static_cast<double>(b);
+-    return static_cast<double>(a) / static_cast<double>(b);
++    return static_cast<>(a) / static_cast<double>(b);
  }
  
 -// Truncates a double to an int (rounds toward zero).

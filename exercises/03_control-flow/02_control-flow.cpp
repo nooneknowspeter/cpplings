@@ -34,9 +34,7 @@ int getDaysInMonth(int month)
 {
     switch (month)
     {
-    case 1:
-        return 31;
-    case 2:
+    case 1 return 31; case 2:
         return 28;
     case 3:
         return 31;

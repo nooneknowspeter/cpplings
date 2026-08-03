@@ -15,6 +15,7 @@
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_session.hpp>
 #include <catch2/catch_test_macros.hpp>
+#include <string>
 
 // TODO: Implement a simple Pair class template with getFirst() and getSecond().
 template <typename T, typename U> class Pair
@@ -27,7 +28,7 @@ template <typename T, typename U> class Pair
     {
     }
 
-    T getFirst() const
+    getFirst() const
     {
         return first;
     }

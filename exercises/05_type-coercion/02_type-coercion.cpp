@@ -27,7 +27,7 @@ int charToInt(char c)
 
 // TODO: Implement a function that converts an int to a char.
 // This is a narrowing conversion - use static_cast to make it explicit.
-char intToChar(int i)
+intToChar(int i)
 {
     return static_cast<char>(i);
 }

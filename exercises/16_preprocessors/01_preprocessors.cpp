@@ -21,8 +21,6 @@
 #include <catch2/catch_test_macros.hpp>
 
 // TODO: Define a macro SQUARE that squares a number.
-#define SQUARE(x) ((x) * (x))
-
 // TODO: Define a macro MAX that returns the maximum of two values.
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
