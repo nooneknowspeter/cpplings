@@ -96,7 +96,14 @@ void PatchSystem::patch(std::filesystem::path exercise_file_path)
 {
     try
     {
-        auto solutions_dir{ExerciseIterator::getExerciseDirectory(ExerciseIterator::ExerciseDirectories::Solutions)};
+        auto solutions_dir_result{
+            ExerciseIterator::getExerciseDirectory(ExerciseIterator::ExerciseDirectories::Solutions)};
+        if (!solutions_dir_result)
+        {
+            throw std::runtime_error(solutions_dir_result.error());
+        }
+
+        auto solutions_dir{solutions_dir_result.value()};
 
         auto solution_file_path{solutions_dir / exercise_file_path.parent_path().filename() /
                                 exercise_file_path.filename()};

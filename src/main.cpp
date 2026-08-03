@@ -43,19 +43,19 @@ static constexpr void runCLI([[maybe_unused]] int argc, [[maybe_unused]] char *a
         return;
     }
 
-    if (std::find(args.begin(), args.end(), "-h") != args.end())
+    if (std::ranges::find(args, "-h") != args.end())
     {
         CLI::Documentation::printHelpDocumentation(args.at(0), CLI::Documentation::MAIN);
 
         return;
     }
 
-    if (std::find(args.begin(), args.end(), "-d") != args.end())
+    if (std::ranges::find(args, "-d") != args.end())
     {
         Log::configureLogger(true);
     }
 
-    if (std::find(args.begin(), args.end(), "-p") != args.end())
+    if (std::ranges::find(args, "-p") != args.end())
     {
         Log::info("run patch system");
 
@@ -65,7 +65,7 @@ static constexpr void runCLI([[maybe_unused]] int argc, [[maybe_unused]] char *a
         return;
     }
 
-    if (std::find(args.begin(), args.end(), "-s") != args.end())
+    if (std::ranges::find(args, "-s") != args.end())
     {
         Log::info("run tui against solutions");
         TUI::run(ExerciseIterator::ExerciseDirectories::Solutions);

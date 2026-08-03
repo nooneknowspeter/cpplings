@@ -5,9 +5,12 @@
 #include <algorithm>
 #include <cstdint>
 #include <exception>
+#include <expected>
 #include <filesystem>
+#include <format>
 #include <limits>
 #include <memory>
+#include <ranges>
 #include <stdexcept>
 #include <system_error>
 
@@ -16,8 +19,7 @@ std::unique_ptr<ExerciseIterator> ExerciseIterator::getInstance()
     return std::make_unique<ExerciseIterator>();
 }
 
-std::filesystem::path ExerciseIterator::getExerciseDirectory(
-    ExerciseDirectories directory = ExerciseDirectories::Exercises)
+std::expected<std::filesystem::path, std::string> ExerciseIterator::getExerciseDirectory(ExerciseDirectories directory)
 {
     std::filesystem::path cwd{std::filesystem::current_path()};
 
@@ -30,8 +32,7 @@ std::filesystem::path ExerciseIterator::getExerciseDirectory(
 
     if (!std::filesystem::exists(exercises_dir_path))
     {
-        throw std::filesystem::filesystem_error("exercises directory does not exist", exercises_dir_path,
-                                                std::error_code());
+        return std::unexpected(std::format("directory does not exist: {}", exercises_dir_path.string()));
     }
 
     return exercises_dir_path;
@@ -41,7 +42,13 @@ void ExerciseIterator::scanForExercises(ExerciseDirectories directory)
 {
     try
     {
-        auto exercise_dir{getExerciseDirectory(directory)};
+        auto exercise_dir_result{getExerciseDirectory(directory)};
+        if (!exercise_dir_result)
+        {
+            throw std::runtime_error(exercise_dir_result.error());
+        }
+
+        auto exercise_dir{std::move(exercise_dir_result.value())};
 
         if (std::filesystem::is_empty(exercise_dir))
         {
@@ -52,44 +59,37 @@ void ExerciseIterator::scanForExercises(ExerciseDirectories directory)
             TUI::p_state->exercises_dir_path = exercise_dir;
         }
 
-        TUI::p_state->list_of_exercises.clear();
+        auto list_of_exercises =
+            std::filesystem::recursive_directory_iterator(exercise_dir) |
+            std::views::transform([](const std::filesystem::directory_entry &entry) { return entry.path(); }) |
+            std::views::filter([](const std::filesystem::path &path) {
+                if (!path.has_extension())
+                {
+                    return false;
+                }
 
-        for (auto &entry : std::filesystem::recursive_directory_iterator(TUI::p_state->exercises_dir_path))
-        {
-            if (!entry.path().has_extension())
-            {
-                continue;
-            }
+                if (path.extension() == std::filesystem::path(".md") ||
+                    path.extension() == std::filesystem::path(".patch") ||
+                    path.extension() == std::filesystem::path(".rej"))
+                {
+                    return false;
+                }
 
-            if (entry.path().extension() == std::filesystem::path(".md"))
-            {
-                continue;
-            }
+                if (path.string().contains("src") || path.string().contains("include"))
+                {
+                    return false;
+                }
 
-            if (entry.path().extension() == std::filesystem::path(".patch"))
-            {
-                continue;
-            }
+                return true;
+            }) |
+            std::ranges::to<std::vector<std::filesystem::path>>();
 
-            if (entry.path().extension() == std::filesystem::path(".rej"))
-            {
-                continue;
-            }
-
-            if (entry.path().string().contains("src") || entry.path().string().contains("include"))
-            {
-                continue;
-            }
-
-            Log::info("{}", entry.path().string());
-
-            TUI::p_state->list_of_exercises.emplace_back(entry.path());
-        }
+        TUI::p_state->list_of_exercises = std::move(list_of_exercises);
 
         Log::info("sorting exercises");
-        std::sort(TUI::p_state->list_of_exercises.begin(), TUI::p_state->list_of_exercises.end());
+        std::ranges::sort(TUI::p_state->list_of_exercises);
 
-        for (auto &i : TUI::p_state->list_of_exercises)
+        for (auto const &i : TUI::p_state->list_of_exercises)
         {
             Log::info("{}", i.string());
         }
@@ -103,58 +103,47 @@ void ExerciseIterator::scanForExercises(ExerciseDirectories directory)
     }
 }
 
-void ExerciseIterator::previous()
+std::expected<void, std::string> ExerciseIterator::previous()
 {
     using limit = std::numeric_limits<std::uint8_t>;
 
-    try
+    if (limit::min() == TUI::p_state->current_exercise_index || TUI::p_state->completed_exercises.empty())
     {
-        if (limit::min() == TUI::p_state->current_exercise_index || TUI::p_state->completed_exercises.empty())
-        {
-            throw std::runtime_error(std::format("can't go past the first exercise"));
-        }
-
-        TUI::p_state->completed_exercises.pop_back();
-        TUI::p_state->current_exercise_index--;
-        TUI::p_state->current_exercise = TUI::p_state->list_of_exercises.at(TUI::p_state->current_exercise_index);
+        return std::unexpected(std::format("can't go past the first exercise"));
     }
-    catch (const std::exception &e)
-    {
-        Log::warning("{}", e.what());
 
-        return;
-    }
+    TUI::p_state->completed_exercises.pop_back();
+    TUI::p_state->current_exercise_index--;
+    TUI::p_state->current_exercise = TUI::p_state->list_of_exercises.at(TUI::p_state->current_exercise_index);
+    return {};
 }
 
-void ExerciseIterator::next()
+std::expected<void, std::string> ExerciseIterator::next()
 {
-    try
+    if (TUI::p_state->is_current_exercise_compiling)
     {
-        if (TUI::p_state->list_of_exercises.size() == TUI::p_state->current_exercise_index)
-        {
-            throw std::runtime_error(std::format("can't go past the last exercise"));
-        }
+        return std::unexpected(std::format("current exercise is compiling"));
+    }
 
-        if (TUI::p_state->is_current_exercise_compiling)
-        {
-            throw std::runtime_error(std::format("current exercise is compiling"));
-        }
+    if (!TUI::p_state->did_current_exercise_compile)
+    {
+        return std::unexpected(std::format("current exercise failed to compile"));
+    }
 
-        if (!TUI::p_state->did_current_exercise_compile)
-        {
-            throw std::runtime_error(std::format("current exercise failed to compile"));
-        }
+    if (TUI::p_state->list_of_exercises.size() == TUI::p_state->current_exercise_index)
+    {
+        return std::unexpected(std::format("can't go past the last exercise"));
+    }
 
-        TUI::p_state->completed_exercises.push_back(TUI::p_state->current_exercise);
-        TUI::p_state->current_exercise_index++;
+    TUI::p_state->completed_exercises.push_back(TUI::p_state->current_exercise);
+    TUI::p_state->current_exercise_index++;
+
+    if (TUI::p_state->current_exercise_index < TUI::p_state->list_of_exercises.size())
+    {
         TUI::p_state->current_exercise = TUI::p_state->list_of_exercises.at(TUI::p_state->current_exercise_index);
     }
-    catch (const std::exception &e)
-    {
-        Log::warning("{}", e.what());
 
-        return;
-    }
+    return {};
 }
 
 void ExerciseIterator::reset()

@@ -5,14 +5,13 @@
 #include "include/file_watcher.hpp"
 #include <chrono>
 #include <cstdint>
-#include <exception>
 #include <filesystem>
 #include <include/log.hpp>
 #include <iostream>
 #include <memory>
 #include <mutex>
 #include <print>
-#include <stdexcept>
+#include <ranges>
 #include <stop_token>
 #include <thread>
 #include <unordered_map>
@@ -118,23 +117,16 @@ struct Render
         auto list_of_exercises{TUI::p_state->list_of_exercises};
         auto completed_exercises{TUI::p_state->completed_exercises};
 
-        for (auto i{0uz}; i < list_of_exercises.size(); ++i)
+        for (auto [index, exercise] : std::views::zip(std::views::iota(std::size_t{0}), list_of_exercises))
         {
-            std::print("{} -> ", list_of_exercises.at(i).stem().string());
+            std::print("{} -> ", exercise.stem().string());
 
             std::print("{}", ASCII::Styles::BOLD);
-            try
+            if (index < completed_exercises.size() && completed_exercises.at(index) == exercise)
             {
-                if (list_of_exercises.at(i) == completed_exercises.at(i))
-                {
-                    std::print("Completed");
-                }
-                else
-                {
-                    throw std::out_of_range("exercise not complete");
-                }
+                std::print("Completed");
             }
-            catch (...)
+            else
             {
                 std::print("Not Completed");
             }
@@ -178,28 +170,21 @@ struct Render
         // "Progress: [{}] {}/{}" -> "Progress: [######>-----] 6/7"
         std::print("Progress: [");
 
-        for (auto i{0uz}; i < list_of_exercises.size(); ++i)
+        for (auto [index, exercise] : std::views::zip(std::views::iota(std::size_t{0}), list_of_exercises))
         {
-            try
+            if (index == static_cast<std::size_t>(TUI::p_state->current_exercise_index.load()))
             {
-                if (i == TUI::p_state->current_exercise_index)
-                {
-                    std::print(">");
-                    continue;
-                }
-
-                if (list_of_exercises.at(i) == completed_exercises.at(i))
-                {
-                    std::print("#");
-                    continue;
-                }
-
-                throw std::exception();
+                std::print(">");
+                continue;
             }
-            catch ([[maybe_unused]] const std::exception &e)
+
+            if (index < completed_exercises.size() && completed_exercises.at(index) == exercise)
             {
-                std::print("-");
+                std::print("#");
+                continue;
             }
+
+            std::print("-");
         }
 
         std::println("] {}/{}", TUI::p_state->current_exercise_index.load(), TUI::p_state->list_of_exercises.size());
@@ -310,7 +295,10 @@ void run(ExerciseIterator::ExerciseDirectories directory)
 
         case TUI::Commands::PreviousExercise:
             Log::info("previous exercise");
-            exercise_iterator_instance->previous();
+            if (auto result{exercise_iterator_instance->previous()}; !result)
+            {
+                Log::warning("{}", result.error());
+            }
             lock.unlock();
             exercise_runner_instance->compileCurrentExercise();
             Render::draw();
@@ -319,7 +307,10 @@ void run(ExerciseIterator::ExerciseDirectories directory)
 
         case TUI::Commands::NextExercise:
             Log::info("current exercise");
-            exercise_iterator_instance->next();
+            if (auto result{exercise_iterator_instance->next()}; !result)
+            {
+                Log::warning("{}", result.error());
+            }
             lock.unlock();
             exercise_runner_instance->compileCurrentExercise();
             Render::draw();

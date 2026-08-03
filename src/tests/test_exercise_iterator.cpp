@@ -37,10 +37,13 @@ TEST_CASE("getExerciseDirectory resolves exercises and solutions", "[iterator]")
     auto exercises{ExerciseIterator::getExerciseDirectory(Exercises)};
     auto solutions{ExerciseIterator::getExerciseDirectory(Solutions)};
 
-    REQUIRE(exercises == std::filesystem::current_path() / "exercises");
-    REQUIRE(solutions == std::filesystem::current_path() / "solutions");
-    REQUIRE(std::filesystem::exists(exercises));
-    REQUIRE(std::filesystem::exists(solutions));
+    REQUIRE(exercises.has_value());
+    REQUIRE(solutions.has_value());
+
+    REQUIRE(exercises.value() == std::filesystem::current_path() / "exercises");
+    REQUIRE(solutions.value() == std::filesystem::current_path() / "solutions");
+    REQUIRE(std::filesystem::exists(exercises.value()));
+    REQUIRE(std::filesystem::exists(solutions.value()));
 }
 
 TEST_CASE("scanForExercises collects sorted, filtered exercises", "[iterator]")

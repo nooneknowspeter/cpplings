@@ -1,7 +1,9 @@
 #pragma once
 
+#include <expected>
 #include <filesystem>
 #include <memory>
+#include <string>
 
 struct ExerciseIterator
 {
@@ -22,13 +24,13 @@ struct ExerciseIterator
         Solutions
     };
 
-    static std::filesystem::path getExerciseDirectory(ExerciseDirectories directory);
+    static std::expected<std::filesystem::path, std::string> getExerciseDirectory(ExerciseDirectories directory);
 
     void scanForExercises(ExerciseDirectories directory);
 
-    void previous();
+    std::expected<void, std::string> previous();
 
-    void next();
+    std::expected<void, std::string> next();
 
     void reset();
 };
