@@ -179,7 +179,6 @@ pub fn build(b: *STD.Build) !void {
         CPPLINGS_RUN_EXERCISE_STEP.dependOn(
             &CPPLINGS_EXERCISE_ARTIFACT.step,
         );
-        CPPLINGS_EXERCISE_ARTIFACT.step.dependOn(b.getInstallStep());
 
         if (b.args) |args| {
             for (args) |arg| {
