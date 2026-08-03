@@ -9,6 +9,8 @@
 is a set of hands-on exercises to help you get comfortable reading
 and writing modern **C++** but also understand the history; >=C++11.
 
+![cpplings demo](https://raw.githubusercontent.com/nooneknowspeter/cpplings/refs/heads/dev/assets/demos/cpplings.demo.gif)
+
 These exercises reference the excellent [learncpp](https://www.learncpp.com/)
 and are conceptually related to [cplings](https://github.com/rdjondo/cplings),
 which adopted this idea earlier.
@@ -329,4 +331,4 @@ explaining the benefits of Zig's build system in the world of C/C++.
   - [ ] more c++ >=17 features; latch, barries, modules, execution policies, ...
 - [x] c++ 23 rewrite
 - [ ] frontend
-- [ ] cli demo
+- [x] cli demo
