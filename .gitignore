@@ -23,5 +23,10 @@ zig-pkg/
 # local state
 .cpplings/
 
+# misc
+perf.data
+flamegraph.html
+gecko_profile.json
+
 /.quarto/
 **/*.quarto_ipynb
