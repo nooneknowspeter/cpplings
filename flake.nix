@@ -69,6 +69,7 @@
           fastfetch
           gdb
           gnumake
+          hotspot
           hyperfine
           just
           lldb
