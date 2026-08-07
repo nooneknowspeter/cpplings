@@ -11,3 +11,6 @@
 [submodule "boost"]
 	path = lib/boost
 	url = git@github.com:nooneknowspeter/boost-libraries-zig.git
+[submodule "jal"]
+	path = lib/jal
+	url = git@github.com:nooneknowspeter/jal.git
