@@ -37,6 +37,8 @@ pub fn build(b: *STD.Build) !void {
         .process = true,
     });
 
+    const DEP_JAL = b.dependency("jal", .{});
+
     // cli
     {
         const SOURCE_CORE = [_][]const u8{
@@ -109,6 +111,8 @@ pub fn build(b: *STD.Build) !void {
             );
         }
         CPPLINGS_CLI.root_module.linkLibrary(BOOST_ARTIFACT);
+
+        CPPLINGS_CLI.root_module.addIncludePath(DEP_JAL.path("include"));
 
         const CPPLINGS_CLI_RUN_CMD = b.addRunArtifact(
             CPPLINGS_CLI,
@@ -209,6 +213,7 @@ pub fn build(b: *STD.Build) !void {
                     DEP_GTEST.path("zig-out/include"),
                     DEP_CATCH.path("zig-out/include"),
                     DEP_BOOST.path("zig-out/include"),
+                    DEP_JAL.path("include"),
                 },
                 .custom = &[_][]const u8{
                     "-pedantic",

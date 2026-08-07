@@ -6,8 +6,8 @@
 #include <chrono>
 #include <cstdint>
 #include <filesystem>
-#include <include/log.hpp>
 #include <iostream>
+#include <jal.hpp>
 #include <memory>
 #include <mutex>
 #include <print>
@@ -15,6 +15,8 @@
 #include <stop_token>
 #include <thread>
 #include <unordered_map>
+
+using namespace jal;
 
 namespace TUI
 {

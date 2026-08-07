@@ -1,13 +1,15 @@
 #include "include/ascii.hpp"
 #include "include/exercise_iterator.hpp"
-#include "include/log.hpp"
 #include "include/patch_system.hpp"
 #include "include/tui.hpp"
 #include <algorithm>
+#include <jal.hpp>
 #include <memory>
 #include <print>
 #include <string>
 #include <vector>
+
+using namespace jal;
 
 namespace CLI
 {

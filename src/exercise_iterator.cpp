@@ -1,5 +1,4 @@
 #include "include/exercise_iterator.hpp"
-#include "include/log.hpp"
 #include "include/patch_system.hpp"
 #include "include/tui.hpp"
 #include <algorithm>
@@ -8,11 +7,14 @@
 #include <expected>
 #include <filesystem>
 #include <format>
+#include <jal.hpp>
 #include <limits>
 #include <memory>
 #include <ranges>
 #include <stdexcept>
 #include <system_error>
+
+using namespace jal;
 
 std::unique_ptr<ExerciseIterator> ExerciseIterator::getInstance()
 {

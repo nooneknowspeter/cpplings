@@ -1,5 +1,4 @@
 #include "include/exercise_runner.hpp"
-#include "include/log.hpp"
 #include "include/tui.hpp"
 #include "include/util.hpp"
 #include <boost/asio.hpp>
@@ -10,12 +9,15 @@
 #include <filesystem>
 #include <format>
 #include <future>
+#include <jal.hpp>
 #include <memory>
 #include <mutex>
 #include <ranges>
 #include <stdexcept>
 #include <thread>
 #include <vector>
+
+using namespace jal;
 
 struct ProcessResult
 {

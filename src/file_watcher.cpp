@@ -1,12 +1,14 @@
 #include "include/file_watcher.hpp"
-#include "include/log.hpp"
 #include "include/tui.hpp"
 #include <chrono>
 #include <filesystem>
+#include <jal.hpp>
 #include <memory>
 #include <mutex>
 #include <stop_token>
 #include <thread>
+
+using namespace jal;
 
 std::unique_ptr<FileWatcher> FileWatcher::getInstance()
 {

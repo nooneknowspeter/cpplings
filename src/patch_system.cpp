@@ -3,7 +3,6 @@
 #include "boost/asio/readable_pipe.hpp"
 #include "include/ascii.hpp"
 #include "include/exercise_iterator.hpp"
-#include "include/log.hpp"
 #include "include/tui.hpp"
 #include "include/util.hpp"
 #include <boost/asio.hpp>
@@ -12,6 +11,7 @@
 #include <fstream>
 #include <future>
 #include <iostream>
+#include <jal.hpp>
 #include <memory>
 #include <mutex>
 #include <print>
@@ -19,6 +19,8 @@
 #include <string>
 #include <thread>
 #include <vector>
+
+using namespace jal;
 
 void generatePatch(std::filesystem::path patch_path, std::filesystem::path original_file_path,
                    std::filesystem::path modified_file_path)

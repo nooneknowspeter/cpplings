@@ -14,6 +14,10 @@
             .path = "./lib/catch2/",
         },
         .boost = .{ .path = "./lib/boost" },
+        .jal = .{
+            .url = "git+https://github.com/nooneknowspeter/jal.git#2d7711f08e33363d15cda92db4d1e9d05ded6273",
+            .hash = "jal-0.1.0-WXl-sl8TAAC6cuXcOVbi_iVAJgSTIY9bkbaZNH_ndw8X",
+        },
     },
     .paths = .{
         "build.zig",
