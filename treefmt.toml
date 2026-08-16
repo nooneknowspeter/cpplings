@@ -22,7 +22,7 @@ includes = [
   ".frag",
   ".comp",
 ]
-options = ["-i"]
+options = ["--Werror", "-i"]
 
 [formatter.nixfmt-rfc-style]
 command = "nixfmt"
