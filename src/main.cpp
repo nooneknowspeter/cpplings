@@ -5,10 +5,10 @@
 #include <string>
 #include <vector>
 
-#include "include/ascii.hpp"
-#include "include/exercise_iterator.hpp"
-#include "include/patch_system.hpp"
-#include "include/tui.hpp"
+#include "./include/ascii.hpp"
+#include "./include/exercise_iterator.hpp"
+#include "./include/patch_system.hpp"
+#include "./include/tui.hpp"
 
 using namespace jal;
 

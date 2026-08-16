@@ -1,4 +1,4 @@
-#include "include/exercise_iterator.hpp"
+#include "./include/exercise_iterator.hpp"
 
 #include <algorithm>
 #include <cstdint>
@@ -13,8 +13,8 @@
 #include <stdexcept>
 #include <system_error>
 
-#include "include/patch_system.hpp"
-#include "include/tui.hpp"
+#include "./include/patch_system.hpp"
+#include "./include/tui.hpp"
 
 using namespace jal;
 

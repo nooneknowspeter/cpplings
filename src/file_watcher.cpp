@@ -1,4 +1,4 @@
-#include "include/file_watcher.hpp"
+#include "./include/file_watcher.hpp"
 
 #include <chrono>
 #include <filesystem>
@@ -8,7 +8,7 @@
 #include <stop_token>
 #include <thread>
 
-#include "include/tui.hpp"
+#include "./include/tui.hpp"
 
 using namespace jal;
 

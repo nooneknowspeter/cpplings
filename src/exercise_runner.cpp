@@ -1,4 +1,4 @@
-#include "include/exercise_runner.hpp"
+#include "./include/exercise_runner.hpp"
 
 #include <boost/asio.hpp>
 #include <boost/process.hpp>
@@ -16,8 +16,8 @@
 #include <thread>
 #include <vector>
 
-#include "include/tui.hpp"
-#include "include/util.hpp"
+#include "./include/tui.hpp"
+#include "./include/util.hpp"
 
 using namespace jal;
 

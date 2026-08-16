@@ -5,8 +5,8 @@
 #include <memory>
 #include <queue>
 
-#include "include/exercise_iterator.hpp"
-#include "include/tui.hpp"
+#include "../include/exercise_iterator.hpp"
+#include "../include/tui.hpp"
 
 namespace {
 
