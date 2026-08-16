@@ -15,12 +15,12 @@
 #include <thread>
 #include <vector>
 
-#include "../lib/boost/asio/io_context.hpp"
-#include "../lib/boost/asio/readable_pipe.hpp"
 #include "./include/ascii.hpp"
 #include "./include/exercise_iterator.hpp"
 #include "./include/tui.hpp"
 #include "./include/util.hpp"
+#include "boost/asio/io_context.hpp"
+#include "boost/asio/readable_pipe.hpp"
 
 using namespace jal;
 
