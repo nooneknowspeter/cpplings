@@ -1,4 +1,4 @@
-#include "include/patch_system.hpp"
+#include "./include/patch_system.hpp"
 
 #include <boost/asio.hpp>
 #include <boost/process.hpp>
@@ -15,12 +15,12 @@
 #include <thread>
 #include <vector>
 
-#include "boost/asio/io_context.hpp"
-#include "boost/asio/readable_pipe.hpp"
-#include "include/ascii.hpp"
-#include "include/exercise_iterator.hpp"
-#include "include/tui.hpp"
-#include "include/util.hpp"
+#include "../lib/boost/asio/io_context.hpp"
+#include "../lib/boost/asio/readable_pipe.hpp"
+#include "./include/ascii.hpp"
+#include "./include/exercise_iterator.hpp"
+#include "./include/tui.hpp"
+#include "./include/util.hpp"
 
 using namespace jal;
 

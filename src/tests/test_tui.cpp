@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 
-#include "include/tui.hpp"
+#include "../include/tui.hpp"
 
 TEST_CASE("State has sane defaults", "[tui]") {
   TUI::State state;

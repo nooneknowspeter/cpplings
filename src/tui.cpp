@@ -1,4 +1,4 @@
-#include "include/tui.hpp"
+#include "./include/tui.hpp"
 
 #include <chrono>
 #include <cstdint>
@@ -13,10 +13,10 @@
 #include <thread>
 #include <unordered_map>
 
-#include "include/ascii.hpp"
-#include "include/exercise_iterator.hpp"
-#include "include/exercise_runner.hpp"
-#include "include/file_watcher.hpp"
+#include "./include/ascii.hpp"
+#include "./include/exercise_iterator.hpp"
+#include "./include/exercise_runner.hpp"
+#include "./include/file_watcher.hpp"
 
 using namespace jal;
 
