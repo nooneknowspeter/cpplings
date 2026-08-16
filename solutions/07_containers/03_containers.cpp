@@ -32,52 +32,45 @@
 #include <vector>
 
 // Creates a simple phonebook.
-std::map<std::string, int> createPhonebook()
-{
-    std::map<std::string, int> phonebook;
-    phonebook["Alice"] = 123;
-    phonebook["Bob"] = 456;
-    phonebook["Charlie"] = 789;
-    return phonebook;
+std::map<std::string, int> createPhonebook() {
+  std::map<std::string, int> phonebook;
+  phonebook["Alice"] = 123;
+  phonebook["Bob"] = 456;
+  phonebook["Charlie"] = 789;
+  return phonebook;
 }
 
 // Looks up a name in the phonebook.
-int lookup(const std::map<std::string, int> &phonebook, const std::string &name)
-{
-    auto it = phonebook.find(name);
-    if (it != phonebook.end())
-    {
-        return it->second;
-    }
-    return -1;
+int lookup(const std::map<std::string, int>& phonebook,
+           const std::string& name) {
+  auto it = phonebook.find(name);
+  if (it != phonebook.end()) {
+    return it->second;
+  }
+  return -1;
 }
 
 // Counts word occurrences using a map.
-std::map<std::string, int> wordCount(const std::vector<std::string> &words)
-{
-    std::map<std::string, int> counts;
-    for (const std::string &word : words)
-    {
-        counts[word]++;
-    }
-    return counts;
+std::map<std::string, int> wordCount(const std::vector<std::string>& words) {
+  std::map<std::string, int> counts;
+  for (const std::string& word : words) {
+    counts[word]++;
+  }
+  return counts;
 }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Containers Containers03")
-{
-    auto phonebook = createPhonebook();
-    REQUIRE(phonebook.size() == 3);
-    REQUIRE(lookup(phonebook, "Alice") == 123);
-    REQUIRE(lookup(phonebook, "Unknown") == -1);
+TEST_CASE("Containers Containers03") {
+  auto phonebook = createPhonebook();
+  REQUIRE(phonebook.size() == 3);
+  REQUIRE(lookup(phonebook, "Alice") == 123);
+  REQUIRE(lookup(phonebook, "Unknown") == -1);
 
-    std::vector<std::string> words = {"apple", "banana", "apple", "cherry", "banana", "apple"};
-    auto counts = wordCount(words);
-    REQUIRE(counts["apple"] == 3);
-    REQUIRE(counts["banana"] == 2);
-    REQUIRE(counts["cherry"] == 1);
+  std::vector<std::string> words = {"apple",  "banana", "apple",
+                                    "cherry", "banana", "apple"};
+  auto counts = wordCount(words);
+  REQUIRE(counts["apple"] == 3);
+  REQUIRE(counts["banana"] == 2);
+  REQUIRE(counts["cherry"] == 1);
 }

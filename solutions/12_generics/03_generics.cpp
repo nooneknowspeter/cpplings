@@ -31,47 +31,43 @@
 #include <iostream>
 
 // Sums all arguments using unary left fold.
-template <typename... Args> auto sum(Args... args)
-{
-    return (... + args);
+template <typename... Args>
+auto sum(Args... args) {
+  return (... + args);
 }
 
 // Prints all arguments using comma fold.
 // The comma operator evaluates left, then right, returns right.
-template <typename T, typename... Args> void printAll(T first, Args... args)
-{
-    std::cout << first << " ";
-    (..., (std::cout << args << " "));
+template <typename T, typename... Args>
+void printAll(T first, Args... args) {
+  std::cout << first << " ";
+  (..., (std::cout << args << " "));
 }
 
 // Returns true if ALL arguments are positive (logical AND fold).
-template <typename... Args> bool allPositive(Args... args)
-{
-    return (... && (args > 0));
+template <typename... Args>
+bool allPositive(Args... args) {
+  return (... && (args > 0));
 }
 
 // Returns true if ANY argument is true (logical OR fold).
-template <typename... Args> bool anyTrue(Args... args)
-{
-    return (... || args);
+template <typename... Args>
+bool anyTrue(Args... args) {
+  return (... || args);
 }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Generics Generics03")
-{
-    REQUIRE(sum(1, 2, 3, 4, 5) == 15);
-    REQUIRE(sum(1) == 1);
-    REQUIRE(sum(1.5, 2.5, 3.0) == 7.0);
+TEST_CASE("Generics Generics03") {
+  REQUIRE(sum(1, 2, 3, 4, 5) == 15);
+  REQUIRE(sum(1) == 1);
+  REQUIRE(sum(1.5, 2.5, 3.0) == 7.0);
 
-    REQUIRE(allPositive(1, 2, 3));
-    REQUIRE_FALSE(allPositive(1, -2, 3));
-    REQUIRE(allPositive(5));
+  REQUIRE(allPositive(1, 2, 3));
+  REQUIRE_FALSE(allPositive(1, -2, 3));
+  REQUIRE(allPositive(5));
 
-    REQUIRE(anyTrue(false, true, false));
-    REQUIRE_FALSE(anyTrue(false, false, false));
-    REQUIRE(anyTrue(true));
+  REQUIRE(anyTrue(false, true, false));
+  REQUIRE_FALSE(anyTrue(false, false, false));
+  REQUIRE(anyTrue(true));
 }

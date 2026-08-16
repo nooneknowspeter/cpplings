@@ -5,21 +5,22 @@
 #include <future>
 #include <string>
 
-namespace util
-{
+namespace util {
 
 [[nodiscard("process output must be used")]]
-inline std::future<std::string> getProcessResult(boost::asio::readable_pipe &process_pipe,
-                                                 boost::system::error_code error_code)
+inline std::future<std::string> getProcessResult(
+    boost::asio::readable_pipe& process_pipe,
+    boost::system::error_code error_code)
 
 {
-    return std::async(std::launch::async, [&] {
-        std::string result;
+  return std::async(std::launch::async, [&] {
+    std::string result;
 
-        boost::asio::read(process_pipe, boost::asio::dynamic_buffer(result), error_code);
+    boost::asio::read(process_pipe, boost::asio::dynamic_buffer(result),
+                      error_code);
 
-        return result;
-    });
+    return result;
+  });
 }
 
-} // namespace util
+}  // namespace util

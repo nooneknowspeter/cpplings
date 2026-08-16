@@ -18,13 +18,9 @@
 
 #include <iostream>
 
-void message()
-{
-    // TODO: Fix the line of code to print "Hello World!" to the console.
-    std::_ << "Hello World!";
+void message() {
+  // TODO: Fix the line of code to print "Hello World!" to the console.
+  std::_ << "Hello World!";
 }
 
-int main()
-{
-    message();
-}
+int main() { message(); }

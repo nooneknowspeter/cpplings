@@ -21,33 +21,20 @@
 #include <catch2/catch_test_macros.hpp>
 
 // A function that adds two integers.
-int add(int x, int y)
-{
-    return x + y;
-}
+int add(int x, int y) { return x + y; }
 
 // A function that adds two floats.
 // The compiler knows this is different from add(int, int)
 // because the parameter types are different.
-float add(float x, float y)
-{
-    return x + y;
-}
+float add(float x, float y) { return x + y; }
 
 // A function that adds two doubles.
-double add(double x, double y)
-{
-    return x + y;
-}
+double add(double x, double y) { return x + y; }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Functions Functions06")
-{
-    REQUIRE(add(1, 1) == 2);
-    REQUIRE(add(5.0f, 5.0f) == 10.0f);
-    REQUIRE(add(100.555555, 100.555555) == 201.11111);
+TEST_CASE("Functions Functions06") {
+  REQUIRE(add(1, 1) == 2);
+  REQUIRE(add(5.0f, 5.0f) == 10.0f);
+  REQUIRE(add(100.555555, 100.555555) == 201.11111);
 }

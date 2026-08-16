@@ -4,11 +4,6 @@
 // TODO: Add the missing variable type.
 x;
 
-void variables04()
-{
-}
+void variables04() {}
 
-int main()
-{
-    variables04();
-}
+int main() { variables04(); }

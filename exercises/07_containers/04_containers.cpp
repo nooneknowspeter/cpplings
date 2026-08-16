@@ -24,55 +24,45 @@
 #include <set>
 
 // TODO: Implement a function that checks if a set contains an element.
-bool contains(const std::set<int> &s, int value)
-{
-    return s.find(value) != s.end();
+bool contains(const std::set<int>& s, int value) {
+  return s.find(value) != s.end();
 }
 
 // TODO: Implement a function that returns the intersection of two sets.
 // (Elements that exist in both sets)
-std::set<int> setIntersection(const std::set<int> &a, const std::set<int> &b)
-{
-    std::set<int> result;
-    for (int val : a)
-    {
-        if (b.find(val) != b.end())
-        {
-            result.insert();
-        }
+std::set<int> setIntersection(const std::set<int>& a, const std::set<int>& b) {
+  std::set<int> result;
+  for (int val : a) {
+    if (b.find(val) != b.end()) {
+      result.insert();
     }
-    return result;
+  }
+  return result;
 }
 
 // TODO: Implement a function that returns the union of two sets.
 // (All unique elements from both sets)
-std::set<int> setUnion(const std::set<int> &a, const std::set<int> &b)
-{
-    std::set<int> result = a;
-    for (int val : b)
-    {
-        result.insert(val);
-    }
-    return result;
+std::set<int> setUnion(const std::set<int>& a, const std::set<int>& b) {
+  std::set<int> result = a;
+  for (int val : b) {
+    result.insert(val);
+  }
+  return result;
 }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Containers Containers04")
-{
-    std::set<int> s = {1, 2, 3, 4, 5};
+TEST_CASE("Containers Containers04") {
+  std::set<int> s = {1, 2, 3, 4, 5};
 
-    REQUIRE(contains(s, 3));
-    REQUIRE_FALSE(contains(s, 10));
+  REQUIRE(contains(s, 3));
+  REQUIRE_FALSE(contains(s, 10));
 
-    std::set<int> a = {1, 2, 3};
-    std::set<int> b = {2, 3, 4};
-    std::set<int> intersection = {2, 3};
-    REQUIRE(setIntersection(a, b) == intersection);
+  std::set<int> a = {1, 2, 3};
+  std::set<int> b = {2, 3, 4};
+  std::set<int> intersection = {2, 3};
+  REQUIRE(setIntersection(a, b) == intersection);
 
-    std::set<int> unionSet = {1, 2, 3, 4};
-    REQUIRE(setUnion(a, b) == unionSet);
+  std::set<int> unionSet = {1, 2, 3, 4};
+  REQUIRE(setUnion(a, b) == unionSet);
 }

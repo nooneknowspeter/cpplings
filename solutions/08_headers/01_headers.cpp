@@ -23,14 +23,10 @@
 // The implementation is in src/math_utils.cpp
 int add(int a, int b);
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Headers Headers01")
-{
-    REQUIRE(add(2, 3) == 5);
-    REQUIRE(add(-1, 1) == 0);
-    REQUIRE(add(0, 0) == 0);
+TEST_CASE("Headers Headers01") {
+  REQUIRE(add(2, 3) == 5);
+  REQUIRE(add(-1, 1) == 0);
+  REQUIRE(add(0, 0) == 0);
 }

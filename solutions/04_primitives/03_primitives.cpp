@@ -31,42 +31,34 @@
 #include <cstdint>
 
 // Adds two uint32_t values with overflow detection.
-uint32_t addUint32(uint32_t a, uint32_t b)
-{
-    if (a > UINT32_MAX - b)
-    {
-        return UINT32_MAX;
-    }
-    return a + b;
+uint32_t addUint32(uint32_t a, uint32_t b) {
+  if (a > UINT32_MAX - b) {
+    return UINT32_MAX;
+  }
+  return a + b;
 }
 
 // Checks if adding two int8_t values would overflow.
-bool hasOverflow(int8_t a, int8_t b)
-{
-    int16_t result = static_cast<int16_t>(a) + b;
-    return result > INT8_MAX || result < INT8_MIN;
+bool hasOverflow(int8_t a, int8_t b) {
+  int16_t result = static_cast<int16_t>(a) + b;
+  return result > INT8_MAX || result < INT8_MIN;
 }
 
 // Converts Celsius to Fahrenheit.
-double celsiusToFahrenheit(double celsius)
-{
-    return celsius * 9.0 / 5.0 + 32.0;
+double celsiusToFahrenheit(double celsius) {
+  return celsius * 9.0 / 5.0 + 32.0;
 }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Primitives Primitives03")
-{
-    REQUIRE(addUint32(1, 2) == 3);
-    REQUIRE(addUint32(UINT32_MAX, 1) == UINT32_MAX);
+TEST_CASE("Primitives Primitives03") {
+  REQUIRE(addUint32(1, 2) == 3);
+  REQUIRE(addUint32(UINT32_MAX, 1) == UINT32_MAX);
 
-    REQUIRE_FALSE(hasOverflow(50, 50));
-    REQUIRE(hasOverflow(100, 50));
-    REQUIRE(hasOverflow(-100, -50));
+  REQUIRE_FALSE(hasOverflow(50, 50));
+  REQUIRE(hasOverflow(100, 50));
+  REQUIRE(hasOverflow(-100, -50));
 
-    REQUIRE(celsiusToFahrenheit(0.0) == Catch::Approx(32.0));
-    REQUIRE(celsiusToFahrenheit(100.0) == Catch::Approx(212.0));
+  REQUIRE(celsiusToFahrenheit(0.0) == Catch::Approx(32.0));
+  REQUIRE(celsiusToFahrenheit(100.0) == Catch::Approx(212.0));
 }

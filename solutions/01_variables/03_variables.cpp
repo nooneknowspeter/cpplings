@@ -14,18 +14,16 @@
 #include <iostream>
 #include <type_traits>
 
-void variables03()
-{
-    // TODO: Declare a constant variable with a value and then print it out to stdout.
-    const int FOO{5};
+void variables03() {
+  // TODO: Declare a constant variable with a value and then print it out to
+  // stdout.
+  const int FOO{5};
 
-    std::cout << FOO;
+  std::cout << FOO;
 
-    static_assert(std::is_const_v<decltype(FOO)>,
-                  "The variable must be a constant."); // NOTE: Ignore this line of code.
+  static_assert(
+      std::is_const_v<decltype(FOO)>,
+      "The variable must be a constant.");  // NOTE: Ignore this line of code.
 }
 
-int main()
-{
-    variables03();
-}
+int main() { variables03(); }

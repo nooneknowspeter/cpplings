@@ -14,21 +14,17 @@
 #include <iostream>
 #include <stdexcept>
 
-int main()
-{
-    // TODO: Make this variable "truthy" to compile.
-    // NOTE: Please read the comments above.
-    bool hasRead{false};
+int main() {
+  // TODO: Make this variable "truthy" to compile.
+  // NOTE: Please read the comments above.
+  bool hasRead{false};
 
-    try
-    {
-        if (!hasRead)
-        {
-            throw runtime_error("Please view the code of this exercise before proceeding.");
-        }
+  try {
+    if (!hasRead) {
+      throw runtime_error(
+          "Please view the code of this exercise before proceeding.");
     }
-    catch (std::exception &e)
-    {
-        std::cout << e.what();
-    }
+  } catch (std::exception& e) {
+    std::cout << e.what();
+  }
 }

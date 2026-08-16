@@ -28,68 +28,55 @@
 #include <vector>
 
 // Calculates sum of integers from 1 to n using a for loop.
-int sumToN(int n)
-{
-    int sum = 0;
-    for (int i = 1; i <= n; i++)
-    {
-        sum += i;
-    }
-    return sum;
+int sumToN(int n) {
+  int sum = 0;
+  for (int i = 1; i <= n; i++) {
+    sum += i;
+  }
+  return sum;
 }
 
 // Finds the maximum value in an array.
-int findMax(const int *arr, int size)
-{
-    int max = arr[0];
-    for (int i = 1; i < size; i++)
-    {
-        if (arr[i] > max)
-        {
-            max = arr[i];
-        }
+int findMax(const int* arr, int size) {
+  int max = arr[0];
+  for (int i = 1; i < size; i++) {
+    if (arr[i] > max) {
+      max = arr[i];
     }
-    return max;
+  }
+  return max;
 }
 
 // Reverses a string using a for loop.
-std::string reverseString(const std::string &str)
-{
-    std::string result;
-    for (int i = str.length() - 1; i >= 0; i--)
-    {
-        result += str[i];
-    }
-    return result;
+std::string reverseString(const std::string& str) {
+  std::string result;
+  for (int i = str.length() - 1; i >= 0; i--) {
+    result += str[i];
+  }
+  return result;
 }
 
 // Sums all elements in a vector using range-based for.
-int sumVector(const std::vector<int> &vec)
-{
-    int sum = 0;
-    for (int num : vec)
-    {
-        sum += num;
-    }
-    return sum;
+int sumVector(const std::vector<int>& vec) {
+  int sum = 0;
+  for (int num : vec) {
+    sum += num;
+  }
+  return sum;
 }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("ControlFlow ControlFlow04")
-{
-    REQUIRE(sumToN(5) == 15);
-    REQUIRE(sumToN(10) == 55);
+TEST_CASE("ControlFlow ControlFlow04") {
+  REQUIRE(sumToN(5) == 15);
+  REQUIRE(sumToN(10) == 55);
 
-    int arr[] = {3, 7, 2, 9, 4};
-    REQUIRE(findMax(arr, 5) == 9);
+  int arr[] = {3, 7, 2, 9, 4};
+  REQUIRE(findMax(arr, 5) == 9);
 
-    REQUIRE(reverseString("hello") == "olleh");
-    REQUIRE(reverseString("a") == "a");
+  REQUIRE(reverseString("hello") == "olleh");
+  REQUIRE(reverseString("a") == "a");
 
-    std::vector<int> vec = {1, 2, 3, 4, 5};
-    REQUIRE(sumVector(vec) == 15);
+  std::vector<int> vec = {1, 2, 3, 4, 5};
+  REQUIRE(sumVector(vec) == 15);
 }

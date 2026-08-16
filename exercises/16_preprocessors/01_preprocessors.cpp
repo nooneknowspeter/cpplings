@@ -27,19 +27,15 @@
 // TODO: Define a macro IS_EVEN that returns true if a number is even.
 #define IS_EVEN(x) ((x) % 2 == 0)
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Preprocessors Preprocessors01")
-{
-    REQUIRE(SQUARE(5) == 25);
-    REQUIRE(SQUARE(-3) == 9);
+TEST_CASE("Preprocessors Preprocessors01") {
+  REQUIRE(SQUARE(5) == 25);
+  REQUIRE(SQUARE(-3) == 9);
 
-    REQUIRE(MAX(3, 5) == 5);
-    REQUIRE(MAX(10, 2) == 10);
+  REQUIRE(MAX(3, 5) == 5);
+  REQUIRE(MAX(10, 2) == 10);
 
-    REQUIRE(IS_EVEN(4));
-    REQUIRE_FALSE(IS_EVEN(5));
+  REQUIRE(IS_EVEN(4));
+  REQUIRE_FALSE(IS_EVEN(5));
 }

@@ -25,62 +25,42 @@
 #include <catch2/catch_test_macros.hpp>
 
 // Returns a grade letter based on the numeric score.
-char getGrade(int score)
-{
-    if (score >= 90)
-    {
-        return 'A';
-    }
-    else if (score >= 80)
-    {
-        return 'B';
-    }
-    else if (score >= 70)
-    {
-        return 'C';
-    }
-    else if (score >= 60)
-    {
-        return 'D';
-    }
-    else
-    {
-        return 'F';
-    }
+char getGrade(int score) {
+  if (score >= 90) {
+    return 'A';
+  } else if (score >= 80) {
+    return 'B';
+  } else if (score >= 70) {
+    return 'C';
+  } else if (score >= 60) {
+    return 'D';
+  } else {
+    return 'F';
+  }
 }
 
 // Checks if a number is positive, negative, or zero.
 // Returns 1 for positive, -1 for negative, 0 for zero.
-int checkNumber(int num)
-{
-    if (num > 0)
-    {
-        return 1;
-    }
-    else if (num < 0)
-    {
-        return -1;
-    }
-    else
-    {
-        return 0;
-    }
+int checkNumber(int num) {
+  if (num > 0) {
+    return 1;
+  } else if (num < 0) {
+    return -1;
+  } else {
+    return 0;
+  }
 }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("ControlFlow ControlFlow01")
-{
-    REQUIRE(getGrade(95) == 'A');
-    REQUIRE(getGrade(85) == 'B');
-    REQUIRE(getGrade(75) == 'C');
-    REQUIRE(getGrade(65) == 'D');
-    REQUIRE(getGrade(55) == 'F');
+TEST_CASE("ControlFlow ControlFlow01") {
+  REQUIRE(getGrade(95) == 'A');
+  REQUIRE(getGrade(85) == 'B');
+  REQUIRE(getGrade(75) == 'C');
+  REQUIRE(getGrade(65) == 'D');
+  REQUIRE(getGrade(55) == 'F');
 
-    REQUIRE(checkNumber(5) == 1);
-    REQUIRE(checkNumber(-3) == -1);
-    REQUIRE(checkNumber(0) == 0);
+  REQUIRE(checkNumber(5) == 1);
+  REQUIRE(checkNumber(-3) == -1);
+  REQUIRE(checkNumber(0) == 0);
 }

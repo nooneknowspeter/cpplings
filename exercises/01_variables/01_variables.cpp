@@ -19,15 +19,11 @@
 
 // TODO: Add the missing module for printing
 
-void variables01()
-{
-    // TODO: Add the missing keyword
-    int x{5};
+void variables01() {
+  // TODO: Add the missing keyword
+  int x{5};
 
-    std::cout << x;
+  std::cout << x;
 }
 
-int main()
-{
-    variables01();
-}
+int main() { variables01(); }

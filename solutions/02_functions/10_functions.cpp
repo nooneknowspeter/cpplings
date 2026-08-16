@@ -34,29 +34,25 @@
 
 // Base case: single argument - just return it
 // This terminates the recursion.
-template <typename T> T sum(T value)
-{
-    return value;
+template <typename T>
+T sum(T value) {
+  return value;
 }
 
 // Recursive case: add first argument to sum of rest
 // typename... Args is a template parameter pack (holds types)
 // Args... args is a function parameter pack (holds values)
-template <typename T, typename... Args> T sum(T first, Args... args)
-{
-    // Recursively call sum with remaining arguments
-    return first + sum(args...);
+template <typename T, typename... Args>
+T sum(T first, Args... args) {
+  // Recursively call sum with remaining arguments
+  return first + sum(args...);
 }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Functions Functions10")
-{
-    REQUIRE(sum(1, 2, 3) == 6);
-    REQUIRE(sum(1, 2, 3, 4, 5) == 15);
-    REQUIRE(sum(10) == 10);
-    REQUIRE(sum(1.5, 2.5, 3.0) == 7.0);
+TEST_CASE("Functions Functions10") {
+  REQUIRE(sum(1, 2, 3) == 6);
+  REQUIRE(sum(1, 2, 3, 4, 5) == 15);
+  REQUIRE(sum(10) == 10);
+  REQUIRE(sum(1.5, 2.5, 3.0) == 7.0);
 }

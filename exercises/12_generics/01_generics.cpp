@@ -17,46 +17,41 @@
 
 // TODO: Implement a template function that returns the maximum of two values.
 // Use if-else or the ternary operator.
-template <typename T> maximum(T a, T b)
-{
-    return (a > b) ? a : b;
+template <typename T>
+maximum(T a, T b) {
+  return (a > b) ? a : b;
 }
 
 // TODO: Implement a template function that swaps two values.
-template <typename T> void swap(T &a, T &b)
-{
-    T temp = a;
-    a = b;
-    b = temp;
+template <typename T>
+void swap(T& a, T& b) {
+  T temp = a;
+  a = b;
+  b = temp;
 }
 
 // TODO: Implement a template function that returns the absolute value.
-template <typename T> T absolute(T value)
-{
-    if (value < T{})
-    {
-        return -value;
-    }
-    return value;
+template <typename T>
+T absolute(T value) {
+  if (value < T{}) {
+    return -value;
+  }
+  return value;
 }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Generics Generics01")
-{
-    REQUIRE(maximum(5, 10) == 10);
-    REQUIRE(maximum(3.14, 2.71) == 3.14);
-    REQUIRE(maximum('a', 'z') == 'z');
+TEST_CASE("Generics Generics01") {
+  REQUIRE(maximum(5, 10) == 10);
+  REQUIRE(maximum(3.14, 2.71) == 3.14);
+  REQUIRE(maximum('a', 'z') == 'z');
 
-    int x = 5, y = 10;
-    swap(x, y);
-    REQUIRE(x == 10);
-    REQUIRE(y == 5);
+  int x = 5, y = 10;
+  swap(x, y);
+  REQUIRE(x == 10);
+  REQUIRE(y == 5);
 
-    REQUIRE(absolute(-5) == 5);
-    REQUIRE(absolute(5) == 5);
-    REQUIRE(absolute(-3.14) == 3.14);
+  REQUIRE(absolute(-5) == 5);
+  REQUIRE(absolute(5) == 5);
+  REQUIRE(absolute(-3.14) == 3.14);
 }

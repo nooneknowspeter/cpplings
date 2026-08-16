@@ -43,15 +43,11 @@ const int MAX_SIZE = 100;
 // Auto-deduced integer (compiler sees 42 and deduces int).
 auto quantity = 42;
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Primitives Primitives01")
-{
-    REQUIRE(age == 25);
-    REQUIRE(price == Catch::Approx(19.99));
-    REQUIRE(MAX_SIZE == 100);
-    REQUIRE(quantity == 42);
+TEST_CASE("Primitives Primitives01") {
+  REQUIRE(age == 25);
+  REQUIRE(price == Catch::Approx(19.99));
+  REQUIRE(MAX_SIZE == 100);
+  REQUIRE(quantity == 42);
 }

@@ -26,33 +26,25 @@
 
 // Adds values and returns the result.
 // Type is deduced as double (the wider type).
-auto addWithAuto(int a, double b)
-{
-    auto result = a + b;
-    return result;
+auto addWithAuto(int a, double b) {
+  auto result = a + b;
+  return result;
 }
 
 // Calculates the square of an integer at compile time.
-constexpr int square(int x)
-{
-    return x * x;
-}
+constexpr int square(int x) { return x * x; }
 
 // Compile-time constant (computed during compilation).
 constexpr int SQUARED_TEN = square(10);
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("TypeCoercion TypeCoercion03")
-{
-    REQUIRE(addWithAuto(3, 4.5) == Catch::Approx(7.5));
+TEST_CASE("TypeCoercion TypeCoercion03") {
+  REQUIRE(addWithAuto(3, 4.5) == Catch::Approx(7.5));
 
-    REQUIRE(square(5) == 25);
-    REQUIRE(square(-3) == 9);
-    REQUIRE(square(0) == 0);
+  REQUIRE(square(5) == 25);
+  REQUIRE(square(-3) == 9);
+  REQUIRE(square(0) == 0);
 
-    REQUIRE(SQUARED_TEN == 100);
+  REQUIRE(SQUARED_TEN == 100);
 }

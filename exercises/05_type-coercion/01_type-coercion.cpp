@@ -23,56 +23,41 @@
 
 // TODO: Implement a function that adds an int and a double.
 // Return the result as a double (implicit conversion of int to double).
-double addIntDouble(int a, double b)
-{
-    return a + b;
-}
+double addIntDouble(int a, double b) { return a + b; }
 
 // TODO: Implement a function that divides two integers and returns a double.
 // Use explicit casting: static_cast<double>(value)
-double divideInts(int a, int b)
-{
-    return static_cast<>(a) / static_cast<double>(b);
+double divideInts(int a, int b) {
+  return static_cast<>(a) / static_cast<double>(b);
 }
 
 // TODO: Implement a function that truncates a double to an int.
 // Use static_cast to explicitly convert.
-int truncateToInt(double d)
-{
-    return static_cast<int>(d);
-}
+int truncateToInt(double d) { return static_cast<int>(d); }
 
 // TODO: Implement a function that rounds a double to the nearest int.
 // Hint: Add 0.5 before truncating for positive numbers.
-int roundToInt(double d)
-{
-    if (d >= 0)
-    {
-        return static_cast<int>(d + 0.5);
-    }
-    else
-    {
-        return static_cast<int>(d - 0.5);
-    }
+int roundToInt(double d) {
+  if (d >= 0) {
+    return static_cast<int>(d + 0.5);
+  } else {
+    return static_cast<int>(d - 0.5);
+  }
 }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("TypeCoercion TypeCoercion01")
-{
-    REQUIRE(addIntDouble(5, 3.5) == Catch::Approx(8.5));
-    REQUIRE(addIntDouble(10, 2.0) == Catch::Approx(12.0));
+TEST_CASE("TypeCoercion TypeCoercion01") {
+  REQUIRE(addIntDouble(5, 3.5) == Catch::Approx(8.5));
+  REQUIRE(addIntDouble(10, 2.0) == Catch::Approx(12.0));
 
-    REQUIRE(divideInts(10, 4) == Catch::Approx(2.5));
-    REQUIRE(divideInts(7, 2) == Catch::Approx(3.5));
+  REQUIRE(divideInts(10, 4) == Catch::Approx(2.5));
+  REQUIRE(divideInts(7, 2) == Catch::Approx(3.5));
 
-    REQUIRE(truncateToInt(3.7) == 3);
-    REQUIRE(truncateToInt(3.2) == 3);
+  REQUIRE(truncateToInt(3.7) == 3);
+  REQUIRE(truncateToInt(3.2) == 3);
 
-    REQUIRE(roundToInt(3.7) == 4);
-    REQUIRE(roundToInt(3.2) == 3);
-    REQUIRE(roundToInt(-3.7) == -4);
+  REQUIRE(roundToInt(3.7) == 4);
+  REQUIRE(roundToInt(3.2) == 3);
+  REQUIRE(roundToInt(-3.7) == -4);
 }
