@@ -20,40 +20,28 @@
 #include <memory>
 
 // TODO: Create a function that returns a unique_ptr to an int with value 42.
-std::_<int> createValue()
-{
-    return std::make_unique<int>(42);
-}
+std::_<int> createValue() { return std::make_unique<int>(42); }
 
-// TODO: Create a function that takes ownership of a unique_ptr and returns its value.
-int extractValue(std::unique_ptr<int> ptr)
-{
-    return *ptr;
-}
+// TODO: Create a function that takes ownership of a unique_ptr and returns its
+// value.
+int extractValue(std::unique_ptr<int> ptr) { return *ptr; }
 
 // TODO: Use shared_ptr to share ownership of a value.
-std::shared_ptr<int> createShared()
-{
-    return std::make_shared<int>(100);
-}
+std::shared_ptr<int> createShared() { return std::make_shared<int>(100); }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Memory Memory01")
-{
-    auto ptr = createValue();
-    REQUIRE(*ptr == 42);
+TEST_CASE("Memory Memory01") {
+  auto ptr = createValue();
+  REQUIRE(*ptr == 42);
 
-    auto ptr2 = createValue();
-    REQUIRE(extractValue(std::move(ptr2)) == 42);
+  auto ptr2 = createValue();
+  REQUIRE(extractValue(std::move(ptr2)) == 42);
 
-    auto shared = createShared();
-    REQUIRE(*shared == 100);
-    REQUIRE(shared.use_count() == 1);
+  auto shared = createShared();
+  REQUIRE(*shared == 100);
+  REQUIRE(shared.use_count() == 1);
 
-    auto shared2 = shared;
-    REQUIRE(shared.use_count() == 2);
+  auto shared2 = shared;
+  REQUIRE(shared.use_count() == 2);
 }

@@ -6,16 +6,14 @@
 // Datatypes can be "inferred" by using the "auto" keyword.
 
 #include <iostream>
-int main()
-{
-    // TODO: Infer the datatype using the "auto" keyword.
-    // Assign a "truthy" value to compile.
-    doesAutoWork{true};
+int main() {
+  // TODO: Infer the datatype using the "auto" keyword.
+  // Assign a "truthy" value to compile.
+  doesAutoWork{true};
 
-    std::cout << "doesAutoWork? -> " << doesAutoWork;
+  std::cout << "doesAutoWork? -> " << doesAutoWork;
 
-    if (!doesAutoWork)
-    {
-        return 1;
-    }
+  if (!doesAutoWork) {
+    return 1;
+  }
 }

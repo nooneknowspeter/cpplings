@@ -30,64 +30,52 @@
 #include <string>
 
 // Reverses a std::string.
-std::string reverseString(const std::string &str)
-{
-    std::string result;
-    for (int i = str.length() - 1; i >= 0; i--)
-    {
-        result += str[i];
-    }
-    return result;
+std::string reverseString(const std::string& str) {
+  std::string result;
+  for (int i = str.length() - 1; i >= 0; i--) {
+    result += str[i];
+  }
+  return result;
 }
 
 // Counts occurrences of a character in a string.
-int countChar(const std::string &str, char c)
-{
-    int count = 0;
-    for (char ch : str)
-    {
-        if (ch == c)
-        {
-            count++;
-        }
+int countChar(const std::string& str, char c) {
+  int count = 0;
+  for (char ch : str) {
+    if (ch == c) {
+      count++;
     }
-    return count;
+  }
+  return count;
 }
 
 // Checks if a string is a palindrome (reads same forwards and backwards).
-bool isPalindrome(const std::string &str)
-{
-    int left = 0;
-    int right = str.length() - 1;
-    while (left < right)
-    {
-        if (str[left] != str[right])
-        {
-            return false;
-        }
-        left++;
-        right--;
+bool isPalindrome(const std::string& str) {
+  int left = 0;
+  int right = str.length() - 1;
+  while (left < right) {
+    if (str[left] != str[right]) {
+      return false;
     }
-    return true;
+    left++;
+    right--;
+  }
+  return true;
 }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Strings Strings02")
-{
-    REQUIRE(reverseString("hello") == "olleh");
-    REQUIRE(reverseString("a") == "a");
-    REQUIRE(reverseString("racecar") == "racecar");
+TEST_CASE("Strings Strings02") {
+  REQUIRE(reverseString("hello") == "olleh");
+  REQUIRE(reverseString("a") == "a");
+  REQUIRE(reverseString("racecar") == "racecar");
 
-    REQUIRE(countChar("hello", 'l') == 2);
-    REQUIRE(countChar("banana", 'a') == 3);
-    REQUIRE(countChar("test", 'x') == 0);
+  REQUIRE(countChar("hello", 'l') == 2);
+  REQUIRE(countChar("banana", 'a') == 3);
+  REQUIRE(countChar("test", 'x') == 0);
 
-    REQUIRE(isPalindrome("racecar"));
-    REQUIRE(isPalindrome("a"));
-    REQUIRE(isPalindrome("noon"));
-    REQUIRE_FALSE(isPalindrome("hello"));
+  REQUIRE(isPalindrome("racecar"));
+  REQUIRE(isPalindrome("a"));
+  REQUIRE(isPalindrome("noon"));
+  REQUIRE_FALSE(isPalindrome("hello"));
 }

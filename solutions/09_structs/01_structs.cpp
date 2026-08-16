@@ -17,34 +17,28 @@
 #include <cmath>
 
 // TODO: Create a Point struct with x and y coordinates (both int).
-struct Point
-{
-    int x;
-    int y;
+struct Point {
+  int x;
+  int y;
 };
 
 // TODO: Create a function that calculates the distance between two points.
-double distance(const Point &a, const Point &b)
-{
-    int dx = b.x - a.x;
-    int dy = b.y - a.y;
-    return std::sqrt(dx * dx + dy * dy);
+double distance(const Point& a, const Point& b) {
+  int dx = b.x - a.x;
+  int dy = b.y - a.y;
+  return std::sqrt(dx * dx + dy * dy);
 }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Structs Structs01")
-{
-    Point p1 = {0, 0};
-    Point p2 = {3, 4};
+TEST_CASE("Structs Structs01") {
+  Point p1 = {0, 0};
+  Point p2 = {3, 4};
 
-    REQUIRE(p1.x == 0);
-    REQUIRE(p1.y == 0);
-    REQUIRE(p2.x == 3);
-    REQUIRE(p2.y == 4);
+  REQUIRE(p1.x == 0);
+  REQUIRE(p1.y == 0);
+  REQUIRE(p2.x == 3);
+  REQUIRE(p2.y == 4);
 
-    REQUIRE(distance(p1, p2) == Catch::Approx(5.0));
+  REQUIRE(distance(p1, p2) == Catch::Approx(5.0));
 }

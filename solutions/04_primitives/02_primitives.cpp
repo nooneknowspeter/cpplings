@@ -27,41 +27,30 @@
 #include <string>
 
 // Checks if a character is a vowel (case-insensitive).
-bool isVowel(char c)
-{
-    c = std::tolower(c);
-    return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+bool isVowel(char c) {
+  c = std::tolower(c);
+  return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
 }
 
 // Checks if a character is a digit ('0' through '9').
-bool isDigit(char c)
-{
-    return c >= '0' && c <= '9';
-}
+bool isDigit(char c) { return c >= '0' && c <= '9'; }
 
 // Converts a boolean to a string.
-const char *boolToString(bool b)
-{
-    return b ? "true" : "false";
-}
+const char* boolToString(bool b) { return b ? "true" : "false"; }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Primitives Primitives02")
-{
-    REQUIRE(isVowel('a'));
-    REQUIRE(isVowel('E'));
-    REQUIRE_FALSE(isVowel('b'));
-    REQUIRE_FALSE(isVowel('Z'));
+TEST_CASE("Primitives Primitives02") {
+  REQUIRE(isVowel('a'));
+  REQUIRE(isVowel('E'));
+  REQUIRE_FALSE(isVowel('b'));
+  REQUIRE_FALSE(isVowel('Z'));
 
-    REQUIRE(isDigit('5'));
-    REQUIRE(isDigit('0'));
-    REQUIRE_FALSE(isDigit('a'));
-    REQUIRE_FALSE(isDigit('#'));
+  REQUIRE(isDigit('5'));
+  REQUIRE(isDigit('0'));
+  REQUIRE_FALSE(isDigit('a'));
+  REQUIRE_FALSE(isDigit('#'));
 
-    REQUIRE(std::string(boolToString(true)) == "true");
-    REQUIRE(std::string(boolToString(false)) == "false");
+  REQUIRE(std::string(boolToString(true)) == "true");
+  REQUIRE(std::string(boolToString(false)) == "false");
 }

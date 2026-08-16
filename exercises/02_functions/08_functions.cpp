@@ -6,7 +6,8 @@
 //
 // Lambda syntax: [capture clause](parameters) -> return_type { body }
 //
-// - Capture clause []: specifies which variables from the enclosing scope to capture
+// - Capture clause []: specifies which variables from the enclosing scope to
+// capture
 // - Parameters (): like regular function parameters
 // - Return type ->: can be omitted for type inference
 // - Body {}: the actual code
@@ -32,27 +33,22 @@ auto isEven = [](int n) -> _ { return n % 2 == 0; };
 // Use the 'auto' keyword for the return type inference.
 auto doubleIt = [](int n) { return n * 2; };
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
+
+TEST_CASE("Functions Functions08") {
+  REQUIRE(isEven(2));
+  REQUIRE(isEven(4));
+  REQUIRE_FALSE(isEven(3));
+  REQUIRE_FALSE(isEven(5));
+
+  REQUIRE(doubleIt(5) == 10);
+  REQUIRE(doubleIt(0) == 0);
+  REQUIRE(doubleIt(-3) == -6);
 }
 
-TEST_CASE("Functions Functions08")
-{
-    REQUIRE(isEven(2));
-    REQUIRE(isEven(4));
-    REQUIRE_FALSE(isEven(3));
-    REQUIRE_FALSE(isEven(5));
-
-    REQUIRE(doubleIt(5) == 10);
-    REQUIRE(doubleIt(0) == 0);
-    REQUIRE(doubleIt(-3) == -6);
-}
-
-TEST_CASE("Functions Functions08_Capture")
-{
-    // TODO: Create a lambda that captures 'multiplier' by value.
-    const int multiplier = 3;
-    auto multiplyByGlobal = [=](int n) { return n * multiplier; };
-    REQUIRE(multiplyByGlobal(4) == 12);
+TEST_CASE("Functions Functions08_Capture") {
+  // TODO: Create a lambda that captures 'multiplier' by value.
+  const int multiplier = 3;
+  auto multiplyByGlobal = [=](int n) { return n * multiplier; };
+  REQUIRE(multiplyByGlobal(4) == 12);
 }

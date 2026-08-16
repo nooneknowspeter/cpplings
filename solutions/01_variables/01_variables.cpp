@@ -16,7 +16,8 @@
 //
 // In C++, variables can be named whatever using different conventions unlike
 // certain languages like Rust or Python where they must be named in snake_case.
-// In C/C++, variables are often named using the camelCase or snake_case convention.
+// In C/C++, variables are often named using the camelCase or snake_case
+// convention.
 //
 // https://www.learncpp.com/cpp-tutorial/introduction-to-objects-and-variables/
 // https://www.learncpp.com/cpp-tutorial/variable-assignment-and-initialization/
@@ -27,19 +28,16 @@
 // TODO: Add the missing module for printing
 #include <iostream>
 
-void variables01()
-{
-    // TODO: Assign an integer to a variable named "x" using direct list initialization.
-    int x{5};
+void variables01() {
+  // TODO: Assign an integer to a variable named "x" using direct list
+  // initialization.
+  int x{5};
 
-    // TODO: Assign an integer to a variable named "y" using the classic way.
-    int y = 10;
+  // TODO: Assign an integer to a variable named "y" using the classic way.
+  int y = 10;
 
-    std::cout << "direct list initialization -> " << "x{" << x << "}" << "\n";
-    std::cout << "classic way -> " << "y" << "=" << y;
+  std::cout << "direct list initialization -> " << "x{" << x << "}" << "\n";
+  std::cout << "classic way -> " << "y" << "=" << y;
 }
 
-int main()
-{
-    variables01();
-}
+int main() { variables01(); }

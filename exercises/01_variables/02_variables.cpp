@@ -3,15 +3,11 @@
 //
 #include <iostream>
 
-void variables02()
-{
-    // TODO: Add the missing keyword
-    x{5};
+void variables02() {
+  // TODO: Add the missing keyword
+  x{5};
 
-    std::cout << x;
+  std::cout << x;
 }
 
-int main()
-{
-    variables02();
-}
+int main() { variables02(); }

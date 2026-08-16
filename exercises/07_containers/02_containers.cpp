@@ -22,54 +22,43 @@
 #include <cstddef>
 
 // TODO: Implement a function that sums all elements in a std::array.
-int sumArray(const std::array<int, 5> &arr)
-{
-    int sum = 0;
-    for (int num : arr)
-    {
-        sum += num;
-    }
-    return sum;
+int sumArray(const std::array<int, 5>& arr) {
+  int sum = 0;
+  for (int num : arr) {
+    sum += num;
+  }
+  return sum;
 }
 
 // TODO: Implement a function that finds an element in an array.
 // Return its index, or -1 if not found.
-int findInArray(const std::array<int, 5> &arr, int target)
-{
-    for (int i = 0; i < 5; i++)
-    {
-        if (arr[i] == target)
-        {
-            return i;
-        }
+int findInArray(const std::array<int, 5>& arr, int target) {
+  for (int i = 0; i < 5; i++) {
+    if (arr[i] == target) {
+      return i;
     }
-    return -1;
+  }
+  return -1;
 }
 
 // TODO: Implement a function that doubles each element in an array.
-std::array<int, 5> doubleArray(const std::array<int, 5> &arr)
-{
-    std::array<int> result;
-    for (int i = 0; i < 5; i++)
-    {
-        result[i] = arr[i] * 2;
-    }
-    return result;
+std::array<int, 5> doubleArray(const std::array<int, 5>& arr) {
+  std::array<int> result;
+  for (int i = 0; i < 5; i++) {
+    result[i] = arr[i] * 2;
+  }
+  return result;
 }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Containers Containers02")
-{
-    std::array<int, 5> arr = {1, 2, 3, 4, 5};
-    REQUIRE(sumArray(arr) == 15);
+TEST_CASE("Containers Containers02") {
+  std::array<int, 5> arr = {1, 2, 3, 4, 5};
+  REQUIRE(sumArray(arr) == 15);
 
-    REQUIRE(findInArray(arr, 3) == 2);
-    REQUIRE(findInArray(arr, 6) == -1);
+  REQUIRE(findInArray(arr, 3) == 2);
+  REQUIRE(findInArray(arr, 6) == -1);
 
-    std::array<int, 5> doubled = {2, 4, 6, 8, 10};
-    REQUIRE(doubleArray(arr) == doubled);
+  std::array<int, 5> doubled = {2, 4, 6, 8, 10};
+  REQUIRE(doubleArray(arr) == doubled);
 }

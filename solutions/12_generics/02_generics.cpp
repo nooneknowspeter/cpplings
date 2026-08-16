@@ -26,69 +26,47 @@
 #include <string>
 
 // A simple generic pair class.
-template <typename T, typename U> class Pair
-{
-  public:
-    T first;
-    U second;
+template <typename T, typename U>
+class Pair {
+ public:
+  T first;
+  U second;
 
-    Pair(T f, U s) : first(f), second(s)
-    {
-    }
+  Pair(T f, U s) : first(f), second(s) {}
 
-    T getFirst() const
-    {
-        return first;
-    }
-    U getSecond() const
-    {
-        return second;
-    }
+  T getFirst() const { return first; }
+  U getSecond() const { return second; }
 };
 
 // A generic box that may or may not contain a value.
-template <typename T> class Box
-{
-    T value;
-    bool hasValue;
+template <typename T>
+class Box {
+  T value;
+  bool hasValue;
 
-  public:
-    Box() : hasValue(false)
-    {
-    }
-    Box(T v) : value(v), hasValue(true)
-    {
-    }
+ public:
+  Box() : hasValue(false) {}
+  Box(T v) : value(v), hasValue(true) {}
 
-    bool isEmpty() const
-    {
-        return !hasValue;
-    }
-    T getValue() const
-    {
-        return value;
-    }
+  bool isEmpty() const { return !hasValue; }
+  T getValue() const { return value; }
 };
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Generics Generics02")
-{
-    Pair<int, std::string> p(42, "hello");
-    REQUIRE(p.getFirst() == 42);
-    REQUIRE(p.getSecond() == "hello");
+TEST_CASE("Generics Generics02") {
+  Pair<int, std::string> p(42, "hello");
+  REQUIRE(p.getFirst() == 42);
+  REQUIRE(p.getSecond() == "hello");
 
-    Pair<double, char> p2(3.14, 'c');
-    REQUIRE(p2.getFirst() == Catch::Approx(3.14));
-    REQUIRE(p2.getSecond() == 'c');
+  Pair<double, char> p2(3.14, 'c');
+  REQUIRE(p2.getFirst() == Catch::Approx(3.14));
+  REQUIRE(p2.getSecond() == 'c');
 
-    Box<int> emptyBox;
-    REQUIRE(emptyBox.isEmpty());
+  Box<int> emptyBox;
+  REQUIRE(emptyBox.isEmpty());
 
-    Box<int> fullBox(42);
-    REQUIRE_FALSE(fullBox.isEmpty());
-    REQUIRE(fullBox.getValue() == 42);
+  Box<int> fullBox(42);
+  REQUIRE_FALSE(fullBox.isEmpty());
+  REQUIRE(fullBox.getValue() == 42);
 }

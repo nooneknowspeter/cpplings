@@ -27,38 +27,30 @@ int counter = 0;
 
 // TODO: Implement a function that increments the counter safely.
 // Use a mutex to protect the shared resource.
-void incrementSafely()
-{
-    std::lock_guard<std::mutex> lock(mtx);
-    counter++;
+void incrementSafely() {
+  std::lock_guard<std::mutex> lock(mtx);
+  counter++;
 }
 
 // TODO: Implement a function that returns the current counter value.
-int getCounter()
-{
-    std::lock_guard<std::mutex> lock(mtx);
-    return counter;
+int getCounter() {
+  std::lock_guard<std::mutex> lock(mtx);
+  return counter;
 }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Threads Threads01")
-{
-    counter = 0;
+TEST_CASE("Threads Threads01") {
+  counter = 0;
 
-    std::vector<std::thread> threads;
-    for (int i = 0; i < 10; i++)
-    {
-        threads.push_back(std::thread(incrementSafely));
-    }
+  std::vector<std::thread> threads;
+  for (int i = 0; i < 10; i++) {
+    threads.push_back(std::thread(incrementSafely));
+  }
 
-    for (auto &t : threads)
-    {
-        t.join();
-    }
+  for (auto& t : threads) {
+    t.join();
+  }
 
-    REQUIRE(getCounter() == 10);
+  REQUIRE(getCounter() == 10);
 }

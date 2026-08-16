@@ -10,15 +10,11 @@
 
 #include <iostream>
 
-void variables02()
-{
-    // TODO: Add a missing type and value.
-    int x{5};
+void variables02() {
+  // TODO: Add a missing type and value.
+  int x{5};
 
-    std::cout << "x=" << x;
+  std::cout << "x=" << x;
 }
 
-int main()
-{
-    variables02();
-}
+int main() { variables02(); }

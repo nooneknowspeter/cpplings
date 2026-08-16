@@ -22,37 +22,29 @@
 
 // TODO: Implement a function that divides two numbers.
 // Throw std::runtime_error if dividing by zero.
-double divide(double a, double b)
-{
-    if (b == 0.0)
-    {
-        throw runtime_error("Division by zero");
-    }
-    return a / b;
+double divide(double a, double b) {
+  if (b == 0.0) {
+    throw runtime_error("Division by zero");
+  }
+  return a / b;
 }
 
 // TODO: Implement a function that returns the element at index in an array.
 // Throw std::out_of_range if index is out of bounds.
-int getElement(const int *arr, int size, int index)
-{
-    if (index < 0 || index >= size)
-    {
-        throw std::out_of_range("Index out of bounds");
-    }
-    return arr[index];
+int getElement(const int* arr, int size, int index) {
+  if (index < 0 || index >= size) {
+    throw std::out_of_range("Index out of bounds");
+  }
+  return arr[index];
 }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Exceptions Exceptions01")
-{
-    REQUIRE(divide(10.0, 2.0) == Catch::Approx(5.0));
-    REQUIRE(divide(7.0, 3.0) == Catch::Approx(2.3333333333333335));
+TEST_CASE("Exceptions Exceptions01") {
+  REQUIRE(divide(10.0, 2.0) == Catch::Approx(5.0));
+  REQUIRE(divide(7.0, 3.0) == Catch::Approx(2.3333333333333335));
 
-    int arr[] = {1, 2, 3, 4, 5};
-    REQUIRE(getElement(arr, 5, 0) == 1);
-    REQUIRE(getElement(arr, 5, 4) == 5);
+  int arr[] = {1, 2, 3, 4, 5};
+  REQUIRE(getElement(arr, 5, 0) == 1);
+  REQUIRE(getElement(arr, 5, 4) == 5);
 }

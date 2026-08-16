@@ -25,39 +25,26 @@
 // - A public constructor that initializes count to 0
 // - A public increment() method
 // - A public getCount() const method
-class Counter
-{
-    int count;
+class Counter {
+  int count;
 
-    Counter() : count(0)
-    {
-    }
+  Counter() : count(0) {}
 
-    void increment()
-    {
-        count++;
-    }
+  void increment() { count++; }
 
-    int getCount() const
-    {
-        return count;
-    }
+  int getCount() const { return count; }
 };
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Classes Classes01")
-{
-    Counter c;
-    REQUIRE(c.getCount() == 0);
+TEST_CASE("Classes Classes01") {
+  Counter c;
+  REQUIRE(c.getCount() == 0);
 
-    c.increment();
-    REQUIRE(c.getCount() == 1);
+  c.increment();
+  REQUIRE(c.getCount() == 1);
 
-    c.increment();
-    c.increment();
-    REQUIRE(c.getCount() == 3);
+  c.increment();
+  c.increment();
+  REQUIRE(c.getCount() == 3);
 }

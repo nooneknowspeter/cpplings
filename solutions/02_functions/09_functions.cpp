@@ -25,39 +25,32 @@
 
 // Calculates the sum of integers using va_list.
 // The first argument specifies how many integers follow.
-int sumInts(int count, ...)
-{
-    va_list args;
-    va_start(args, count);
+int sumInts(int count, ...) {
+  va_list args;
+  va_start(args, count);
 
-    int sum = 0;
-    for (int i = 0; i < count; i++)
-    {
-        sum += va_arg(args, int);
-    }
+  int sum = 0;
+  for (int i = 0; i < count; i++) {
+    sum += va_arg(args, int);
+  }
 
-    va_end(args);
-    return sum;
+  va_end(args);
+  return sum;
 }
 
 // Prints formatted output using va_list.
 // Uses printf-style format string with variable arguments.
-void printFormatted(const char *format, ...)
-{
-    va_list args;
-    va_start(args, format);
-    vprintf(format, args);
-    va_end(args);
+void printFormatted(const char* format, ...) {
+  va_list args;
+  va_start(args, format);
+  vprintf(format, args);
+  va_end(args);
 }
 
-int main(int argc, char *argv[])
-{
-    return Catch::Session().run(argc, argv);
-}
+int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
 
-TEST_CASE("Functions Functions09")
-{
-    REQUIRE(sumInts(3, 1, 2, 3) == 6);
-    REQUIRE(sumInts(5, 1, 2, 3, 4, 5) == 15);
-    REQUIRE(sumInts(1, 42) == 42);
+TEST_CASE("Functions Functions09") {
+  REQUIRE(sumInts(3, 1, 2, 3) == 6);
+  REQUIRE(sumInts(5, 1, 2, 3, 4, 5) == 15);
+  REQUIRE(sumInts(1, 42) == 42);
 }
