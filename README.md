@@ -1,10 +1,5 @@
 # cpplings
 
-> [!NOTE]
->
-> I am meticulously going over resources; reading books cover to cover
-> before recommending as supplement learning material.
-
 **cpplings**, inspired by [Rustlings](https://github.com/rust-lang/rustlings),
 is a set of hands-on exercises to help you get comfortable reading
 and writing modern **C++** but also understand the history; >=C++11.
@@ -277,6 +272,11 @@ Have fun.
 ---
 
 ## Resources
+
+> [!NOTE]
+>
+> Resources are meticulously being reviewed; reading books cover to cover,
+> before recommending as supplement learning material.
 
 [learncpp](https://www.learncpp.com/) - Comprehensive and beginner-friendly C++ guide.
 
