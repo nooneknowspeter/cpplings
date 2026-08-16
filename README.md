@@ -50,6 +50,10 @@ This is a deliberate choice to test Zig’s practical usefulness in real-world C
 >
 > The binary can be found in `./zig-out/bin/cpplings_cli` after building `zig build` or running `zig build run`.
 
+> [!note]
+> Ensure that the repository is recursively cloned; with the `--recusive` flag
+
+
 Start by cloning this repository on your machine.
 
 > [!NOTE]
@@ -176,7 +180,7 @@ make docker-run
 > export CPPLINGS_DIR=~/cpplings && \
 > export CPPLINGS_OCI_IMAGE_URL=ghcr.io/nooneknowspeter/cpplings:main && \
 >
-> git clone https://github.com/nooneknowspeter/cpplings.git ${CPPLINGS_DIR} && \
+> git clone --recursive https://github.com/nooneknowspeter/cpplings.git ${CPPLINGS_DIR} && \
 > cd ${CPPLINGS_DIR} && \
 >
 > docker run -itd -v .:/cpplings --name cpplings ${CPPLINGS_OCI_IMAGE_URL} && \
@@ -199,7 +203,7 @@ make docker-run
 > $env:CPPLINGS_DIR = "$HOME\cpplings"; \
 > $env:CPPLINGS_OCI_IMAGE_URL = "ghcr.io/nooneknowspeter/cpplings:main"; \
 >
-> git clone https://github.com/nooneknowspeter/cpplings.git $env:CPPLINGS_DIR; \
+> git clone --recursive https://github.com/nooneknowspeter/cpplings.git $env:CPPLINGS_DIR; \
 > cd $env:CPPLINGS_DIR; \
 >
 > docker run -itd -v .:/cpplings --name cpplings $env:CPPLINGS_OCI_IMAGE_URL;
