@@ -19,15 +19,16 @@
 // good practice in C++ development.
 //
 // The parameters in the main(int argc, char *argv[]) function are the
-// program's/application's arguments.
-//														|
-//| 														|					can also be char **argv, 														|
-//are arguments as an array of 														|					string
-//slices or string literals
-//														|
-//														number
-//of arguments passed into the main function; 														used for iterating the argument
-//array
+// program's/application's arguments:
+//
+//             main(int argc, char *argv[])
+//                      |           |
+//                      |           +-> char *argv[] (also written
+//                      |               as char **argv): an array of
+//                      |               string slices or string literals
+//                      +-> argc: number of arguments passed
+//                          into the main function; used for
+//                          iterating the argument array
 //
 // When a compiled program is called, the name of the program or the program
 // executable is the first argument. In programs/applications, especially CLI

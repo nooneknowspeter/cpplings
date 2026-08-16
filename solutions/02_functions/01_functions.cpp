@@ -8,18 +8,19 @@
 // https://en.wikipedia.org/wiki/Stack-based_memory_allocation/
 //
 // A C++ function includes:
-//  - The functions signature: int f(int x)
-//                              |  | |
-//                              |  | parameter list (parameter datatype
-//                              parameter name, ...) |  | |  function name
-//                              |
-//                              function return type
+//  - The function signature: int f(int x)
+//                            |   |  |
+//                            |   |   parameter list (parameter
+//                            |   |   datatype, parameter name, ...)
+//                            |    function name
+//                             function return type
 //
-//  - Function clause/body:
-//			{ -> function scope beginning
-//					return x; -> return (depends on function
-//return type; will be explained in an upcoming exercise)
-//  		} -> function scope ending
+//  - The function clause/body:
+//      {                    +-> function scope beginning
+//        return x;          +-> return (depends on the function
+//                               return type; explained in an
+//                               upcoming exercise)
+//      }                    +-> function scope ending
 //
 // Functions are normally named using the camelCase convention.
 //

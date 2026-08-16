@@ -6,11 +6,11 @@
 // The function can still contain the "return" keyword.
 // void someRandomVoidFunction()
 // {
-//		float bar{5.0f};
+//   float bar{5.0f};
 //
-//		std::cout << bar;
+//   std::cout << bar;
 //
-//		return;
+//   return;
 // }
 //
 // https://www.learncpp.com/cpp-tutorial/void-functions-non-value-returning-functions/

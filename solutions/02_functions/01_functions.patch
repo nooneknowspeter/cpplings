@@ -1,27 +1,29 @@
---- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/01_functions.cpp	2026-08-02 13:49:54.791094054 -0400
-+++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/01_functions.cpp	2026-08-03 11:03:45.050214067 -0400
-@@ -1,58 +1,29 @@
+--- /home/nooneknows/projects/nooneknowspeter/cpplings/solutions/02_functions/01_functions.cpp	2026-08-15 23:26:06.187380117 -0400
++++ /home/nooneknows/projects/nooneknowspeter/cpplings/exercises/02_functions/01_functions.cpp	2026-08-15 23:05:31.936543361 -0400
+@@ -1,59 +1,24 @@
  // TODO: We sometimes encourage you to keep trying things on a given exercise
  // even after you already figured it out.
  //
 -// Evey programmer knows that functions are resuable pieces of code.
 -//
--// Each function is called and assigned/"pushed" on to the stack (fragment of memory).
--// Read more about the stack here: https://en.wikipedia.org/wiki/Stack-based_memory_allocation/
+-// Each function is called and assigned/"pushed" on to the stack (fragment of
+-// memory). Read more about the stack here:
+-// https://en.wikipedia.org/wiki/Stack-based_memory_allocation/
 -//
 -// A C++ function includes:
--//  - The functions signature: int f(int x)
--//                              |  | |
--//                              |  | parameter list (parameter datatype parameter name, ...)
--//                              |  |
--//                              |  function name
--//                              |
--//                              function return type
+-//  - The function signature: int f(int x)
+-//                            |   |  |
+-//                            |   |   parameter list (parameter
+-//                            |   |   datatype, parameter name, ...)
+-//                            |    function name
+-//                             function return type
 -//
--//  - Function clause/body:
--//			{ -> function scope beginning
--//					return x; -> return (depends on function return type; will be explained in an upcoming exercise)
--//  		} -> function scope ending
+-//  - The function clause/body:
+-//      {                    +-> function scope beginning
+-//        return x;          +-> return (depends on the function
+-//                               return type; explained in an
+-//                               upcoming exercise)
+-//      }                    +-> function scope ending
 -//
 -// Functions are normally named using the camelCase convention.
 -//
@@ -34,38 +36,35 @@
  #include <iostream>
  
 -// TODO: Create the function signature.
--// Add the function return type, name "f" and a parameter "x" with an int datatype.
--int f(int x)
-+int function01(int x)
- {
-     int y{x + 1};
+-// Add the function return type, name "f" and a parameter "x" with an int
+-// datatype.
+-int f(int x) {
++int function01(int x) {
+   int y{x + 1};
  
--    std::cout << "x: " << x << " " << "y: " << y << std::endl;
+-  std::cout << "x: " << x << " " << "y: " << y << std::endl;
 -
--    return y;
-+    // TODO: Return the value of y.
-+    y;
+-  return y;
++  // TODO: Return the value of y.
++  y;
  }
  
--int main(int argc, char **argv)
-+TEST_CASE("Functions Function01")
- {
--    // TODO: Call the function and pass in an appropriate parameter.
--    f(10);
+-int main(int argc, char** argv) {
+-  // TODO: Call the function and pass in an appropriate parameter.
+-  f(10);
 -
--    std::cout << "\n\n" << "Testing output begins here\n--------------------------" << "\n";
--    return Catch::Session().run(argc, argv);
-+    REQUIRE(function01(0) == 1);
-+    REQUIRE(function01(1) == 2);
-+    REQUIRE(function01(2) == 3);
+-  std::cout << "\n\n"
+-            << "Testing output begins here\n--------------------------" << "\n";
+-  return Catch::Session().run(argc, argv);
++TEST_CASE("Functions Function01") {
++  REQUIRE(function01(0) == 1);
++  REQUIRE(function01(1) == 2);
++  REQUIRE(function01(2) == 3);
  }
  
--TEST_CASE("Functions Function01")
-+int main(int argc, char *argv[])
- {
--    REQUIRE(f(0) == 1);
--    REQUIRE(f(1) == 2);
--    REQUIRE(f(2) == 3);
+-TEST_CASE("Functions Function01") {
+-  REQUIRE(f(0) == 1);
+-  REQUIRE(f(1) == 2);
+-  REQUIRE(f(2) == 3);
 -};
-+    return Catch::Session().run(argc, argv);
-+}
++int main(int argc, char* argv[]) { return Catch::Session().run(argc, argv); }
