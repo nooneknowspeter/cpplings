@@ -303,7 +303,7 @@ explaining the benefits of Zig's build system in the world of C/C++.
 
 [The worst programming language of all time (CJ's reaction)](https://www.youtube.com/watch?v=K3z7Ymx4UWY)
 
-[Introduction to Zig](https://pedropark99.github.io/zig-book/) - a good introduction to zig, 
+[Introduction to Zig](https://pedropark99.github.io/zig-book/) - a good introduction to zig,
 caters to programmers unfamiliar
 with systems and use higher level languages, advanced programmers
 can benefit by skimming a couple paragraphs. It includes project based
