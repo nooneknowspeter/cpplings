@@ -53,7 +53,6 @@ This is a deliberate choice to test Zig’s practical usefulness in real-world C
 > [!note]
 > Ensure that the repository is recursively cloned; with the `--recusive` flag
 
-
 Start by cloning this repository on your machine.
 
 > [!NOTE]
